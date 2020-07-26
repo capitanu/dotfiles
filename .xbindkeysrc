@@ -1,0 +1,12 @@
+"xinput set-prop "DLL082A:01 06CB:76AF Touchpad" "Device Enabled" 0"
+	m:0xc + c:58
+	Control+Alt + m
+"xinput set-prop "DLL082A:01 06CB:76AF Touchpad" "Device Enabled" 1"
+	m:0xc + c:59
+	Control+Alt + comma
+"xinput set-prop "ELAN Touchscreen" "Device Enabled" 0"
+	 m:0xc + c:56	 
+	 Control+Alt + b
+"xinput set-prop "ELAN Touchscreen" "Device Enabled" 1"
+	 m:0xc + c:57
+	 Control+Alt + n

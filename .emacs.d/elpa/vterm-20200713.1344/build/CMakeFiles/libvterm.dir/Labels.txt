@@ -1,0 +1,13 @@
+# Target labels
+ libvterm
+# Source files and their labels
+/home/calin/.emacs.d/elpa/vterm-20200713.1344/build/CMakeFiles/libvterm
+/home/calin/.emacs.d/elpa/vterm-20200713.1344/build/CMakeFiles/libvterm.rule
+/home/calin/.emacs.d/elpa/vterm-20200713.1344/build/CMakeFiles/libvterm-complete.rule
+/home/calin/.emacs.d/elpa/vterm-20200713.1344/build/libvterm-prefix/src/libvterm-stamp/libvterm-install.rule
+/home/calin/.emacs.d/elpa/vterm-20200713.1344/build/libvterm-prefix/src/libvterm-stamp/libvterm-mkdir.rule
+/home/calin/.emacs.d/elpa/vterm-20200713.1344/build/libvterm-prefix/src/libvterm-stamp/libvterm-download.rule
+/home/calin/.emacs.d/elpa/vterm-20200713.1344/build/libvterm-prefix/src/libvterm-stamp/libvterm-update.rule
+/home/calin/.emacs.d/elpa/vterm-20200713.1344/build/libvterm-prefix/src/libvterm-stamp/libvterm-patch.rule
+/home/calin/.emacs.d/elpa/vterm-20200713.1344/build/libvterm-prefix/src/libvterm-stamp/libvterm-configure.rule
+/home/calin/.emacs.d/elpa/vterm-20200713.1344/build/libvterm-prefix/src/libvterm-stamp/libvterm-build.rule
