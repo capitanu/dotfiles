@@ -12,6 +12,7 @@ ln -sfv `pwd`/.config/picom $HOME/.config/.
 ln -sfv `pwd`/.config/polybar $HOME/.config/.
 ln -sfv `pwd`/.config/ranger $HOME/.config/.
 ln -sfv `pwd`/.config/scripts $HOME/.config/.
+ln -sfv `pwd`/.config/notes.org $HOME/.config/.
 ln -sfv `pwd`/.config/xmobar $HOME/.config/.
 ln -sfv `pwd`/.config/.git-prompt.sh $HOME/.config/.
 ln -sfv `pwd`/.config/fig $HOME/.config/.

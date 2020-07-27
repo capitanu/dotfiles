@@ -92,12 +92,12 @@ alias ...='cd ../..'
 
 alias eb='cd && emacsclient -nw .bashrc' #fast fix of bashrc
 alias ipm='cd /home/calin/repos/github.com/miking-lang/fork-ipm'
-alias hailey='cd ~/Documents/hailey'
+alias hailey='cd /home/calin/repos/github.com/hailey/hailey'
 alias connectweb='ssh -p3801 calin@capitanu.tech'
 alias webtech='sudo scp -r -P 3801 ~/capitanu.tech/* calin@capitanu.tech:~/capitanu.tech'
 alias webcom='sudo scp -r -P 3801 ~/thedatabuddy.com/* calin@capitanu.tech:~/thedatabuddy.com'
 
-alias vpnkth='cd /home/darthvader11/Documents/KTH/TCOMK2/Networking\ and\ Communication/Labs/Lab1/client/ && sudo openvpn --script-security 2 --config client.conf'
+#alias vpnkth='cd /home/darthvader11/Documents/KTH/TCOMK2/Networking\ and\ Communication/Labs/Lab1/client/ && sudo openvpn --script-security 2 --config client.conf'
 alias kbdlight='sudo nano /sys/devices/platform/dell-laptop/leds/dell\:\:kbd_backlight/stop_timeout'
 
 alias wifi='nmcli dev wifi list'
@@ -109,17 +109,15 @@ alias wifidisconnect='nmcli device disconnect wlp58s0'
 alias dotfiles='cd /home/calin/repos/github.com/capitanu/dotfiles'
 alias kali='ssh root@192.168.0.151'
 #alias clear='clear && neofetch'
-alias wififix='/home/calin/.config/wifiscript.sh'
+alias wififix='/home/calin/.config/scripts/wifiscript.sh'
 alias emc='emacsclient -nw --socket-name=/tmp/emacs1000/server'
 alias emacsrr='systemctl restart --user emacs'
 
-alias mcore='~/KTH/Miking/miking/build/boot'
-alias mtest='~/KTH/Miking/miking/build/boot test'
 alias nuget="mono /usr/local/bin/nuget.exe"
 
 alias pdfcompress='gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/prepress -dNOPAUSE -dQUIET -dBATCH '
 
-alias lcad='/home/calin/Scripts/devour/devour.sh /home/calin/Scripts/start_leocad.sh'
+alias lcad='/home/calin/.config/scripts/devour/devour.sh /home/calin/Scripts/start_leocad.sh'
 
 alias note='emacsclient -nw --socket-name=/tmp/emacs1000/server ~/.config/notes.org'
 
