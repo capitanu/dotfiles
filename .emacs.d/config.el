@@ -58,7 +58,10 @@
 (use-package vterm
     :ensure t)
 
-(setq backup-directory-alist '(("" . "~/.emacs.d/backup")))
+;disable backup
+(setq backup-inhibited t)
+;disable auto save
+(setq auto-save-default nil)
 
 (setq confirm-kill-processes nil)
 
@@ -495,7 +498,7 @@ middle"
 (add-hook 'kotlin-mode-hook 'company-mode)
 
 ;; MCore mode
-(add-to-list 'load-path "~/KTH/miking-lang/miking-emacs/")
+(add-to-list 'load-path "/home/calin/repos/github.com/miking-lang/miking-emacs/")
 (require 'mcore-mode)
 
 (use-package emmet-mode

@@ -99,9 +99,10 @@
 #+END_SRC
 ** backup in one place
 #+BEGIN_SRC emacs-lisp
-(setq backup-directory-alist '(("" . "~/.emacs.d/backup")))
-(setq auto-save-file-name-transforms
-      `(("" , "~/.emacs.d/temp")))
+  ;disable backup
+  (setq backup-inhibited t)
+  ;disable auto save
+  (setq auto-save-default nil)
 #+END_SRC
 ** exit without asking to kill processes
 #+BEGIN_SRC emacs-lisp
@@ -681,9 +682,9 @@ I prefer =C-n= and =C-p= to move around the items, so I remap those accordingly.
 #+END_SRC
 *** miking
 #+BEGIN_SRC emacs-lisp
-;; MCore mode
-(add-to-list 'load-path "~/KTH/miking-lang/miking-emacs/")
-(require 'mcore-mode)
+  ;; MCore mode
+  (add-to-list 'load-path "/home/calin/repos/github.com/miking-lang/miking-emacs/")
+  (require 'mcore-mode)
 #+END_SRC
 
 *** emmet-mode

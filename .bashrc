@@ -106,7 +106,7 @@ alias airplaneon='sudo rfkill block all'
 alias airplaneoff='sudo rfkill unblock all'
 alias wifidisconnect='nmcli device disconnect wlp58s0'
 
-alias syncdotfiles='sudo /home/calin/syncdotfiles.sh'
+alias dotfiles='cd /home/calin/repos/github.com/capitanu/dotfiles'
 alias kali='ssh root@192.168.0.151'
 #alias clear='clear && neofetch'
 alias wififix='/home/calin/.config/wifiscript.sh'
