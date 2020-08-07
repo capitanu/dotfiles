@@ -1,2 +1,2 @@
 #!/bin/sh
-feh --no-fehbg --bg-max '/home/calin/pacwall.png' 
+feh --no-fehbg --bg-max '/home/calin/.config/pacwall.png' 

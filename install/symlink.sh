@@ -2,8 +2,8 @@
 
 ln -sfv `pwd`/.emacs.d $HOME/.
 ln -sfv `pwd`/.xmonad $HOME/.
-ln -sfv `pwd`/.config/alacritty $HOME/.config/.
-ln -sfv `pwd`/.config/bash-insulter $HOME/.config/.
+ln -sfv `pwd`/.config/alacritty $HOME/.config/alacritty
+ln -sfv `pwd`/.config/bash-insulter $HOME/.config/bash-insulter
 ln -sfv `pwd`/.config/dunst $HOME/.config/.
 ln -sfv `pwd`/.config/guitarix $HOME/.config/.
 ln -sfv `pwd`/.config/i3 $HOME/.config/.
@@ -27,3 +27,4 @@ ln -sfv `pwd`/.vimrc $HOME/.
 ln -sfv `pwd`/.xbindkeysrc $HOME/.
 ln -sfv `pwd`/.xinitrc $HOME/.
 ln -sfv `pwd`/.Xmodmap $HOME/.
+ln -sfv `pwd`/.config/git/.gitconfig $HOME/.gitconfig

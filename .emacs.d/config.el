@@ -1,3 +1,5 @@
+(helm-icons-enable)
+
 (defun swap-buffers-in-windows ()
   "Put the buffer from the selected window in next window, and vice versa"
   (interactive)
@@ -47,8 +49,6 @@
 
 (global-prettify-symbols-mode 1)
 
-;;  (when window-system (global-hl-line-mode t))
-
 (setq scroll-conservatively 100)
 
 (global-set-key (kbd "<s-M-return>") 'vterm)
@@ -81,7 +81,7 @@ buffer is not visiting a file."
 			 (ido-read-file-name "Find file(as root): ")))
     (find-alternate-file (concat "/sudo:root@localhost:" buffer-file-name))))
 
-(global-set-key (kbd "C-x C-r") #'er-sudo-edit)
+(global-set-key (kbd "C-x M-f") #'er-sudo-edit)
 
 (defun win-resize-top-or-bot ()
   "Figure out if the current window is on top, bottom or in the
@@ -150,6 +150,15 @@ middle"
   ;;    '((background-color . "0x282a36")
 ;;	(foreground-color . "0xbbc5ff")))
 
+(show-paren-mode 1)
+
+(global-set-key (kbd "M-f") 'forward-word)
+(global-set-key (kbd "C-s-f") 'forward-to-word)
+
+(global-hl-line-mode 1)
+
+(require 'all-the-icons)
+
 (defvar my-term-shell "/bin/bash")
     (defadvice ansi-term (before force-bash)
       (interactive (list my-term-shell)))
@@ -210,6 +219,7 @@ middle"
 	   ("C-x c o" . helm-occur) ;SC
 	   ("M-y" . helm-show-kill-ring) ;SC
 	   ("C-x r b" . helm-filtered-bookmarks) ;SC
+	   ("C-x C-r" . helm-recentf)
 	   ("C-x C-b" . helm-buffers-list))
     :requires helm-config
     :config (helm-mode 1))
@@ -221,12 +231,18 @@ middle"
 (setq fiplr-root-markers '(".git" ".svn"))
 (setq fiplr-ignored-globs '((directories (".git" ".svn"))
 (files ("*.jpg" "*.png" "*.zip" "*~"))))
-(global-set-key (kbd "C-z") 'helm-fzf))
+(global-set-key (kbd "C-z") 'fiplr-find-file))
+(global-set-key (kbd "C-x C-d") 'fiplr-find-directory)
 
-(use-package dmenu
-  :ensure t
-  :bind
-  ("s-SPC" . 'dmenu))
+(defun open-readme ()
+  (interactive)
+  (find-file "/home/calin/repos/github.com/miking-lang/fork-ipm/README.md"))
+(global-set-key (kbd "C-c m") 'open-readme)
+
+(defun open-hailey-app ()
+  (interactive)
+  (find-file "/home/calin/repos/github.com/hailey/hailey/app/README.md"))
+(global-set-key (kbd "C-c h") 'open-hailey-app)
 
 (use-package symon
   :ensure t
@@ -297,7 +313,7 @@ middle"
 (use-package neotree
     :ensure t
     :init)
-  (global-set-key [f8] 'neotree-toggle)
+  (global-set-key [f8] 'treemacs)
 ;;  (global-set-key [f8] 'neotree-hidden-file-toggle)
 
 (use-package magit
@@ -338,11 +354,11 @@ middle"
   (setq dashboard-banner-logo-title "Hello, darthvader11!"))
 
 (add-hook 'prog-mode-hook 'linum-mode)
-  (add-hook 'org-mode-hook 'linum-mode)
-;;  (add-hook 'company-mode-hook 'linum-mode)
+(add-hook 'org-mode-hook 'linum-mode)
+(add-hook 'company-mode-hook 'linum-mode)
 
-  (require 'hlinum)
-  (hlinum-activate)
+(require 'hlinum)
+(hlinum-activate)
 
 (use-package rainbow-mode
     :ensure t

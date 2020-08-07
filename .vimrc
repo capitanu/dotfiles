@@ -131,4 +131,3 @@ set guioptions-=L  "remove left-hand scroll bar
 set ttymouse=sgr
 
 
-

@@ -6,6 +6,7 @@
 -- / / _` / _/ _` | '_ \ |  _/ _` | ' \ || |
 -- \ \__,_\__\__,_| .__/_|\__\__,_|_||_\_,_|
 --  \____/        |_|
+-- DISCLAIMER: A lot of the code has been borrowed from DistroTube, all credit for that part go to Derek Taylor form DistroTube.
 
 -- Base
 import XMonad
@@ -122,9 +123,9 @@ myStartupHook = do
           spawn "xbindkeys --poll-rc &"
           spawnOnce "qjackctl -s &"
           spawnOnce "xinput set-prop 'DLL082A:01 06CB:76AF Touchpad' 'Device Enabled' 0 &"
-          spawnOnce "set-prop 'ELAN Touchscreen' 'Device Enabled' 0 &"
-          spawnOnce "/home/calin/.config/scripts/xrandrfix.sh"
-          spawnOnce "xsetroot -cursor_name left_ptr"
+          spawnOnce "xinput set-prop 'ELAN Touchscreen' 'Device Enabled' 0 &"
+          spawnOnce "/home/calin/.config/scripts/xrandrfix.sh &"
+          spawnOnce "xsetroot -cursor_name left_ptr &"
 
 
 
@@ -264,6 +265,7 @@ myManageHook = composeAll
      [
        className =? "Spotify"     --> doShift ( myWorkspaces !! 8 )
      , className =? "QjackCtl"     --> doShift ( myWorkspaces !! 7 )
+     , title =? "Tracktion" --> doFloat
      ] <+> namedScratchpadManageHook myScratchPads
 
 myDynHook = composeAll [
@@ -280,13 +282,14 @@ myKeys =
         , ("M-S-r", spawn "xmonad --restart")        -- Restarts xmonad
         , ("M-S-e", io exitSuccess)                  -- Quits xmonad
         , ("M-<Return>", spawn myTerminal)
+        , ("M-S-l", spawn "i3lock -i /home/calin/.config/lockscreen.png -p win -f")
         , ("M-S-q", kill1)                           -- Kill the currently focused client
         , ("M-S-t", withFocused $ windows . W.sink) -- Push floating window back to tile
         , ("M-m", windows W.focusMaster)     -- Move focus to the master window
         , ("M-j", windows W.focusDown)       -- Move focus to the next window
-        , ("M-<Left>", windows W.focusDown)       -- Move focus to the next window
+        , ("M-<Left>", windows W.focusUp)       -- Move focus to the next window
         , ("M-k", windows W.focusUp)         -- Move focus to the prev window
-        , ("M-<Right>", windows W.focusUp)         -- Move focus to the prev window
+        , ("M-<Right>", windows W.focusDown)         -- Move focus to the prev window
         , ("M-S-<Space>", windows W.swapMaster)    -- Swap the focused window and the master window
         , ("M-S-j", windows W.swapDown)      -- Swap focused window with next window
         , ("M-S-k", windows W.swapUp)        -- Swap focused window with prev window
@@ -301,7 +304,7 @@ myKeys =
         , ("M-S-m", spawn "emacsclient -c -n --socket-name=/tmp/emacs1000/server") -- start emacs
         , ("M-S-s", spawn "spotify")
         , ("M-d", spawn "dmenu_run -i -p 'Arch Linux' -fn 'Ubuntu Mono:bold:pixelsize=20'")
-        , ("M-S-b", spawn "firefox")
+        , ("M-S-b", spawn "brave-beta")
         , ("M-S-g", spawn "guitarix")
         , ("M-S-p", spawn "/home/calin/.config/scripts/rraudio.sh")
         , ("M-S-f", spawn (myTerminal ++ " -e ranger")) 

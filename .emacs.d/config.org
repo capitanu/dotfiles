@@ -1,7 +1,11 @@
-#+TITLE: darthvader11's config file
+#+TITLE: Emacs Config
 #+CREATOR: Calin Capitanu
 #+STARTUP: overview
 * Minor settings
+** helm-icons
+#+BEGIN_SRC emacs-lisp
+(helm-icons-enable)
+#+END_SRC
 ** swap buffers
 #+BEGIN_SRC emacs-lisp
 (defun swap-buffers-in-windows ()
@@ -76,10 +80,6 @@
 #+BEGIN_SRC emacs-lisp
 (global-prettify-symbols-mode 1)
 #+END_SRC
-** line highlight
-#+BEGIN_SRC emacs-lisp
-;;  (when window-system (global-hl-line-mode t))
-#+END_SRC 
 ** better scrolling
 #+BEGIN_SRC emacs-lisp
   (setq scroll-conservatively 100)
@@ -130,7 +130,7 @@
 			   (ido-read-file-name "Find file(as root): ")))
       (find-alternate-file (concat "/sudo:root@localhost:" buffer-file-name))))
 
-  (global-set-key (kbd "C-x C-r") #'er-sudo-edit)
+  (global-set-key (kbd "C-x M-f") #'er-sudo-edit)
 #+END_SRC
 ** resize buffer
 #+BEGIN_SRC emacs-lisp
@@ -203,6 +203,23 @@
     ;;    '((background-color . "0x282a36")
   ;;	(foreground-color . "0xbbc5ff")))
 
+#+END_SRC
+** paren-match
+#+BEGIN_SRC emacs-lisp
+(show-paren-mode 1)
+#+END_SRC
+** forward-to-word
+#+BEGIN_SRC emacs-lisp
+(global-set-key (kbd "M-f") 'forward-word)
+(global-set-key (kbd "C-s-f") 'forward-to-word)
+#+END_SRC
+** hl-line-mode
+#+BEGIN_SRC emacs-lisp
+(global-hl-line-mode 1)
+#+END_SRC
+** all-the-icons
+#+BEGIN_SRC emacs-lisp
+(require 'all-the-icons)
 #+END_SRC
 * Terminal
 ** Setting default shell to bash
@@ -285,6 +302,7 @@
 	   ("C-x c o" . helm-occur) ;SC
 	   ("M-y" . helm-show-kill-ring) ;SC
 	   ("C-x r b" . helm-filtered-bookmarks) ;SC
+	   ("C-x C-r" . helm-recentf)
 	   ("C-x C-b" . helm-buffers-list))
     :requires helm-config
     :config (helm-mode 1))
@@ -298,14 +316,24 @@
 (setq fiplr-root-markers '(".git" ".svn"))
 (setq fiplr-ignored-globs '((directories (".git" ".svn"))
 (files ("*.jpg" "*.png" "*.zip" "*~"))))
-(global-set-key (kbd "C-z") 'helm-fzf))
+(global-set-key (kbd "C-z") 'fiplr-find-file))
+(global-set-key (kbd "C-x C-d") 'fiplr-find-directory)
 #+END_SRC
-* Dmenu
+* Find specific files
+** miking-ipm-readme
 #+BEGIN_SRC emacs-lisp
-  (use-package dmenu
-    :ensure t
-    :bind
-    ("s-SPC" . 'dmenu))
+  (defun open-readme ()
+    (interactive)
+    (find-file "/home/calin/repos/github.com/miking-lang/fork-ipm/README.md"))
+  (global-set-key (kbd "C-c m") 'open-readme)
+#+END_SRC
+** hailey-app
+#+BEGIN_SRC emacs-lisp
+(defun open-hailey-app ()
+  (interactive)
+  (find-file "/home/calin/repos/github.com/hailey/hailey/app/README.md"))
+(global-set-key (kbd "C-c h") 'open-hailey-app)
+
 #+END_SRC
 * Symon
 #+BEGIN_SRC emacs-lisp
@@ -413,7 +441,7 @@
   (use-package neotree
     :ensure t
     :init)
-  (global-set-key [f8] 'neotree-toggle)
+  (global-set-key [f8] 'treemacs)
 ;;  (global-set-key [f8] 'neotree-hidden-file-toggle)
 #+END_SRC
 
@@ -470,7 +498,7 @@
 #+BEGIN_SRC emacs-lisp
   (add-hook 'prog-mode-hook 'linum-mode)
   (add-hook 'org-mode-hook 'linum-mode)
-;;  (add-hook 'company-mode-hook 'linum-mode)
+  (add-hook 'company-mode-hook 'linum-mode)
 
   (require 'hlinum)
   (hlinum-activate)

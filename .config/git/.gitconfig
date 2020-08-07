@@ -1,0 +1,75 @@
+[user]
+name = Calin Capitanu
+email = calincapitanu@gmail.com
+
+[github]
+user = capitanu
+
+[core]
+excludesfile = ~/.config/git/.gitignore
+filemode = false
+
+[alias]
+A = add -A
+amend = commit -S --amend
+b = branch -rv
+c = commit -S
+cam = commit -S -am
+cm = commit -S -m
+co = checkout
+cob = checkout -b
+cod = checkout develop
+com = checkout master
+cp = cherry-pick
+cpa = cherry-pick --abort
+cpc = cherry-pick --continue
+d = diff
+d1 = diff HEAD~1
+d2 = diff HEAD~2
+d3 = diff HEAD~3
+d4 = diff HEAD~4
+d5 = diff HEAD~5
+dh = diff HEAD
+dm = diff master
+dt = difftool
+fall = fetch --all
+fixup = commit --fixup
+l = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%C(bold blue)<%an> (%G?)%Creset' --abbrev-commit
+lo = log --color --stat
+p = push
+pall = pull --all
+patch = apply --reject --ignore-whitespace --ignore-space-change
+pod = push origin develop
+pom = push origin master --tags
+ra = rebase --abort
+rao = remote add origin
+rc = rebase --continue
+rl = reflog --date=iso --decorate
+rom = rebase origin/master
+s = status -s
+sl = shortlog
+ss = status
+autosquash = rebase -i --autosquash
+t = tag -s
+tl = tag --sort "v:refname"
+unstage = reset --soft HEAD
+
+[color]
+ui = auto
+
+[color "branch"]
+current = green
+local = blue
+remote = yellow
+
+[color "diff"]
+new = green
+old = red
+frag = magenta
+meta = blue
+
+[color "status"]
+added = green bold
+removed = red
+changed = green
+untracked = cyan
