@@ -1,3 +1,16 @@
+(add-hook 'org-mode-hook (lambda ()
+			   (modify-syntax-entry ?< ".")
+			   (modify-syntax-entry ?> ".")
+			   ))
+
+(add-hook 'prog-mode-hook (lambda ()
+			     (modify-syntax-entry ?< "(>")
+			     (modify-syntax-entry ?> ")<")
+			   ))
+
+(setq vc-follow-symlinks nil)
+(setq org-confirm-babel-evaluate nil)
+
 (helm-icons-enable)
 
 (defun swap-buffers-in-windows ()
@@ -40,12 +53,13 @@
 (setq ring-bell-function 'ignore)
 
 (setq electric-pair-pairs '(
-			    (?\( . ?\))
-			    (?\[ . ?\])
-			    (?\{ . ?\})
-			    (?\" . ?\")
-			    ))
-(electric-pair-mode t)
+			      (?\( . ?\))
+			      (?\[ . ?\])
+			      (?\{ . ?\})
+			      (?\" . ?\")
+			      ))
+
+(electric-pair-mode 1)
 
 (global-prettify-symbols-mode 1)
 
@@ -54,6 +68,7 @@
 (global-set-key (kbd "<s-M-return>") 'vterm)
 
 (setq inhibit-startup-message t)
+(setq initial-scratch-message ";;  Happy Hacking \n\n")
 
 (use-package vterm
     :ensure t)
@@ -139,12 +154,12 @@ middle"
 
 (global-set-key [M-s-down] 'win-resize-minimize-vert)
 (global-set-key [M-s-up] 'win-resize-enlarge-vert)
-(global-set-key [M-s-left] 'win-resize-minimize-horiz)
-(global-set-key [M-s-right] 'win-resize-enlarge-horiz)
+(global-set-key (kbd "M-s-h") 'win-resize-minimize-horiz)
+(global-set-key (kbd "M-s-l") 'win-resize-enlarge-horiz)
 (global-set-key [M-s-up] 'win-resize-enlarge-horiz)
 (global-set-key [M-s-down] 'win-resize-minimize-horiz)
-(global-set-key [M-s-left] 'win-resize-enlarge-vert)
-(global-set-key [M-s-right] 'win-resize-minimize-vert)
+(global-set-key (kbd "M-s-h") 'win-resize-enlarge-vert)
+(global-set-key (kbd "M-s-l") 'win-resize-minimize-vert)
 
 ;;(setq default-frame-alist
   ;;    '((background-color . "0x282a36")
@@ -155,6 +170,7 @@ middle"
 (global-set-key (kbd "M-f") 'forward-word)
 (global-set-key (kbd "C-s-f") 'forward-to-word)
 
+(set-face-background 'hl-line "#171717")
 (global-hl-line-mode 1)
 
 (require 'all-the-icons)
@@ -234,9 +250,14 @@ middle"
 (global-set-key (kbd "C-z") 'fiplr-find-file))
 (global-set-key (kbd "C-x C-d") 'fiplr-find-directory)
 
+(defun open-flags ()
+   (interactive)
+(find-file "/home/calin/KTH/TCOMK3/EN2720_Ethical_Hacking/flags.org"))
+(global-set-key (kbd "C-c f") 'open-flags)
+
 (defun open-readme ()
   (interactive)
-  (find-file "/home/calin/repos/github.com/miking-lang/fork-ipm/README.md"))
+  (find-file "/home/calin/repos/github.com/capitanu/miking-ipm/README.md"))
 (global-set-key (kbd "C-c m") 'open-readme)
 
 (defun open-hailey-app ()
@@ -249,11 +270,15 @@ middle"
   :bind
   ("s-h" . 'symon-mode))
 
-(setq org-src-window-setup 'current-window)
-(add-to-list 'org-structure-template-alist
-	     '("el" "#+BEGIN_SRC emacs-lisp\n?\n#+END_SRC"))
-(add-to-list 'org-structure-template-alist
-	     '("iex" "#+BEGIN_SRC elixir\n?\n#+END_SRC"))
+(add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
+(add-to-list 'org-structure-template-alist '("sh" . "src sh"))
+(add-to-list 'org-structure-template-alist '("iex" . "src elixir"))
+(require 'org-tempo)
+;; (setq org-src-window-setup 'current-window)
+;;  (add-to-list 'org-structure-template-alist
+;;	       '("el" . "src\n"))
+;;  (add-to-list 'org-structure-template-alist
+;;	       '("iex" . "src\n"))
 
 (use-package org-bullets
   :ensure t
@@ -396,6 +421,9 @@ middle"
     (use-package yasnippet-snippets
       :ensure t)
     (yas-reload-all))
+(yas-global-mode 1)
+(add-hook 'yas-minor-mode-hook (lambda ()
+  				 (yas-activate-extra-mode 'fundamental-mode)))
 
 (use-package flycheck
   :ensure t)
@@ -546,6 +574,11 @@ middle"
 
 (add-hook 'js2-mode-hook (lambda ()
   (add-hook 'xref-backend-functions #'xref-js2-xref-backend nil t)))
+
+(add-to-list 'load-path "/home/calin/.emacs.d/elpa/rust-mode/")
+(autoload 'rust-mode "rust-mode" nil t)
+(add-to-list 'auto-mode-alist '("\\.lalrpop\\'" . rust-mode))
+(require 'rust-mode)
 
 (use-package markdown-mode
   :ensure t

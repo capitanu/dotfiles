@@ -39,7 +39,7 @@ import XMonad.Hooks.DynamicProperty
 import XMonad.Hooks.EwmhDesktops  -- for some fullscreen events, also for xcomposite in obs.
 import XMonad.Hooks.FadeInactive
 import XMonad.Hooks.ManageDocks (avoidStruts, docksEventHook, manageDocks, ToggleStruts(..))
-import XMonad.Hooks.ManageHelpers (isFullscreen, doFullFloat)
+import XMonad.Hooks.ManageHelpers
 import XMonad.Hooks.ServerMode
 import XMonad.Hooks.SetWMName
 import XMonad.Hooks.WorkspaceHistory
@@ -78,7 +78,7 @@ import XMonad.Prompt.XMonad
 import Control.Arrow (first)
 
     -- Utilities
-import XMonad.Util.EZConfig (additionalKeysP)
+import XMonad.Util.EZConfig
 import XMonad.Util.NamedScratchpad
 import XMonad.Util.Run (runProcessWithInput, safeSpawn, spawnPipe)
 import XMonad.Util.SpawnOnce
@@ -98,7 +98,6 @@ myBrowser = "qutebrowser "               -- Sets firefox as browser for tree sel
 
 myEditor :: String
 myEditor = "emacsclient -c -a emacs "  -- Sets emacs as editor for tree select
--- myEditor = myTerminal ++ " -e vim "    -- Sets vim as editor for tree select
 
 myBorderWidth :: Dimension
 myBorderWidth = 2          -- Sets border width for windows
@@ -118,6 +117,7 @@ windowCount = gets $ Just . show . length . W.integrate' . W.stack . W.workspace
 myStartupHook :: X ()
 myStartupHook = do
           setWMName "LG3D"
+          spawn "xmodmap /home/calin/.Xmodmap"
           spawn "xset s off &"
           spawn "xset -dms &"
           spawn "xbindkeys --poll-rc &"
@@ -264,8 +264,8 @@ myManageHook :: XMonad.Query (Data.Monoid.Endo WindowSet)
 myManageHook = composeAll
      [
        className =? "Spotify"     --> doShift ( myWorkspaces !! 8 )
+     , className =? "VirtualBox Manager" --> doShift  ( myWorkspaces !! 3 )
      , className =? "QjackCtl"     --> doShift ( myWorkspaces !! 7 )
-     , title =? "Tracktion" --> doFloat
      ] <+> namedScratchpadManageHook myScratchPads
 
 myDynHook = composeAll [
@@ -301,7 +301,7 @@ myKeys =
         , ("M-,", prevScreen)  -- Switch focus to prev monitor
         , ("M-S-<KP_Add>", shiftTo Next nonNSP >> moveTo Next nonNSP)       -- Shifts focused window to next ws
         , ("M-S-<KP_Subtract>", shiftTo Prev nonNSP >> moveTo Prev nonNSP)  -- Shifts focused window to prev ws
-        , ("M-S-m", spawn "emacsclient -c -n --socket-name=/tmp/emacs1000/server") -- start emacs
+        , ("M-S-m", spawn "emacsclient -nc") -- start emacs
         , ("M-S-s", spawn "spotify")
         , ("M-d", spawn "dmenu_run -i -p 'Arch Linux' -fn 'Ubuntu Mono:bold:pixelsize=20'")
         , ("M-S-b", spawn "brave-beta")
@@ -319,16 +319,29 @@ myKeys =
         , ("<XF86MonBrightnessUp>", spawn "blight set +20%")
         , ("<XF86MonBrightnessDown>", spawn "blight set -20%")
         , ("<Print>", spawn "scrotd 0")
+        , ("<button-1>", spawn "alacritty")
         , ("M-S-<Print>", spawn "maim -s --format=png /dev/stdout | xclip -selection clipboard -t image/png -i")
         ]
           where nonNSP          = WSIs (return (\ws -> W.tag ws /= "nsp"))
                 nonEmptyNonNSP  = WSIs (return (\ws -> isJust (W.stack ws) && W.tag ws /= "nsp"))
 
+
+
+myMouseBindings  =
+    [
+      ((0, 18), (\_ -> spawn "pactl set-sink-volume @DEFAULT_SINK@ +5%" ))
+    ,((0, 19), (\_ -> spawn "pactl set-sink-volume @DEFAULT_SINK@ -5%" ))
+    ,((0, 17), (\_ -> spawn "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause" ))
+    ,((0, 15), (\_ -> spawn "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next" ))
+    ,((0, 16), (\_ -> spawn "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous" ))
+    ]
+
 main :: IO ()
 main = do
-    xmproc0 <- spawnPipe "xmobar -x 0 /home/calin/.config/xmobar/xmobarrc"
-    xmonad $ ewmh def
-        { manageHook = ( isFullscreen --> doFullFloat ) <+> myManageHook <+> manageDocks
+  xmproc0 <- spawnPipe "xmobar -x 0 /home/calin/.config/xmobar/xmobarrc0"
+  xmproc1 <- spawnPipe "xmobar -x 1 /home/calin/.config/xmobar/xmobarrc1"
+  xmonad $ ewmh def
+        { manageHook = (isDialog --> doF W.shiftMaster <+> doF W.swapDown) <+> ( isFullscreen --> doFullFloat ) <+> myManageHook <+> manageDocks
         , handleEventHook    = dynamicPropertyChange "WM_NAME" myDynHook
                                <+> serverModeEventHookCmd
                                <+> serverModeEventHook
@@ -343,7 +356,7 @@ main = do
         , normalBorderColor  = myNormColor
         , focusedBorderColor = myFocusColor
         , logHook = workspaceHistoryHook <+> myLogHook <+> dynamicLogWithPP xmobarPP
-                        { ppOutput = \x -> hPutStrLn xmproc0 x
+          { ppOutput = \x -> hPutStrLn xmproc0 x   >> hPutStrLn xmproc1 x
                         , ppCurrent = xmobarColor "#c3e88d" "" . wrap "[" "]" -- Current workspace in xmobar
                         , ppVisible = xmobarColor "#c3e88d" ""                -- Visible but not current workspace
                         , ppHidden = xmobarColor "#82AAFF" "" . wrap "*" ""   -- Hidden workspaces in xmobar
@@ -354,4 +367,6 @@ main = do
                         , ppExtras  = [windowCount]                           -- # of windows current workspace
                         , ppOrder  = \(ws:l:t:ex) -> [ws]
                         }
-        } `additionalKeysP` myKeys
+        }
+        `additionalKeysP` myKeys
+        `additionalMouseBindings` myMouseBindings

@@ -6,9 +6,10 @@
 
 alias ls='ls --color=auto'
 PS1='[\u@\h \W]\$ '
-export EDITOR="emacsclient -nw"
+export EDITOR="emacsclient -c"
 export TERM="xterm-256color"
 export MCORE_STDLIB='/home/calin/repos/github.com/miking-lang/miking/stdlib'
+export MI_IPM='/home/calin/repos/github.com/capitanu/miking-ipm'
 export EMULATOR_NAME='OnePlus ONEPLUS A6003'
 export ANDROID_HOME='/home/calin/Android/Sdk'
 
@@ -29,6 +30,7 @@ source ~/.config/.git-prompt.sh
 
 source /usr/share/fzf/completion.bash
 source /usr/share/fzf/key-bindings.bash
+source $HOME/.cargo/env
 
 export FZF_DEFAULT_COMMAND="\
   rg . \
@@ -91,11 +93,12 @@ alias ...='cd ../..'
 #alias gs='git status'
 	
 
-alias eb='cd && /home/calin/.config/scripts/devour/devour.sh emacsclient -c --socket-name=/tmp/emacs1000/server .bashrc' #fast fix of bashrc
-alias ipm='cd /home/calin/repos/github.com/miking-lang/fork-ipm'
-alias hailey='cd /home/calin/repos/github.com/hailey/hailey/app'
-alias connectweb='ssh -p3801 calin@capitanu.tech'
-alias webtech='sudo scp -r -P 3801 ~/capitanu.tech/* calin@capitanu.tech:~/capitanu.tech'
+alias eb='cd && /home/calin/.config/scripts/devour/devour.sh emacsclient -c .bashrc' #fast fix of bashrc
+alias capitanu='cd /home/calin/repos/github.com/capitanu/'
+alias ipm='cd /home/calin/repos/github.com/capitanu/miking-ipm/'
+alias hailey='cd /home/calin/repos/github.com/hailey'
+alias connectweb='ssh -X -p3801 calin@capitanu.tech'
+alias webtech='sudo scp -r -P 3801 /home/calin/repos/github.com/capitanu/capitanu.tech/* calin@capitanu.tech:~/capitanu.tech'
 alias webcom='sudo scp -r -P 3801 ~/thedatabuddy.com/* calin@capitanu.tech:~/thedatabuddy.com'
 
 #alias vpnkth='cd /home/darthvader11/Documents/KTH/TCOMK2/Networking\ and\ Communication/Labs/Lab1/client/ && sudo openvpn --script-security 2 --config client.conf'
@@ -110,19 +113,24 @@ alias airplaneoff='sudo rfkill unblock all'
 alias wifidisconnect='nmcli device disconnect wlp58s0'
 
 alias dotfiles='cd /home/calin/repos/github.com/capitanu/dotfiles'
-alias kali='ssh root@192.168.0.151'
+alias kali='ssh calin@192.168.0.151'
 #alias clear='clear && neofetch'
 alias wififix='/home/calin/.config/scripts/wifiscript.sh'
-alias emc='/home/calin/.config/scripts/devour/devour.sh emacsclient -c --socket-name=/tmp/emacs1000/server'
+alias emc='/home/calin/.config/scripts/devour/devour.sh emacsclient -c'
 alias emacsrr='systemctl restart --user emacs'
 
 alias nuget="mono /usr/local/bin/nuget.exe"
+alias kbd='/home/calin/.config/scripts/changekbd.sh'
+
 
 alias pdfcompress='gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/prepress -dNOPAUSE -dQUIET -dBATCH '
 
 alias lcad='/home/calin/.config/scripts/devour/devour.sh /home/calin/Scripts/start_leocad.sh'
 alias loc='scc'
-alias note='/home/calin/.config/scripts/devour/devour.sh emacsclient -c --socket-name=/tmp/emacs1000/server ~/.config/notes.org'
+alias note='/home/calin/.config/scripts/devour/devour.sh emacsclient -c ~/.config/notes.org'
+
+alias kth='ranger /home/calin/KTH/TCOMK3/'
+alias sharescreen='/home/calin/.config/scripts/devour/devour.sh vlc --no-video-deco --no-embedded-video --screen-fps=30 --screen-left=0 --screen-width=1920 --screen-height=1080 screen://'
 
 alias d='eval $(__fzf_cd__)'
 alias e="/home/calin/.config/scripts/devour/devour.sh emacsclient -c \$(fzf)"

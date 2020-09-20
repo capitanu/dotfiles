@@ -2,7 +2,25 @@
 #+CREATOR: Calin Capitanu
 #+STARTUP: overview
 * Minor settings
-** helm-icons
+** disable-electric-mode-on-org
+  #+begin_src emacs-lisp
+    (add-hook 'org-mode-hook (lambda ()
+			       (modify-syntax-entry ?< ".")
+			       (modify-syntax-entry ?> ".")
+			       ))
+
+    (add-hook 'prog-mode-hook (lambda ()
+				 (modify-syntax-entry ?< "(>")
+				 (modify-syntax-entry ?> ")<")
+			       ))
+
+  #+end_src
+** stop-asking-sn
+#+begin_src emacs-lisp
+(setq vc-follow-symlinks nil)
+(setq org-confirm-babel-evaluate nil)
+#+end_src
+** Helm-icons
 #+BEGIN_SRC emacs-lisp
 (helm-icons-enable)
 #+END_SRC
@@ -68,13 +86,14 @@
 #+END_SRC
 ** electric
 #+BEGIN_SRC emacs-lisp
-  (setq electric-pair-pairs '(
-			      (?\( . ?\))
-			      (?\[ . ?\])
-			      (?\{ . ?\})
-			      (?\" . ?\")
-			      ))
-  (electric-pair-mode t)
+    (setq electric-pair-pairs '(
+				(?\( . ?\))
+				(?\[ . ?\])
+				(?\{ . ?\})
+				(?\" . ?\")
+				))
+
+  (electric-pair-mode 1)
 #+END_SRC
 ** pretty symbols
 #+BEGIN_SRC emacs-lisp
@@ -90,7 +109,8 @@
 #+END_SRC
 ** welcome screen
 #+BEGIN_SRC emacs-lisp
-  (setq inhibit-startup-message t)
+    (setq inhibit-startup-message t)
+  (setq initial-scratch-message ";;  Happy Hacking \n\n")
 #+END_SRC
 ** vterm
 #+BEGIN_SRC emacs-lisp
@@ -190,12 +210,12 @@
 
   (global-set-key [M-s-down] 'win-resize-minimize-vert)
   (global-set-key [M-s-up] 'win-resize-enlarge-vert)
-  (global-set-key [M-s-left] 'win-resize-minimize-horiz)
-  (global-set-key [M-s-right] 'win-resize-enlarge-horiz)
+  (global-set-key (kbd "M-s-h") 'win-resize-minimize-horiz)
+  (global-set-key (kbd "M-s-l") 'win-resize-enlarge-horiz)
   (global-set-key [M-s-up] 'win-resize-enlarge-horiz)
   (global-set-key [M-s-down] 'win-resize-minimize-horiz)
-  (global-set-key [M-s-left] 'win-resize-enlarge-vert)
-  (global-set-key [M-s-right] 'win-resize-minimize-vert)
+  (global-set-key (kbd "M-s-h") 'win-resize-enlarge-vert)
+  (global-set-key (kbd "M-s-l") 'win-resize-minimize-vert)
 #+END_SRC
 ** bg-color
 #+BEGIN_SRC emacs-lisp
@@ -215,6 +235,7 @@
 #+END_SRC
 ** hl-line-mode
 #+BEGIN_SRC emacs-lisp
+(set-face-background 'hl-line "#171717")
 (global-hl-line-mode 1)
 #+END_SRC
 ** all-the-icons
@@ -320,11 +341,18 @@
 (global-set-key (kbd "C-x C-d") 'fiplr-find-directory)
 #+END_SRC
 * Find specific files
+** flags-hacking
+   #+begin_src emacs-lisp
+   (defun open-flags ()
+   (interactive)
+(find-file "/home/calin/KTH/TCOMK3/EN2720_Ethical_Hacking/flags.org"))
+(global-set-key (kbd "C-c f") 'open-flags)
+   #+end_src
 ** miking-ipm-readme
 #+BEGIN_SRC emacs-lisp
   (defun open-readme ()
     (interactive)
-    (find-file "/home/calin/repos/github.com/miking-lang/fork-ipm/README.md"))
+    (find-file "/home/calin/repos/github.com/capitanu/miking-ipm/README.md"))
   (global-set-key (kbd "C-c m") 'open-readme)
 #+END_SRC
 ** hailey-app
@@ -345,12 +373,15 @@
 * Org Bullets
 ** basic config
 #+BEGIN_SRC emacs-lisp
-  (setq org-src-window-setup 'current-window)
-  (add-to-list 'org-structure-template-alist
-	       '("el" "#+BEGIN_SRC emacs-lisp\n?\n#+END_SRC"))
-  (add-to-list 'org-structure-template-alist
-	       '("iex" "#+BEGIN_SRC elixir\n?\n#+END_SRC"))
-
+(add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
+(add-to-list 'org-structure-template-alist '("sh" . "src sh"))
+(add-to-list 'org-structure-template-alist '("iex" . "src elixir"))
+(require 'org-tempo)
+;; (setq org-src-window-setup 'current-window)
+;;  (add-to-list 'org-structure-template-alist
+;;	       '("el" . "src\n"))
+;;  (add-to-list 'org-structure-template-alist
+;;	       '("iex" . "src\n"))
 #+END_SRC
 ** enable-org-bullets
 #+BEGIN_SRC emacs-lisp
@@ -547,12 +578,15 @@
 * Programming
 ** yasnippet
 #+BEGIN_SRC emacs-lisp
-    (use-package yasnippet
-      :ensure t
-      :config
-        (use-package yasnippet-snippets
-          :ensure t)
-        (yas-reload-all))
+  (use-package yasnippet
+    :ensure t
+    :config
+      (use-package yasnippet-snippets
+	:ensure t)
+      (yas-reload-all))
+  (yas-global-mode 1)
+  (add-hook 'yas-minor-mode-hook (lambda ()
+  				   (yas-activate-extra-mode 'fundamental-mode)))
 #+END_SRC
 
 ** flycheck
@@ -725,9 +759,6 @@ I prefer =C-n= and =C-p= to move around the items, so I remap those accordingly.
   (add-hook 'css-mode-hook 'emmet-mode)
   (add-hook 'html-mode-hook 'emmet-expand-yas)
   (add-hook 'css-mode-hook 'emmet-expand-yas)
-
-
-
 #+END_SRC
 *** js
 #+BEGIN_SRC emacs-lisp
@@ -752,6 +783,13 @@ I prefer =C-n= and =C-p= to move around the items, so I remap those accordingly.
 (add-hook 'js2-mode-hook (lambda ()
   (add-hook 'xref-backend-functions #'xref-js2-xref-backend nil t)))
 #+END_SRC
+*** rust
+   #+begin_src emacs-lisp
+(add-to-list 'load-path "/home/calin/.emacs.d/elpa/rust-mode/")
+(autoload 'rust-mode "rust-mode" nil t)
+(add-to-list 'auto-mode-alist '("\\.lalrpop\\'" . rust-mode))
+(require 'rust-mode)
+   #+end_src
 
 ** markdown-mode
 #+BEGIN_SRC emacs-lisp

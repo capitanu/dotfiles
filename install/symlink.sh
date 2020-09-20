@@ -27,4 +27,5 @@ ln -sfv `pwd`/.vimrc $HOME/.
 ln -sfv `pwd`/.xbindkeysrc $HOME/.
 ln -sfv `pwd`/.xinitrc $HOME/.
 ln -sfv `pwd`/.Xmodmap $HOME/.
+ln -sfv `pwd`/.Xmodmapse $HOME/.
 ln -sfv `pwd`/.config/git/.gitconfig $HOME/.gitconfig

