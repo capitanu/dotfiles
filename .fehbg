@@ -1,2 +1,2 @@
 #!/bin/sh
-feh --no-fehbg --bg-max '/home/calin/.config/pacwall.png' 
+feh --no-fehbg --bg-scale '/home/calin/.config/starwars.jpg' 

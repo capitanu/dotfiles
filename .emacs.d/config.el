@@ -1,17 +1,57 @@
-(add-hook 'org-mode-hook (lambda ()
-			   (modify-syntax-entry ?< ".")
-			   (modify-syntax-entry ?> ".")
-			   ))
+(use-package rainbow-delimiters
+      :ensure t
+      :init )
+(add-hook 'org-mode-hook 'rainbow-delimiters-mode)
+(add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
 
-(add-hook 'prog-mode-hook (lambda ()
-			     (modify-syntax-entry ?< "(>")
-			     (modify-syntax-entry ?> ")<")
-			   ))
+(setq backup-inhibited t)
+(setq auto-save-default nil)
 
-(setq vc-follow-symlinks nil)
-(setq org-confirm-babel-evaluate nil)
+(global-prettify-symbols-mode 1)
 
-(helm-icons-enable)
+(setq electric-pair-pairs '(
+			      (?\( . ?\))
+			      (?\[ . ?\])
+			      (?\{ . ?\})
+			      (?\" . ?\")
+			      ))
+
+(defun syntax-for-org ()
+(interactive)
+(modify-syntax-entry ?< ".")
+(modify-syntax-entry ?> "."))
+(add-hook 'org-mode-hook 'syntax-for-org)
+
+
+  (electric-pair-mode 1)
+
+(use-package hungry-delete
+  :ensure t
+  :config (global-hungry-delete-mode))
+
+(use-package avy
+  :ensure t
+  :bind
+  ("M-s" . avy-goto-char))
+
+(defun copy-whole-line ()
+  (interactive)
+  (save-excursion
+    (kill-new
+     (buffer-substring
+     (point-at-bol)
+     (point-at-eol)))))
+(global-set-key (kbd "C-c w l") 'copy-whole-line)
+
+(defun config-visit ()
+  (interactive)
+  (find-file "~/repos/github.com/capitanu/dotfiles/.emacs.d/config.org"))
+(global-set-key (kbd "C-c e") 'config-visit)
+
+(defun config-reload ()
+  (interactive)
+  (org-babel-load-file (expand-file-name "~/.emacs.d/config.org")))
+(global-set-key (kbd "C-c r") 'config-reload)
 
 (defun swap-buffers-in-windows ()
   "Put the buffer from the selected window in next window, and vice versa"
@@ -26,23 +66,8 @@
   )
   (global-set-key (kbd "C-c s") 'swap-buffers-in-windows)
 
-(global-set-key (kbd "s-<f1>")
-  (lambda ()
-    (interactive)
-    (dired "~/")))
-
-(setq auto-window-vscroll nil)
-(setq next-line-add-newlines t)
-
-(set-face-attribute 'default nil :height 200)
-
-(set-frame-parameter (selected-frame) 'alpha '(100 . 100))
-(add-to-list 'default-frame-alist '(alpha . (100 . 100)))
-
-(line-number-mode 1)
-(column-number-mode 1)
-
-(global-subword-mode 1)
+(setq vc-follow-symlinks nil)
+(setq org-confirm-babel-evaluate nil)
 
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
@@ -50,39 +75,16 @@
 
 (defalias 'yes-or-no-p 'y-or-n-p)
 
-(setq ring-bell-function 'ignore)
-
-(setq electric-pair-pairs '(
-			      (?\( . ?\))
-			      (?\[ . ?\])
-			      (?\{ . ?\})
-			      (?\" . ?\")
-			      ))
-
-(electric-pair-mode 1)
-
-(global-prettify-symbols-mode 1)
-
-(setq scroll-conservatively 100)
-
-(global-set-key (kbd "<s-M-return>") 'vterm)
+(use-package vterm
+    :ensure t)
+  (global-set-key (kbd "<s-M-return>") 'vterm)
 
 (setq inhibit-startup-message t)
 (setq initial-scratch-message ";;  Happy Hacking \n\n")
 
-(use-package vterm
-    :ensure t)
-
-;disable backup
-(setq backup-inhibited t)
-;disable auto save
-(setq auto-save-default nil)
-
 (setq confirm-kill-processes nil)
 
 (setq x-select-enable-clipboard t)
-
-(cua-selection-mode t)
 
 (defun er-sudo-edit (&optional arg)
   "Edit currently visited file as root.
@@ -161,94 +163,27 @@ middle"
 (global-set-key (kbd "M-s-h") 'win-resize-enlarge-vert)
 (global-set-key (kbd "M-s-l") 'win-resize-minimize-vert)
 
-;;(setq default-frame-alist
-  ;;    '((background-color . "0x282a36")
-;;	(foreground-color . "0xbbc5ff")))
+(setq next-line-add-newlines t)
 
-(show-paren-mode 1)
-
-(global-set-key (kbd "M-f") 'forward-word)
-(global-set-key (kbd "C-s-f") 'forward-to-word)
-
+(use-package hl-line
+:ensure t)
 (set-face-background 'hl-line "#171717")
 (global-hl-line-mode 1)
 
-(require 'all-the-icons)
+(defun scroll-up-and-next ()
+(interactive)
+(scroll-up-line 5)
+(next-line 5))
 
-(defvar my-term-shell "/bin/bash")
-    (defadvice ansi-term (before force-bash)
-      (interactive (list my-term-shell)))
-    (ad-activate 'ansi-term)
+(defun scroll-down-and-prev ()
+(interactive)
+(scroll-down-line 5)
+(previous-line 5))
 
-(autoload 'ansi-color-for-comint-mode-on "ansi-color" nil t)
-(add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
+(global-set-key (kbd "M-n") 'scroll-up-and-next)
+(global-set-key (kbd "M-p") 'scroll-down-and-prev)
 
-(use-package which-key
-  :ensure t
-  :init
-  (which-key-mode))
-
-(use-package hungry-delete
-  :ensure t
-  :config (global-hungry-delete-mode))
-
-(use-package beacon
-  :ensure t
-  :init
-  (beacon-mode 1))
-
-(use-package sudo-edit
-  :ensure t
-  :bind ("s-e" . sudo-edit))
-
-(use-package spaceline
-  :ensure t
-  :config
-  (require 'spaceline-config)
-  (setq powerline-default-separator (quote arrow))
-  (spaceline-spacemacs-theme))
-
-(use-package diminish
-  :ensure t
-  :init
-  (diminish 'hungry-delete-mode)
-  (diminish 'beacon-mode)
-  (diminish 'company-mode)
-  (diminish 'subword-mode)
-  (diminish 'which-key-mode)
-  (diminish 'rainbow-mode)
-  (diminish 'rainbow-delimiters-mode)
-  (diminish 'impatient-mode))
-
-(add-to-list 'display-buffer-alist
-		      `(,(rx bos "*helm" (* not-newline) "*" eos)
-			   (display-buffer-in-side-window)
-			   (inhibit-same-window . t)
-			   (window-height . 0.3)))
-(require 'helm-config)
-  (use-package helm
-    :ensure t
-    :demand
-    :bind (("M-x" . helm-M-x)
-	   ("C-x C-f" . helm-find-files)
-	   ("C-x b" . helm-buffers-list)
-	   ("C-x c o" . helm-occur) ;SC
-	   ("M-y" . helm-show-kill-ring) ;SC
-	   ("C-x r b" . helm-filtered-bookmarks) ;SC
-	   ("C-x C-r" . helm-recentf)
-	   ("C-x C-b" . helm-buffers-list))
-    :requires helm-config
-    :config (helm-mode 1))
-
-;; fuzzy file finder
-(use-package fiplr
-:ensure t
-:config
-(setq fiplr-root-markers '(".git" ".svn"))
-(setq fiplr-ignored-globs '((directories (".git" ".svn"))
-(files ("*.jpg" "*.png" "*.zip" "*~"))))
-(global-set-key (kbd "C-z") 'fiplr-find-file))
-(global-set-key (kbd "C-x C-d") 'fiplr-find-directory)
+(set-face-attribute 'default nil :height 250)
 
 (defun open-flags ()
    (interactive)
@@ -264,11 +199,6 @@ middle"
   (interactive)
   (find-file "/home/calin/repos/github.com/hailey/hailey/app/README.md"))
 (global-set-key (kbd "C-c h") 'open-hailey-app)
-
-(use-package symon
-  :ensure t
-  :bind
-  ("s-h" . 'symon-mode))
 
 (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
 (add-to-list 'org-structure-template-alist '("sh" . "src sh"))
@@ -286,30 +216,7 @@ middle"
   (add-hook 'org-mode-hook (lambda () (org-bullets-mode)))
   (add-hook 'org-mode-hook 'prettify-symbols-mode))
 
-(use-package rainbow-delimiters
-    :ensure t
-    :init 
-(add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
-
-(defun kill-whole-word ()
-  (interactive)
-  (backward-word)
-  (kill-word 1)  )
-(global-set-key (kbd "C-c w w") 'kill-whole-word)
-
-(defun copy-whole-line ()
-  (interactive)
-  (save-excursion
-    (kill-new
-     (buffer-substring
-     (point-at-bol)
-     (point-at-eol)))))
-(global-set-key (kbd "C-c w l") 'copy-whole-line)
-
-(defun kill-all-buffers ()
-  (interactive)
-  (mapc 'kill-buffer (buffer-list)))
-(global-set-key (kbd "C-M-s-k") 'kill-all-buffers)
+(global-set-key (kbd "C-x C-b") 'counsel-switch-buffer)
 
 (global-set-key (kbd "C-x b") 'ibuffer)
 
@@ -320,30 +227,10 @@ middle"
   (kill-buffer (current-buffer)))
 (global-set-key (kbd "C-x k") 'kill-curr-buffer)
 
-(use-package avy
-  :ensure t
-  :bind
-  ("M-s" . avy-goto-char))
-
-(defun config-visit ()
-  (interactive)
-  (find-file "~/.emacs.d/config.org"))
-(global-set-key (kbd "C-c e") 'config-visit)
-
-(defun config-reload ()
-  (interactive)
-  (org-babel-load-file (expand-file-name "~/.emacs.d/config.org")))
-(global-set-key (kbd "C-c r") 'config-reload)
-
-(use-package neotree
-    :ensure t
-    :init)
-  (global-set-key [f8] 'treemacs)
-;;  (global-set-key [f8] 'neotree-hidden-file-toggle)
-
 (use-package magit
-  :ensure t
-  :pin melpa)
+    :ensure t
+    :pin melpa)
+(global-set-key (kbd "C-c g") 'magit-status)
 
 (use-package switch-window
   :ensure t
@@ -357,49 +244,65 @@ middle"
   :bind
   ([remap other-window] . switch-window))
 
-(defun split-and-follow-horizontally ()
-  (interactive)
-  (split-window-below)
-  (balance-windows)
-  (other-window 1))
-(global-set-key (kbd "C-x 2") 'split-and-follow-horizontally)
-
-(defun split-and-follow-vertically ()
-  (interactive)
-  (split-window-right)
-  (balance-windows)
-  (other-window 1))
-(global-set-key (kbd "C-x 3") 'split-and-follow-vertically)
-
-(use-package dashboard
-  :ensure t
+(use-package ivy :ensure t
+  :diminish (ivy-mode . "")
+  :bind
+  (:map ivy-mode-map
+   ("C-'" . ivy-avy))
   :config
-  (dashboard-setup-startup-hook)
-  (setq dashboard-items '((recents . 10)))
-  (setq dashboard-banner-logo-title "Hello, darthvader11!"))
+  (ivy-mode 1)
+(setq ivy-use-virtual-buffers t)
+(setq enable-recursive-minibuffers t)
+(setq ivy-initial-inputs-alist nil)
+
+;; enable this if you want `swiper' to use it
+;; (setq search-default-mode #'char-fold-to-regexp)
+(global-set-key "\C-s" 'swiper)
+(global-set-key (kbd "M-x") 'counsel-M-x)
+(global-set-key (kbd "C-x C-f") 'counsel-find-file)
+(global-set-key (kbd "<f1> f") 'counsel-describe-function)
+(global-set-key (kbd "<f1> v") 'counsel-describe-variable)
+(global-set-key (kbd "<f1> o") 'counsel-describe-symbol)
+(global-set-key (kbd "<f1> l") 'counsel-find-library)
+(global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol)
+(global-set-key (kbd "<f2> u") 'counsel-unicode-char)
+(global-set-key (kbd "C-c k") 'counsel-ag)
+(define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history))
+
+(use-package doom-modeline
+  :ensure t
+  :init (doom-modeline-mode 1))
+(setq doom-modeline-icon 1)
+(setq doom-modeline-buffer-file-name-style 'auto)
+(setq doom-modeline-major-mode-icon t)
+(setq doom-modeline-buffer-state-icon t)
+(setq doom-modeline-buffer-modification-icon t)
+(setq doom-modeline-minor-modes nil)
+(setq doom-modeline-workspace-name t)
+(setq doom-modeline-persp-name t)
+
+(setq split-width-threshold 1)
+  (defun split-and-follow-horizontally ()
+    (interactive)
+    (split-window-below)
+    (balance-windows)
+    (other-window 1))
+  (global-set-key (kbd "C-x 2") 'split-and-follow-horizontally)
+
+  (defun split-and-follow-vertically ()
+    (interactive)
+    (split-window-right)
+    (balance-windows)
+    (other-window 1))
+  (global-set-key (kbd "C-x 3") 'split-and-follow-vertically)
 
 (add-hook 'prog-mode-hook 'linum-mode)
 (add-hook 'org-mode-hook 'linum-mode)
-(add-hook 'company-mode-hook 'linum-mode)
-
-(require 'hlinum)
-(hlinum-activate)
-
-(use-package rainbow-mode
-    :ensure t
-    :init
-(add-hook 'prog-mode-hook 'rainbow-mode))
 
 (use-package company
   :ensure t
-  :init
-  (add-hook 'after-init-hook 'global-company-mode))
-
-;;  (use-package exwm
-;;    :ensure t
-;;    :config
-;;    (require 'exwm-config)
-;;    (exwm-config-default))
+  :init)
+  (add-hook 'after-init-hook 'global-company-mode)
 
 (use-package impatient-mode
     :ensure t
@@ -415,6 +318,11 @@ middle"
   :ensure t
   :bind ("M-y" . popup-kill-ring))
 
+(use-package which-key
+  :ensure t
+  :init
+  (which-key-mode))
+
 (use-package yasnippet
   :ensure t
   :config
@@ -427,19 +335,6 @@ middle"
 
 (use-package flycheck
   :ensure t)
-
-(use-package company
-  :ensure t
-  :config
-  (setq company-idle-delay 0)
-  (setq company-minimum-prefix-length 3))
-
-(with-eval-after-load 'company
-  (define-key company-active-map (kbd "M-n") nil)
-  (define-key company-active-map (kbd "M-p") nil)
-  (define-key company-active-map (kbd "C-n") #'company-select-next)
-  (define-key company-active-map (kbd "C-p") #'company-select-previous)
-  (define-key company-active-map (kbd "SPC") #'company-abort))
 
 (add-hook 'c++-mode-hook 'yas-minor-mode)
 (add-hook 'c-mode-hook 'yas-minor-mode)
@@ -554,15 +449,15 @@ middle"
 (add-hook 'html-mode-hook 'emmet-expand-yas)
 (add-hook 'css-mode-hook 'emmet-expand-yas)
 
-(require 'js2-mode)
+(use-package js2-mode)
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
 
 ;; Better imenu
 (add-hook 'js2-mode-hook #'js2-imenu-extras-mode)
 
 
-(require 'js2-refactor)
-(require 'xref-js2)
+(use-package js2-refactor)
+(use-package xref-js2)
 
 (add-hook 'js2-mode-hook #'js2-refactor-mode)
 (js2r-add-keybindings-with-prefix "C-c C-r")

@@ -21,9 +21,7 @@ This allow completion to be automatically triggered after member
 accesses (obj.|, obj->|, ...).
 
 This may be useful to company < `0.8.4', newer version of company
-include these commands by default.
-
-\(fn)" nil nil)
+include these commands by default." nil nil)
 
 (if (fboundp 'register-definition-prefixes) (register-definition-prefixes "company-irony" '("company-irony-")))
 

@@ -10,9 +10,7 @@
 ;;; Generated autoloads from xref-js2.el
 
 (autoload 'xref-js2-xref-backend "xref-js2" "\
-Xref-Js2 backend for Xref.
-
-\(fn)" nil nil)
+Xref-Js2 backend for Xref." nil nil)
 
 (if (fboundp 'register-definition-prefixes) (register-definition-prefixes "xref-js2" '("xref-js2-")))
 

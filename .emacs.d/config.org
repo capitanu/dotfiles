@@ -1,29 +1,84 @@
 #+TITLE: Emacs Config
-#+CREATOR: Calin Capitanu
+#+AUTHOR: Calin Capitanu
 #+STARTUP: overview
 * Minor settings
-** disable-electric-mode-on-org
-  #+begin_src emacs-lisp
-    (add-hook 'org-mode-hook (lambda ()
-			       (modify-syntax-entry ?< ".")
-			       (modify-syntax-entry ?> ".")
-			       ))
-
-    (add-hook 'prog-mode-hook (lambda ()
-				 (modify-syntax-entry ?< "(>")
-				 (modify-syntax-entry ?> ")<")
-			       ))
-
-  #+end_src
-** stop-asking-sn
-#+begin_src emacs-lisp
-(setq vc-follow-symlinks nil)
-(setq org-confirm-babel-evaluate nil)
-#+end_src
-** Helm-icons
+** Rainbow
 #+BEGIN_SRC emacs-lisp
-(helm-icons-enable)
+      (use-package rainbow-delimiters
+	:ensure t
+	:init )
+  (add-hook 'org-mode-hook 'rainbow-delimiters-mode)
+  (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
 #+END_SRC
+** backup in one place
+#+BEGIN_SRC emacs-lisp
+  (setq backup-inhibited t)
+  (setq auto-save-default nil)
+#+END_SRC
+** pretty symbols
+#+BEGIN_SRC emacs-lisp
+(global-prettify-symbols-mode 1)
+#+END_SRC
+** electric
+#+BEGIN_SRC emacs-lisp
+    (setq electric-pair-pairs '(
+				(?\( . ?\))
+				(?\[ . ?\])
+				(?\{ . ?\})
+				(?\" . ?\")
+				))
+
+  (defun syntax-for-org ()
+  (interactive)
+  (modify-syntax-entry ?< ".")
+  (modify-syntax-entry ?> "."))
+  (add-hook 'org-mode-hook 'syntax-for-org)
+
+
+    (electric-pair-mode 1)
+
+#+END_SRC
+** Hungry delete
+#+BEGIN_SRC emacs-lisp
+  (use-package hungry-delete
+    :ensure t
+    :config (global-hungry-delete-mode))
+#+END_SRC
+** enable-avy
+#+BEGIN_SRC emacs-lisp
+  (use-package avy
+    :ensure t
+    :bind
+    ("M-s" . avy-goto-char))
+#+END_SRC
+** copy-whole-line
+#+BEGIN_SRC emacs-lisp
+  (defun copy-whole-line ()
+    (interactive)
+    (save-excursion
+      (kill-new
+       (buffer-substring
+       (point-at-bol)
+       (point-at-eol)))))
+  (global-set-key (kbd "C-c w l") 'copy-whole-line)
+ 
+#+END_SRC
+** Config edit/reload
+*** edit
+#+BEGIN_SRC emacs-lisp
+  (defun config-visit ()
+    (interactive)
+    (find-file "~/repos/github.com/capitanu/dotfiles/.emacs.d/config.org"))
+  (global-set-key (kbd "C-c e") 'config-visit)
+#+END_SRC
+*** reload
+#+BEGIN_SRC emacs-lisp
+  (defun config-reload ()
+    (interactive)
+    (org-babel-load-file (expand-file-name "~/.emacs.d/config.org")))
+  (global-set-key (kbd "C-c r") 'config-reload)
+#+END_SRC
+
 ** swap buffers
 #+BEGIN_SRC emacs-lisp
 (defun swap-buffers-in-windows ()
@@ -39,37 +94,11 @@
   )
   (global-set-key (kbd "C-c s") 'swap-buffers-in-windows)
 #+END_SRC
-** dired home
-#+BEGIN_SRC emacs-lisp
-(global-set-key (kbd "s-<f1>")
-  (lambda ()
-    (interactive)
-    (dired "~/")))
-#+END_SRC
-** scroll-speed
-#+BEGIN_SRC emacs-lisp
-(setq auto-window-vscroll nil)
-(setq next-line-add-newlines t)
-#+END_SRC
-** font
-#+BEGIN_SRC emacs-lisp
-(set-face-attribute 'default nil :height 200)
-#+END_SRC
-
-** transparency
-#+BEGIN_SRC emacs-lisp
-(set-frame-parameter (selected-frame) 'alpha '(100 . 100))
-(add-to-list 'default-frame-alist '(alpha . (100 . 100)))
-#+END_SRC
-** show column and line number
-#+BEGIN_SRC emacs-lisp
-  (line-number-mode 1)
-  (column-number-mode 1)
-#+END_SRC
-** subword
-#+BEGIN_SRC emacs-lisp
-(global-subword-mode 1)
-#+END_SRC
+** stop-asking-symlink-open
+#+begin_src emacs-lisp
+(setq vc-follow-symlinks nil)
+(setq org-confirm-babel-evaluate nil)
+#+end_src
 ** no ugly gui elements
 #+BEGIN_SRC emacs-lisp
   (scroll-bar-mode -1)
@@ -80,49 +109,16 @@
 #+BEGIN_SRC emacs-lisp
   (defalias 'yes-or-no-p 'y-or-n-p)
 #+END_SRC
-** no bell
+** vterm
 #+BEGIN_SRC emacs-lisp
-  (setq ring-bell-function 'ignore)
-#+END_SRC
-** electric
-#+BEGIN_SRC emacs-lisp
-    (setq electric-pair-pairs '(
-				(?\( . ?\))
-				(?\[ . ?\])
-				(?\{ . ?\})
-				(?\" . ?\")
-				))
-
-  (electric-pair-mode 1)
-#+END_SRC
-** pretty symbols
-#+BEGIN_SRC emacs-lisp
-(global-prettify-symbols-mode 1)
-#+END_SRC
-** better scrolling
-#+BEGIN_SRC emacs-lisp
-  (setq scroll-conservatively 100)
-#+END_SRC
-** shell keybind
-#+BEGIN_SRC emacs-lisp
+(use-package vterm
+    :ensure t)
   (global-set-key (kbd "<s-M-return>") 'vterm)
 #+END_SRC
 ** welcome screen
 #+BEGIN_SRC emacs-lisp
     (setq inhibit-startup-message t)
   (setq initial-scratch-message ";;  Happy Hacking \n\n")
-#+END_SRC
-** vterm
-#+BEGIN_SRC emacs-lisp
-(use-package vterm
-    :ensure t)
-#+END_SRC
-** backup in one place
-#+BEGIN_SRC emacs-lisp
-  ;disable backup
-  (setq backup-inhibited t)
-  ;disable auto save
-  (setq auto-save-default nil)
 #+END_SRC
 ** exit without asking to kill processes
 #+BEGIN_SRC emacs-lisp
@@ -131,10 +127,6 @@
 ** clipboard
 #+BEGIN_SRC emacs-lisp
 (setq x-select-enable-clipboard t)
-#+END_SRC
-** cua-mode
-#+BEGIN_SRC emacs-lisp
-(cua-selection-mode t)
 #+END_SRC
 ** edit with sudo
 #+BEGIN_SRC emacs-lisp
@@ -217,129 +209,38 @@
   (global-set-key (kbd "M-s-h") 'win-resize-enlarge-vert)
   (global-set-key (kbd "M-s-l") 'win-resize-minimize-vert)
 #+END_SRC
-** bg-color
-#+BEGIN_SRC emacs-lisp
-  ;;(setq default-frame-alist
-    ;;    '((background-color . "0x282a36")
-  ;;	(foreground-color . "0xbbc5ff")))
-
-#+END_SRC
-** paren-match
-#+BEGIN_SRC emacs-lisp
-(show-paren-mode 1)
-#+END_SRC
-** forward-to-word
-#+BEGIN_SRC emacs-lisp
-(global-set-key (kbd "M-f") 'forward-word)
-(global-set-key (kbd "C-s-f") 'forward-to-word)
-#+END_SRC
+** next-line-add new
+   #+begin_src emacs-lisp
+   (setq next-line-add-newlines t)
+   #+end_src
 ** hl-line-mode
 #+BEGIN_SRC emacs-lisp
+(use-package hl-line
+:ensure t)
 (set-face-background 'hl-line "#171717")
 (global-hl-line-mode 1)
 #+END_SRC
-** all-the-icons
-#+BEGIN_SRC emacs-lisp
-(require 'all-the-icons)
-#+END_SRC
-* Terminal
-** Setting default shell to bash
-#+BEGIN_SRC emacs-lisp
-    (defvar my-term-shell "/bin/bash")
-    (defadvice ansi-term (before force-bash)
-      (interactive (list my-term-shell)))
-    (ad-activate 'ansi-term)
+** scroll and next by 5 lines
 
-(autoload 'ansi-color-for-comint-mode-on "ansi-color" nil t)
-(add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
-#+END_SRC
-* Which-Key
-** enable-which-key 
-#+BEGIN_SRC emacs-lisp
-  (use-package which-key
-    :ensure t
-    :init
-    (which-key-mode))
-#+END_SRC
-* Hungry delete
-#+BEGIN_SRC emacs-lisp
-  (use-package hungry-delete
-    :ensure t
-    :config (global-hungry-delete-mode))
-#+END_SRC
-* Beacon
-** enable-beacon
-#+BEGIN_SRC emacs-lisp
-  (use-package beacon
-    :ensure t
-    :init
-    (beacon-mode 1))
-#+END_SRC
-* Sudo edit
-#+BEGIN_SRC emacs-lisp
-  (use-package sudo-edit
-    :ensure t
-    :bind ("s-e" . sudo-edit))
-#+END_SRC
-* Modeline
-** spaceline
-#+BEGIN_SRC emacs-lisp
-  (use-package spaceline
-    :ensure t
-    :config
-    (require 'spaceline-config)
-    (setq powerline-default-separator (quote arrow))
-    (spaceline-spacemacs-theme))
-#+END_SRC
-** diminish
-#+BEGIN_SRC emacs-lisp
-  (use-package diminish
-    :ensure t
-    :init
-    (diminish 'hungry-delete-mode)
-    (diminish 'beacon-mode)
-    (diminish 'company-mode)
-    (diminish 'subword-mode)
-    (diminish 'which-key-mode)
-    (diminish 'rainbow-mode)
-    (diminish 'rainbow-delimiters-mode)
-    (diminish 'impatient-mode))
+   #+begin_src emacs-lisp
+   (defun scroll-up-and-next ()
+   (interactive)
+   (scroll-up-line 5)
+   (next-line 5))
 
-#+END_SRC
-* Helm
+   (defun scroll-down-and-prev ()
+   (interactive)
+   (scroll-down-line 5)
+   (previous-line 5))
+
+   (global-set-key (kbd "M-n") 'scroll-up-and-next)
+   (global-set-key (kbd "M-p") 'scroll-down-and-prev)
+   #+end_src
+** font
 #+BEGIN_SRC emacs-lisp
-  (add-to-list 'display-buffer-alist
-		      `(,(rx bos "*helm" (* not-newline) "*" eos)
-			   (display-buffer-in-side-window)
-			   (inhibit-same-window . t)
-			   (window-height . 0.3)))
-(require 'helm-config)
-  (use-package helm
-    :ensure t
-    :demand
-    :bind (("M-x" . helm-M-x)
-	   ("C-x C-f" . helm-find-files)
-	   ("C-x b" . helm-buffers-list)
-	   ("C-x c o" . helm-occur) ;SC
-	   ("M-y" . helm-show-kill-ring) ;SC
-	   ("C-x r b" . helm-filtered-bookmarks) ;SC
-	   ("C-x C-r" . helm-recentf)
-	   ("C-x C-b" . helm-buffers-list))
-    :requires helm-config
-    :config (helm-mode 1))
+(set-face-attribute 'default nil :height 250)
 #+END_SRC
-* Fuzz
-#+BEGIN_SRC emacs-lisp
-;; fuzzy file finder
-(use-package fiplr
-:ensure t
-:config
-(setq fiplr-root-markers '(".git" ".svn"))
-(setq fiplr-ignored-globs '((directories (".git" ".svn"))
-(files ("*.jpg" "*.png" "*.zip" "*~"))))
-(global-set-key (kbd "C-z") 'fiplr-find-file))
-(global-set-key (kbd "C-x C-d") 'fiplr-find-directory)
-#+END_SRC
+
 * Find specific files
 ** flags-hacking
    #+begin_src emacs-lisp
@@ -363,13 +264,6 @@
 (global-set-key (kbd "C-c h") 'open-hailey-app)
 
 #+END_SRC
-* Symon
-#+BEGIN_SRC emacs-lisp
-  (use-package symon
-    :ensure t
-    :bind
-    ("s-h" . 'symon-mode))
-#+END_SRC
 * Org Bullets
 ** basic config
 #+BEGIN_SRC emacs-lisp
@@ -391,43 +285,11 @@
     (add-hook 'org-mode-hook (lambda () (org-bullets-mode)))
     (add-hook 'org-mode-hook 'prettify-symbols-mode))
 #+END_SRC
-* Rainbow
-#+BEGIN_SRC emacs-lisp
-  (use-package rainbow-delimiters
-    :ensure t
-    :init 
-(add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
-#+END_SRC
-* Convenient function
-** kill-whole-word
-#+BEGIN_SRC emacs-lisp
-
-  (defun kill-whole-word ()
-    (interactive)
-    (backward-word)
-    (kill-word 1)  )
-  (global-set-key (kbd "C-c w w") 'kill-whole-word)
-#+END_SRC
-** copy-whole-line
-#+BEGIN_SRC emacs-lisp
-  (defun copy-whole-line ()
-    (interactive)
-    (save-excursion
-      (kill-new
-       (buffer-substring
-       (point-at-bol)
-       (point-at-eol)))))
-  (global-set-key (kbd "C-c w l") 'copy-whole-line)
- 
-#+END_SRC
 * Buffers
-** kill-all-buffer
-#+BEGIN_SRC emacs-lisp
-  (defun kill-all-buffers ()
-    (interactive)
-    (mapc 'kill-buffer (buffer-list)))
-  (global-set-key (kbd "C-M-s-k") 'kill-all-buffers)
-#+END_SRC
+** buffer switching with ido
+   #+begin_src emacs-lisp
+   (global-set-key (kbd "C-x C-b") 'counsel-switch-buffer)
+   #+end_src
 ** enable-ibuffer
 #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "C-x b") 'ibuffer)
@@ -443,46 +305,13 @@
     (kill-buffer (current-buffer)))
   (global-set-key (kbd "C-x k") 'kill-curr-buffer)
 #+END_SRC
-* Avy
-** enable-avy
-#+BEGIN_SRC emacs-lisp
-  (use-package avy
-    :ensure t
-    :bind
-    ("M-s" . avy-goto-char))
-#+END_SRC
-* Config edit/reload
-** edit
-#+BEGIN_SRC emacs-lisp
-  (defun config-visit ()
-    (interactive)
-    (find-file "~/.emacs.d/config.org"))
-  (global-set-key (kbd "C-c e") 'config-visit)
-#+END_SRC
-** reload
-#+BEGIN_SRC emacs-lisp
-  (defun config-reload ()
-    (interactive)
-    (org-babel-load-file (expand-file-name "~/.emacs.d/config.org")))
-  (global-set-key (kbd "C-c r") 'config-reload)
-#+END_SRC
-
-* Neotree
-#+BEGIN_SRC emacs-lisp
-  (use-package neotree
-    :ensure t
-    :init)
-  (global-set-key [f8] 'treemacs)
-;;  (global-set-key [f8] 'neotree-hidden-file-toggle)
-#+END_SRC
-
 * Magit
 #+BEGIN_SRC emacs-lisp
   (use-package magit
     :ensure t
     :pin melpa)
+(global-set-key (kbd "C-c g") 'magit-status)
 #+END_SRC
-
 * Switch window
 #+BEGIN_SRC emacs-lisp
   (use-package switch-window
@@ -498,64 +327,79 @@
     ([remap other-window] . switch-window))
 #+END_SRC
 
+* Ivy
+  #+begin_src emacs-lisp
+  (use-package ivy :ensure t
+  :diminish (ivy-mode . "")
+  :bind
+  (:map ivy-mode-map
+   ("C-'" . ivy-avy))
+  :config
+  (ivy-mode 1)
+(setq ivy-use-virtual-buffers t)
+(setq enable-recursive-minibuffers t)
+(setq ivy-initial-inputs-alist nil)
+
+;; enable this if you want `swiper' to use it
+;; (setq search-default-mode #'char-fold-to-regexp)
+(global-set-key "\C-s" 'swiper)
+(global-set-key (kbd "M-x") 'counsel-M-x)
+(global-set-key (kbd "C-x C-f") 'counsel-find-file)
+(global-set-key (kbd "<f1> f") 'counsel-describe-function)
+(global-set-key (kbd "<f1> v") 'counsel-describe-variable)
+(global-set-key (kbd "<f1> o") 'counsel-describe-symbol)
+(global-set-key (kbd "<f1> l") 'counsel-find-library)
+(global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol)
+(global-set-key (kbd "<f2> u") 'counsel-unicode-char)
+(global-set-key (kbd "C-c k") 'counsel-ag)
+(define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history))
+  #+end_src
+* Doom modeline
+  #+begin_src emacs-lisp
+(use-package doom-modeline
+  :ensure t
+  :init (doom-modeline-mode 1))
+(setq doom-modeline-icon 1)
+(setq doom-modeline-buffer-file-name-style 'auto)
+(setq doom-modeline-major-mode-icon t)
+(setq doom-modeline-buffer-state-icon t)
+(setq doom-modeline-buffer-modification-icon t)
+(setq doom-modeline-minor-modes nil)
+(setq doom-modeline-workspace-name t)
+(setq doom-modeline-persp-name t)
+
+  #+end_src
 * Window split
 #+BEGIN_SRC emacs-lisp
-  (defun split-and-follow-horizontally ()
-    (interactive)
-    (split-window-below)
-    (balance-windows)
-    (other-window 1))
-  (global-set-key (kbd "C-x 2") 'split-and-follow-horizontally)
+  (setq split-width-threshold 1)
+    (defun split-and-follow-horizontally ()
+      (interactive)
+      (split-window-below)
+      (balance-windows)
+      (other-window 1))
+    (global-set-key (kbd "C-x 2") 'split-and-follow-horizontally)
 
-  (defun split-and-follow-vertically ()
-    (interactive)
-    (split-window-right)
-    (balance-windows)
-    (other-window 1))
-  (global-set-key (kbd "C-x 3") 'split-and-follow-vertically)
+    (defun split-and-follow-vertically ()
+      (interactive)
+      (split-window-right)
+      (balance-windows)
+      (other-window 1))
+    (global-set-key (kbd "C-x 3") 'split-and-follow-vertically)
 #+END_SRC
 
-* Dashboard
-** initialize
-#+BEGIN_SRC emacs-lisp
-  (use-package dashboard
-    :ensure t
-    :config
-    (dashboard-setup-startup-hook)
-    (setq dashboard-items '((recents . 10)))
-    (setq dashboard-banner-logo-title "Hello, darthvader11!"))
-#+END_SRC
 * Line-number
 #+BEGIN_SRC emacs-lisp
   (add-hook 'prog-mode-hook 'linum-mode)
   (add-hook 'org-mode-hook 'linum-mode)
-  (add-hook 'company-mode-hook 'linum-mode)
-
-  (require 'hlinum)
-  (hlinum-activate)
 #+END_SRC
-* Rainbow
-#+BEGIN_SRC emacs-lisp
-  (use-package rainbow-mode
-    :ensure t
-    :init
-(add-hook 'prog-mode-hook 'rainbow-mode))
+* Workspaces
 
-#+END_SRC
 * Auto-completion
 #+BEGIN_SRC emacs-lisp
   (use-package company
     :ensure t
-    :init
-    (add-hook 'after-init-hook 'global-company-mode))
-#+END_SRC
-* EXWM
-#+BEGIN_SRC emacs-lisp
-;;  (use-package exwm
-;;    :ensure t
-;;    :config
-;;    (require 'exwm-config)
-;;    (exwm-config-default))
+    :init)
+    (add-hook 'after-init-hook 'global-company-mode)
 #+END_SRC
 * Impatient mode
 #+BEGIN_SRC emacs-lisp
@@ -575,6 +419,14 @@
     :ensure t
     :bind ("M-y" . popup-kill-ring))
 #+END_SRC
+* Which-Key
+** enable-which-key 
+#+BEGIN_SRC emacs-lisp
+  (use-package which-key
+    :ensure t
+    :init
+    (which-key-mode))
+#+END_SRC
 * Programming
 ** yasnippet
 #+BEGIN_SRC emacs-lisp
@@ -588,33 +440,11 @@
   (add-hook 'yas-minor-mode-hook (lambda ()
   				   (yas-activate-extra-mode 'fundamental-mode)))
 #+END_SRC
-
 ** flycheck
 #+BEGIN_SRC emacs-lisp
   (use-package flycheck
     :ensure t)
 #+END_SRC
-
-** company mode
-I set the delay for company mode to kick in to half a second, I also make sure that
-it starts doing its magic after typing in only 2 characters.
-
-I prefer =C-n= and =C-p= to move around the items, so I remap those accordingly.
-#+BEGIN_SRC emacs-lisp
-  (use-package company
-    :ensure t
-    :config
-    (setq company-idle-delay 0)
-    (setq company-minimum-prefix-length 3))
-
-  (with-eval-after-load 'company
-    (define-key company-active-map (kbd "M-n") nil)
-    (define-key company-active-map (kbd "M-p") nil)
-    (define-key company-active-map (kbd "C-n") #'company-select-next)
-    (define-key company-active-map (kbd "C-p") #'company-select-previous)
-    (define-key company-active-map (kbd "SPC") #'company-abort))
-#+END_SRC
-
 ** specific languages
 *** c/c++
 #+BEGIN_SRC emacs-lisp
@@ -762,15 +592,15 @@ I prefer =C-n= and =C-p= to move around the items, so I remap those accordingly.
 #+END_SRC
 *** js
 #+BEGIN_SRC emacs-lisp
-(require 'js2-mode)
+(use-package js2-mode)
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
 
 ;; Better imenu
 (add-hook 'js2-mode-hook #'js2-imenu-extras-mode)
 
 
-(require 'js2-refactor)
-(require 'xref-js2)
+(use-package js2-refactor)
+(use-package xref-js2)
 
 (add-hook 'js2-mode-hook #'js2-refactor-mode)
 (js2r-add-keybindings-with-prefix "C-c C-r")
@@ -791,7 +621,7 @@ I prefer =C-n= and =C-p= to move around the items, so I remap those accordingly.
 (require 'rust-mode)
    #+end_src
 
-** markdown-mode
+*** markdown-mode
 #+BEGIN_SRC emacs-lisp
 (use-package markdown-mode
   :ensure t
@@ -801,7 +631,7 @@ I prefer =C-n= and =C-p= to move around the items, so I remap those accordingly.
          ("\\.markdown\\'" . markdown-mode))
   :init (setq markdown-command "multimarkdown"))
 #+END_SRC
-** flutter
+*** flutter
 #+BEGIN_SRC emacs-lisp
   ;; Assuming usage with dart-mode
   (use-package dart-mode
@@ -821,3 +651,4 @@ I prefer =C-n= and =C-p= to move around the items, so I remap those accordingly.
     :config
     (flutter-l10n-flycheck-setup))
 #+END_SRC
+

@@ -10,9 +10,7 @@
 ;;; Generated autoloads from company-shell.el
 
 (autoload 'company-shell-rebuild-cache "company-shell" "\
-Builds the cache of all completions found on the $PATH and all fish functions.
-
-\(fn)" t nil)
+Builds the cache of all completions found on the $PATH and all fish functions." t nil)
 
 (autoload 'company-fish-shell "company-shell" "\
 Company backend for fish shell functions.

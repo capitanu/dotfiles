@@ -12,9 +12,7 @@
 
 (autoload 'popup-kill-ring "popup-kill-ring" "\
 Interactively insert selected item from `key-ring' by `popup.el'
-and `pos-tip.el'
-
-\(fn)" t nil)
+and `pos-tip.el'" t nil)
 
 (if (fboundp 'register-definition-prefixes) (register-definition-prefixes "popup-kill-ring" '("popup-kill-ring-")))
 

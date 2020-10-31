@@ -1,6 +1,6 @@
 (define-package "macrostep" "20161120.2106" "interactive macro expander"
   '((cl-lib "0.5"))
-  :keywords
+  :commit "424e3734a1ee526a1bd7b5c3cd1d3ef19d184267" :keywords
   '("lisp" "languages" "macro" "debugging")
   :authors
   '(("joddie" . "j.j.oddie@gmail.com"))
