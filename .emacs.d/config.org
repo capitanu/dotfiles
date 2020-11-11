@@ -114,6 +114,8 @@
 (use-package vterm
     :ensure t)
   (global-set-key (kbd "<s-M-return>") 'vterm)
+(add-hook 'vterm-mode-hook (lambda ()
+  (setq-local global-hl-line-mode nil)))
 #+END_SRC
 ** welcome screen
 #+BEGIN_SRC emacs-lisp
@@ -217,7 +219,6 @@
 #+BEGIN_SRC emacs-lisp
 (use-package hl-line
 :ensure t)
-(set-face-background 'hl-line "#171717")
 (global-hl-line-mode 1)
 #+END_SRC
 ** scroll and next by 5 lines
@@ -307,6 +308,9 @@
 #+END_SRC
 * Magit
 #+BEGIN_SRC emacs-lisp
+(setq magit-display-buffer-function
+      (lambda (buffer)
+        (display-buffer buffer '(display-buffer-same-window))))
   (use-package magit
     :ensure t
     :pin melpa)
@@ -367,7 +371,6 @@
 (setq doom-modeline-minor-modes nil)
 (setq doom-modeline-workspace-name t)
 (setq doom-modeline-persp-name t)
-
   #+end_src
 * Window split
 #+BEGIN_SRC emacs-lisp
@@ -393,7 +396,6 @@
   (add-hook 'org-mode-hook 'linum-mode)
 #+END_SRC
 * Workspaces
-
 * Auto-completion
 #+BEGIN_SRC emacs-lisp
   (use-package company
@@ -652,3 +654,9 @@
     (flutter-l10n-flycheck-setup))
 #+END_SRC
 
+*** haskell
+    #+begin_src emacs-lisp
+    (use-package haskell-mode
+    :ensure t
+)
+    #+end_src

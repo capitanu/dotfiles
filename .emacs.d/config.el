@@ -78,6 +78,8 @@
 (use-package vterm
     :ensure t)
   (global-set-key (kbd "<s-M-return>") 'vterm)
+(add-hook 'vterm-mode-hook (lambda ()
+  (setq-local global-hl-line-mode nil)))
 
 (setq inhibit-startup-message t)
 (setq initial-scratch-message ";;  Happy Hacking \n\n")
@@ -167,7 +169,6 @@ middle"
 
 (use-package hl-line
 :ensure t)
-(set-face-background 'hl-line "#171717")
 (global-hl-line-mode 1)
 
 (defun scroll-up-and-next ()
@@ -227,7 +228,10 @@ middle"
   (kill-buffer (current-buffer)))
 (global-set-key (kbd "C-x k") 'kill-curr-buffer)
 
-(use-package magit
+(setq magit-display-buffer-function
+      (lambda (buffer)
+        (display-buffer buffer '(display-buffer-same-window))))
+  (use-package magit
     :ensure t
     :pin melpa)
 (global-set-key (kbd "C-c g") 'magit-status)
@@ -500,3 +504,7 @@ middle"
   :after flutter
   :config
   (flutter-l10n-flycheck-setup))
+
+(use-package haskell-mode
+    :ensure t
+)

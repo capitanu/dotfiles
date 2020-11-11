@@ -266,6 +266,7 @@ myManageHook = composeAll
        className =? "Spotify"     --> doShift ( myWorkspaces !! 8 )
      , className =? "VirtualBox Manager" --> doShift  ( myWorkspaces !! 3 )
      , className =? "QjackCtl"     --> doShift ( myWorkspaces !! 7 )
+     , className =? "Tk"    --> doFloat
      ] <+> namedScratchpadManageHook myScratchPads
 
 myDynHook = composeAll [
@@ -307,6 +308,7 @@ myKeys =
         , ("M-S-b", spawn "brave")
         , ("M-S-g", spawn "guitarix")
         , ("M-S-p", spawn "/home/calin/.config/scripts/rraudio.sh")
+        , ("M-S-h", spawn (myTerminal ++ " -e htop")) 
         , ("M-S-f", spawn (myTerminal ++ " -e ranger")) 
     -- Multimedia Keys
         , ("<XF86AudioPlay>", spawn "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause")

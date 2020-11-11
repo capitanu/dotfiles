@@ -19,7 +19,7 @@
 | Monitors         | https://www.thomann.de/se/yamaha_hs_5_bundle.htm                                                       | 3399 SEK   |        2 |
 | Alex Drawers     | https://www.ikea.com/se/sv/p/alex-hurts-med-lador-vit-10192824/                                        | 695 SEK    |        1 |
 | 2x Capita Set    | https://www.ikea.com/se/sv/p/capita-ben-rostfritt-stal-30244346/                                       | 198 SEK    |        1 |
-| Table Top        | https://www.ikea.com/se/sv/p/linnmon-bordsskiva-svartbrun-80251358/                                    | 299 SEK    |        1 |
+| Table Top        | https://www.ikea.com/se/sv/p/karlby-baenkskiva-valnoet-faner-30335191/                                  | 299 SEK    |        1 |
 | Mid bar          | https://www.ikea.com/se/sv/p/olov-ben-justerbart-silverfaergad-70266671/                               | 100 SEK    |        1 |
 | Webcam           | https://www.proshop.se/Webcam/Sandberg-USB-Webcam-Pro/2844074                                          | 699 SEK    |        2 |
 | 3x Displays      | https://www.amazon.de/-/en/gp/product/B07Y3RYLVH/ref=ox_sc_act_title_1?smid=A3JWKAKR8XB7XF&psc=1       | 3x1938 SEK |        3 |
@@ -27,7 +27,7 @@
 
 Price Category:
 
-1. Desk = 1192 SEK
+1. Desk = 2388 SEK
 2. Monitors + Webcam = 4098 SEK
 3. Display + Stand = 7004
 4. Microphone + Stand + Cable = 2284 SEK

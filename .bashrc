@@ -85,12 +85,12 @@ alias la='exa -a --color=always --group-directories-first'  # all files and dirs
 alias ll='exa -l --color=always --group-directories-first'  # long format
 alias lt='exa -aT --color=always --group-directories-first' # tree listing
 
-alias cp='cp -i' 
-alias mv='mv -i'
-alias rm='rm -i'
+#alias cp='cp -i' 
+#alias mv='mv -i'
+#alias rm='rm -i'
 alias ..='cd ..'
 alias ...='cd ../..'
-#alias gs='git status'
+alias ....='cd ../../..'
 	
 
 alias eb='cd && /home/calin/.config/scripts/devour/devour.sh emacsclient -c .bashrc' #fast fix of bashrc
@@ -132,7 +132,10 @@ alias note='/home/calin/.config/scripts/devour/devour.sh emacsclient -c ~/.confi
 alias kth='ranger /home/calin/KTH/TCOMK3/'
 alias sharescreen='/home/calin/.config/scripts/devour/devour.sh vlc --no-video-deco --no-embedded-video --screen-fps=30 --screen-left=0 --screen-width=1920 --screen-height=1080 screen://'
 
+alias starwars='telnet towel.blinkenlights.nl'
+
 alias d='eval $(__fzf_cd__)'
+alias ef="emacsclient -n \$(fzf)"
 alias e="/home/calin/.config/scripts/devour/devour.sh emacsclient -c \$(fzf)"
 alias v="vim \$(fzf)"
 alias c="__fzf_history__"
@@ -156,18 +159,18 @@ alias g='git'
 
 
 
-term=$(ps -aux | grep `ps -p $$ -o ppid=` | awk 'NR==1{print $11}');
-case $term in
-    */usr/bin/emacs*)
-	found=1
-        export PS1
-        ;;
-    *)
-	if [ "$TERM" != "linux" ]; then
-	    source /home/calin/.config/scripts/pureline/pureline ~/.pureline.conf
-	fi
-        ;;
-esac
+#term=$(ps -aux | grep `ps -p $$ -o ppid=` | awk 'NR==1{print $11}');
+#case $term in
+#    */usr/bin/emacs*)
+#	found=1
+#export PS1
+#        ;;
+#    *)
+#	if [ "$TERM" != "linux" ]; then
+#	    source /home/calin/.config/scripts/pureline/pureline ~/.pureline.conf
+#	fi
+ #       ;;
+#esac
 
-        
+source /home/calin/.config/scripts/pureline/pureline ~/.pureline.conf
 eval $(opam env)
