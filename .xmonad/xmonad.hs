@@ -267,6 +267,7 @@ myManageHook = composeAll
      , className =? "VirtualBox Manager" --> doShift  ( myWorkspaces !! 3 )
      , className =? "QjackCtl"     --> doShift ( myWorkspaces !! 7 )
      , className =? "Tk"    --> doFloat
+     , className =? "org-eclipse-jdt-internal-jarinjarloader-JarRsrcLoader"    --> doFloat
      ] <+> namedScratchpadManageHook myScratchPads
 
 myDynHook = composeAll [
@@ -298,8 +299,6 @@ myKeys =
         , ("M-<Backspace>", promote)         -- Moves focused window to master, others maintain order
         , ("M1-S-<Tab>", rotSlavesDown)      -- Rotate all windows except master and keep focus in place
         , ("M1-C-<Tab>", rotAllDown)         -- Rotate all the windows in the current stack
-        , ("M-.", nextScreen)  -- Switch focus to next monitor
-        , ("M-,", prevScreen)  -- Switch focus to prev monitor
         , ("M-S-<KP_Add>", shiftTo Next nonNSP >> moveTo Next nonNSP)       -- Shifts focused window to next ws
         , ("M-S-<KP_Subtract>", shiftTo Prev nonNSP >> moveTo Prev nonNSP)  -- Shifts focused window to prev ws
         , ("M-S-m", spawn "emacsclient -nc") -- start emacs
@@ -323,6 +322,9 @@ myKeys =
         , ("<Print>", spawn "scrotd 0")
         , ("<button-1>", spawn "alacritty")
         , ("M-S-<Print>", spawn "maim -s --format=png /dev/stdout | xclip -selection clipboard -t image/png -i")
+        , ("M-o", nextScreen)  -- Switch focus to next monitor
+--        , ("M-,", prevScreen)  -- Switch focus to prev monitor
+
         ]
           where nonNSP          = WSIs (return (\ws -> W.tag ws /= "nsp"))
                 nonEmptyNonNSP  = WSIs (return (\ws -> isJust (W.stack ws) && W.tag ws /= "nsp"))

@@ -1,3 +1,21 @@
+(defun open-buffer-with (txt)
+"create a new buffer, insert txt"
+(switch-window)
+(find-file txt)
+)
+
+(global-set-key (kbd "C-c C-c") 'comment-region)
+(global-set-key (kbd "C-c C-u") 'uncomment-region)
+
+(transient-mark-mode 1)
+
+(defun select-current-line ()
+  "Select the current line"
+  (interactive)
+  (end-of-line) ; move to end of line
+  (set-mark (line-beginning-position)))
+  (global-set-key (kbd "C-c l") 'select-current-line)
+
 (use-package rainbow-delimiters
       :ensure t
       :init )
@@ -168,8 +186,12 @@ middle"
 (setq next-line-add-newlines t)
 
 (use-package hl-line
-:ensure t)
+  :ensure t
+  :init)
+(set-face-background 'hl-line "#131313")
 (global-hl-line-mode 1)
+
+(set-face-attribute 'default nil :height 250)
 
 (defun scroll-up-and-next ()
 (interactive)
@@ -184,7 +206,20 @@ middle"
 (global-set-key (kbd "M-n") 'scroll-up-and-next)
 (global-set-key (kbd "M-p") 'scroll-down-and-prev)
 
-(set-face-attribute 'default nil :height 250)
+(define-key input-decode-map [?\C-m] [C-m])
+
+(defun next-by-five ()
+(interactive)
+(next-line 5))
+
+
+(defun prev-by-five ()
+(interactive)
+(previous-line 5))
+
+(global-set-key (kbd "<C-m>") 'next-by-five)
+(global-set-key (kbd "C-m") 'newline-and-indent)
+(global-set-key (kbd "C-o") 'prev-by-five)
 
 (defun open-flags ()
    (interactive)
@@ -200,6 +235,11 @@ middle"
   (interactive)
   (find-file "/home/calin/repos/github.com/hailey/hailey/app/README.md"))
 (global-set-key (kbd "C-c h") 'open-hailey-app)
+
+(defun open-kth ()
+(interactive)
+(find-file "/home/calin/KTH/TCOMK3/"))
+(global-set-key (kbd "C-c k") 'open-kth)
 
 (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
 (add-to-list 'org-structure-template-alist '("sh" . "src sh"))
@@ -270,7 +310,6 @@ middle"
 (global-set-key (kbd "<f1> l") 'counsel-find-library)
 (global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol)
 (global-set-key (kbd "<f2> u") 'counsel-unicode-char)
-(global-set-key (kbd "C-c k") 'counsel-ag)
 (define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history))
 
 (use-package doom-modeline
@@ -302,6 +341,7 @@ middle"
 
 (add-hook 'prog-mode-hook 'linum-mode)
 (add-hook 'org-mode-hook 'linum-mode)
+(add-hook 'vterm-mode-hook 'linum-mode)
 
 (use-package company
   :ensure t

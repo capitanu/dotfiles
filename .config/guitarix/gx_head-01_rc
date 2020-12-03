@@ -228,7 +228,7 @@
       "amp.fuzz": 0.7562,
       "amp.on_off": 1,
       "amp.out_amp": -1.7,
-      "amp.out_master": -15,
+      "amp.out_master": -12.84,
       "amp.tonestack.Bass": 0.23,
       "amp.tonestack.Middle": 0.54,
       "amp.tonestack.Treble": 0.655,
@@ -1340,7 +1340,7 @@
     }
   },
   "jack_connections", {
-    "input": ["system:capture_2"],
+    "input": ["system:capture_1"],
     "output1": ["system:playback_1"],
     "output2": ["system:playback_2"],
     "midi_input": [],

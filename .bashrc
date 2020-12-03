@@ -131,14 +131,15 @@ alias note='/home/calin/.config/scripts/devour/devour.sh emacsclient -c ~/.confi
 
 alias kth='ranger /home/calin/KTH/TCOMK3/'
 alias sharescreen='/home/calin/.config/scripts/devour/devour.sh vlc --no-video-deco --no-embedded-video --screen-fps=30 --screen-left=0 --screen-width=1920 --screen-height=1080 screen://'
+alias ccat='highlight -O xterm256 -s navajo-night' 
 
 alias starwars='telnet towel.blinkenlights.nl'
 
 alias d='eval $(__fzf_cd__)'
 alias ef="emacsclient -n \$(fzf)"
 alias e="/home/calin/.config/scripts/devour/devour.sh emacsclient -c \$(fzf)"
+alias en="/home/calin/.config/scripts/en.sh"
 alias v="vim \$(fzf)"
-alias c="__fzf_history__"
 alias g='git'
 
 #alias backupemacs='scp -P 3801 ~/.emacs.d/{init.el,config.org} darthvader11@capitanu.tech:~/Backups/'
@@ -159,18 +160,18 @@ alias g='git'
 
 
 
-#term=$(ps -aux | grep `ps -p $$ -o ppid=` | awk 'NR==1{print $11}');
-#case $term in
-#    */usr/bin/emacs*)
-#	found=1
-#export PS1
-#        ;;
-#    *)
-#	if [ "$TERM" != "linux" ]; then
-#	    source /home/calin/.config/scripts/pureline/pureline ~/.pureline.conf
-#	fi
- #       ;;
-#esac
+term=$(ps -aux | grep `ps -p $$ -o ppid=` | awk 'NR==1{print $11}');
+case $term in
+    */usr/bin/emacs*)
+	found=1
+        export PS1
+        ;;
+    *)
+	if [ "$TERM" != "linux" ]; then
+	    source /home/calin/.config/scripts/pureline/pureline ~/.pureline.conf
+	fi
+       ;;
+esac
 
 source /home/calin/.config/scripts/pureline/pureline ~/.pureline.conf
 eval $(opam env)

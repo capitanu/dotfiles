@@ -2,6 +2,31 @@
 #+AUTHOR: Calin Capitanu
 #+STARTUP: overview
 * Minor settings
+** en in bashrc
+  #+begin_src emacs-lisp
+  (defun open-buffer-with (txt)
+  "create a new buffer, insert txt"
+  (switch-window)
+  (find-file txt)
+  )
+  #+end_src
+** (un)comment region
+   #+begin_src emacs-lisp
+   (global-set-key (kbd "C-c C-c") 'comment-region)
+   (global-set-key (kbd "C-c C-u") 'uncomment-region)
+   #+end_src
+** Select current line
+   #+begin_src emacs-lisp
+   (transient-mark-mode 1)
+
+(defun select-current-line ()
+  "Select the current line"
+  (interactive)
+  (end-of-line) ; move to end of line
+  (set-mark (line-beginning-position)))
+  (global-set-key (kbd "C-c l") 'select-current-line)
+
+   #+end_src
 ** Rainbow
 #+BEGIN_SRC emacs-lisp
       (use-package rainbow-delimiters
@@ -217,12 +242,18 @@
    #+end_src
 ** hl-line-mode
 #+BEGIN_SRC emacs-lisp
-(use-package hl-line
-:ensure t)
+  (use-package hl-line
+  :ensure t
+  :init)
+(set-face-background 'hl-line "#131313")
 (global-hl-line-mode 1)
 #+END_SRC
-** scroll and next by 5 lines
+** font
+#+BEGIN_SRC emacs-lisp
+(set-face-attribute 'default nil :height 250)
+#+END_SRC
 
+** scroll and next by 5 lines
    #+begin_src emacs-lisp
    (defun scroll-up-and-next ()
    (interactive)
@@ -237,11 +268,23 @@
    (global-set-key (kbd "M-n") 'scroll-up-and-next)
    (global-set-key (kbd "M-p") 'scroll-down-and-prev)
    #+end_src
-** font
-#+BEGIN_SRC emacs-lisp
-(set-face-attribute 'default nil :height 250)
-#+END_SRC
+** next by 5 lines
+   #+begin_src emacs-lisp
+   (define-key input-decode-map [?\C-m] [C-m])
 
+   (defun next-by-five ()
+   (interactive)
+   (next-line 5))
+
+
+   (defun prev-by-five ()
+   (interactive)
+   (previous-line 5))
+
+   (global-set-key (kbd "<C-m>") 'next-by-five)
+   (global-set-key (kbd "C-m") 'newline-and-indent)
+   (global-set-key (kbd "C-o") 'prev-by-five)
+   #+end_src
 * Find specific files
 ** flags-hacking
    #+begin_src emacs-lisp
@@ -265,6 +308,13 @@
 (global-set-key (kbd "C-c h") 'open-hailey-app)
 
 #+END_SRC
+** kth
+   #+begin_src emacs-lisp
+   (defun open-kth ()
+(interactive)
+(find-file "/home/calin/KTH/TCOMK3/"))
+(global-set-key (kbd "C-c k") 'open-kth)
+   #+end_src
 * Org Bullets
 ** basic config
 #+BEGIN_SRC emacs-lisp
@@ -355,7 +405,6 @@
 (global-set-key (kbd "<f1> l") 'counsel-find-library)
 (global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol)
 (global-set-key (kbd "<f2> u") 'counsel-unicode-char)
-(global-set-key (kbd "C-c k") 'counsel-ag)
 (define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history))
   #+end_src
 * Doom modeline
@@ -394,6 +443,7 @@
 #+BEGIN_SRC emacs-lisp
   (add-hook 'prog-mode-hook 'linum-mode)
   (add-hook 'org-mode-hook 'linum-mode)
+  (add-hook 'vterm-mode-hook 'linum-mode)
 #+END_SRC
 * Workspaces
 * Auto-completion
