@@ -4,7 +4,6 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-alias ls='ls --color=auto'
 PS1='[\u@\h \W]\$ '
 export EDITOR="emacsclient -c"
 export TERM="xterm-256color"
@@ -12,15 +11,10 @@ export MCORE_STDLIB='/home/calin/repos/github.com/miking-lang/miking/stdlib'
 export MI_IPM='/home/calin/repos/github.com/capitanu/miking-ipm'
 export EMULATOR_NAME='OnePlus ONEPLUS A6003'
 export ANDROID_HOME='/home/calin/Android/Sdk'
-
+export PYTHONPATH=${PYTHONPATH}:/usr/lib/python3.9/dist-packages/
 export FZF_DEFAULT_OPS="--extended"
 
 #Hate HiDPI already
-export QT_AUTO_SCREEN_SCALE_FACTOR=1
-export QT_FONT_DPI=96 vym
-export GDK_SCALE=2
-export GDK_DPI_SCALE=0.5
-export ELM_SCALE=1.5
 
 export PATH=~/.local/bin:$PATH
 
@@ -30,7 +24,7 @@ source ~/.config/.git-prompt.sh
 
 source /usr/share/fzf/completion.bash
 source /usr/share/fzf/key-bindings.bash
-source $HOME/.cargo/env
+#source $HOME/.cargo/env
 
 export FZF_DEFAULT_COMMAND="\
   rg . \
@@ -49,6 +43,8 @@ export FZF_DEFAULT_DIRECTORY_COMMAND="\
   "
 
 
+
+
 export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
 export GIT_PS1_SHOWDIRTYSTATE=1
 #export GIT_PS1_SHOWSTASHSTATE=1
@@ -62,7 +58,7 @@ export LS_COLORS
 
 
 
-export PS1="\[\e[1;36m\]\W\[\e[36m\] \[\e[31m\]\$(__git_ps1 '  %s') \[\e[m\]"
+export PS1="\[\e[1;36m\]\W\[\e[36m\]  \[\e[31m\]\$(__git_ps1 '  %s') \[\e[m\]"
 
 if [ -f /etc/bash.command-not-found ]; then
     . /etc/bash.command-not-found
@@ -83,7 +79,7 @@ alias gita='git add .'
 alias ls='exa -al --color=always --group-directories-first' # my preferred listing
 alias la='exa -a --color=always --group-directories-first'  # all files and dirs
 alias ll='exa -l --color=always --group-directories-first'  # long format
-alias lt='exa -aT --color=always --group-directories-first' # tree listing
+alias lt='tree -a' # tree listing
 
 #alias cp='cp -i' 
 #alias mv='mv -i'
@@ -93,13 +89,17 @@ alias ...='cd ../..'
 alias ....='cd ../../..'
 	
 
-alias eb='cd && /home/calin/.config/scripts/devour/devour.sh emacsclient -c .bashrc' #fast fix of bashrc
+alias eb='/home/calin/.config/scripts/devour/devour.sh emacsclient -c /home/calin/.bashrc' #fast fix of bashrc
 alias capitanu='cd /home/calin/repos/github.com/capitanu/'
 alias ipm='cd /home/calin/repos/github.com/capitanu/miking-ipm/'
 alias hailey='cd /home/calin/repos/github.com/hailey'
+alias github='cd /home/calin/repos/github.com'
 alias connectweb='ssh -X -p3801 calin@capitanu.tech'
 alias webtech='sudo scp -r -P 3801 /home/calin/repos/github.com/capitanu/capitanu.tech/* calin@capitanu.tech:~/capitanu.tech'
 alias webcom='sudo scp -r -P 3801 ~/thedatabuddy.com/* calin@capitanu.tech:~/thedatabuddy.com'
+
+alias minecraft-server='cd /home/calin/games/minecraft-server && java -Xmx4G -Xms4G -jar server.jar nogui'
+alias ftb-server='cd /home/calin/games/ftb-server && ./start.sh'
 
 #alias vpnkth='cd /home/darthvader11/Documents/KTH/TCOMK2/Networking\ and\ Communication/Labs/Lab1/client/ && sudo openvpn --script-security 2 --config client.conf'
 alias kbdlight='sudo nano /sys/devices/platform/dell-laptop/leds/dell\:\:kbd_backlight/stop_timeout'
@@ -126,7 +126,7 @@ alias kbd='/home/calin/.config/scripts/changekbd.sh'
 alias pdfcompress='gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/prepress -dNOPAUSE -dQUIET -dBATCH '
 
 alias lcad='/home/calin/.config/scripts/devour/devour.sh /home/calin/Scripts/start_leocad.sh'
-alias loc='scc'
+alias loc='tokei'
 alias note='/home/calin/.config/scripts/devour/devour.sh emacsclient -c ~/.config/notes.org'
 
 alias kth='ranger /home/calin/KTH/TCOMK3/'
@@ -134,6 +134,10 @@ alias sharescreen='/home/calin/.config/scripts/devour/devour.sh vlc --no-video-d
 alias ccat='highlight -O xterm256 -s navajo-night' 
 
 alias starwars='telnet towel.blinkenlights.nl'
+alias thesistex='cd /home/calin/kth/TCOMK3/II143X_Degree_Project_in_Information_and_Communication_Technology/template && while inotifywait -e close_write thesis.tex ; do pdflatex thesis.tex; done'
+
+alias se='ls | rg '
+alias ds='lt | rg '
 
 alias d='eval $(__fzf_cd__)'
 alias ef="emacsclient -n \$(fzf)"
@@ -160,18 +164,20 @@ alias g='git'
 
 
 
-term=$(ps -aux | grep `ps -p $$ -o ppid=` | awk 'NR==1{print $11}');
-case $term in
-    */usr/bin/emacs*)
-	found=1
-        export PS1
-        ;;
-    *)
-	if [ "$TERM" != "linux" ]; then
-	    source /home/calin/.config/scripts/pureline/pureline ~/.pureline.conf
-	fi
-       ;;
-esac
+# term=$(ps -aux | grep `ps -p $$ -o ppid=` | awk 'NR==1{print $11}');
+# case $term in
+#     */usr/bin/emacs*)
+# 	found=1
+#         export PS1
+#         ;;
+#     *)
+# 	if [ "$TERM" != "linux" ]; then
+# 	    source /home/calin/.config/scripts/pureline/pureline ~/.pureline.conf
+# 	fi
+#        ;;
+# esac
 
-source /home/calin/.config/scripts/pureline/pureline ~/.pureline.conf
+#source /home/calin/.config/scripts/pureline/pureline ~/.pureline.conf
+export PS1
 eval $(opam env)
+

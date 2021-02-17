@@ -2,6 +2,20 @@
 #+AUTHOR: Calin Capitanu
 #+STARTUP: overview
 * Minor settings
+** tabbing
+   #+begin_src emacs-lisp
+    (setq-default c-basic-offset 4
+                  tab-width 4
+                  indent-tabs-mode t)
+   #+end_src
+** auto-refresh
+   #+begin_src emacs-lisp
+   (global-auto-revert-mode t)
+   #+end_src
+** truncate-lines
+   #+begin_src emacs-lisp
+(set-default 'truncate-lines t)
+   #+end_src
 ** en in bashrc
   #+begin_src emacs-lisp
   (defun open-buffer-with (txt)
@@ -250,7 +264,7 @@
 #+END_SRC
 ** font
 #+BEGIN_SRC emacs-lisp
-(set-face-attribute 'default nil :height 250)
+(set-face-attribute 'default nil :height 125)
 #+END_SRC
 
 ** scroll and next by 5 lines
@@ -290,7 +304,7 @@
    #+begin_src emacs-lisp
    (defun open-flags ()
    (interactive)
-(find-file "/home/calin/KTH/TCOMK3/EN2720_Ethical_Hacking/flags.org"))
+(find-file "/home/calin/kth/TCOMK3/EN2720_Ethical_Hacking/flags.org"))
 (global-set-key (kbd "C-c f") 'open-flags)
    #+end_src
 ** miking-ipm-readme
@@ -312,7 +326,7 @@
    #+begin_src emacs-lisp
    (defun open-kth ()
 (interactive)
-(find-file "/home/calin/KTH/TCOMK3/"))
+(find-file "/home/calin/kth/TCOMK3/"))
 (global-set-key (kbd "C-c k") 'open-kth)
    #+end_src
 * Org Bullets
@@ -382,6 +396,7 @@
 #+END_SRC
 
 * Ivy
+
   #+begin_src emacs-lisp
   (use-package ivy :ensure t
   :diminish (ivy-mode . "")
@@ -530,6 +545,7 @@
     (add-hook 'c++-mode-hook 'irony-mode)
     (add-hook 'c-mode-hook 'irony-mode)
     (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options))
+
 #+END_SRC
 
 *** python
@@ -710,3 +726,4 @@
     :ensure t
 )
     #+end_src
+

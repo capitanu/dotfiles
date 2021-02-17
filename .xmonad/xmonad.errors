@@ -1,0 +1,24 @@
+
+xmonad.hs:338:24: error:
+    • Ambiguous type variable ‘m0’ arising from a use of ‘spawn’
+      prevents the constraint ‘(MonadIO m0)’ from being solved.
+      Relevant bindings include
+        myMouseBindings :: [((Integer, Integer), p -> m0 ())]
+          (bound at xmonad.hs:336:1)
+      Probable fix: use a type annotation to specify what ‘m0’ should be.
+      These potential instances exist:
+        instance [safe] MonadIO IO -- Defined in ‘Control.Monad.IO.Class’
+        instance MonadIO Query -- Defined in ‘XMonad.Core’
+        instance MonadIO X -- Defined in ‘XMonad.Core’
+        ...plus two instances involving out-of-scope types
+        (use -fprint-potential-instances to see them all)
+    • In the expression:
+        spawn "pactl set-sink-volume @DEFAULT_SINK@ +5%"
+      In the expression:
+        (\ _ -> spawn "pactl set-sink-volume @DEFAULT_SINK@ +5%")
+      In the expression:
+        ((0, 18), 
+         (\ _ -> spawn "pactl set-sink-volume @DEFAULT_SINK@ +5%"))
+    |
+338 |       ((0, 18), (\_ -> spawn "pactl set-sink-volume @DEFAULT_SINK@ +5%" ))
+    |                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

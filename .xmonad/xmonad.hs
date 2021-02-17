@@ -122,10 +122,11 @@ myStartupHook = do
           spawn "xset -dms &"
           spawn "xbindkeys --poll-rc &"
           spawnOnce "qjackctl -s &"
-          spawnOnce "xinput set-prop 'DLL082A:01 06CB:76AF Touchpad' 'Device Enabled' 0 &"
-          spawnOnce "xinput set-prop 'ELAN Touchscreen' 'Device Enabled' 0 &"
+          spawnOnce "feh --bg-scale /home/calin/pictures/darth_vader.jpg"
           spawnOnce "/home/calin/.config/scripts/xrandrfix.sh &"
           spawnOnce "xsetroot -cursor_name left_ptr &"
+          spawnOnce "nvidia-settings -load-config-only"   
+          spawnOnce "/home/calin/.config/scripts/devour/devour.sh synergy"
 
 
 
@@ -179,7 +180,7 @@ mySpacing' i = spacingRaw True (Border i i i i) True (Border i i i i) True
 
 tall     = renamed [Replace "tall"]
            $ limitWindows 12
-           $ mySpacing 8
+           $ mySpacing 4
            $ ResizableTall 1 (3/100) (1/2) []
 magnify  = renamed [Replace "magnify"]
            $ magnifier
@@ -303,6 +304,7 @@ myKeys =
         , ("M-S-<KP_Subtract>", shiftTo Prev nonNSP >> moveTo Prev nonNSP)  -- Shifts focused window to prev ws
         , ("M-S-m", spawn "emacsclient -nc") -- start emacs
         , ("M-S-s", spawn "spotify")
+        , ("M-S-d", spawn "discord")
         , ("M-d", spawn "dmenu_run -i -p 'Arch Linux' -fn 'Ubuntu Mono:bold:pixelsize=20'")
         , ("M-S-b", spawn "brave")
         , ("M-S-g", spawn "guitarix")
@@ -369,8 +371,9 @@ main = do
                         , ppSep =  "<fc=#666666> <fn=2>|</fn> </fc>"                     -- Separators in xmobar
                         , ppUrgent = xmobarColor "#C45500" "" . wrap "!" "!"  -- Urgent workspace
                         , ppExtras  = [windowCount]                           -- # of windows current workspace
+                        --, ppOrder  = \(ws:l:t:ex) -> [ws,l]++ex++[t]
                         , ppOrder  = \(ws:l:t:ex) -> [ws]
                         }
         }
         `additionalKeysP` myKeys
-        `additionalMouseBindings` myMouseBindings
+        --`additionalMouseBindings` myMouseBindings

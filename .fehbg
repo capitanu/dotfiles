@@ -1,2 +1,2 @@
 #!/bin/sh
-feh --no-fehbg --bg-scale '/home/calin/.config/starwars.jpg' 
+feh --no-fehbg --bg-scale '/home/calin/pictures/darth_vader.jpg' 

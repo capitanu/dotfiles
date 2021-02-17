@@ -1,3 +1,11 @@
+(setq-default c-basic-offset 4
+              tab-width 4
+              indent-tabs-mode t)
+
+(global-auto-revert-mode t)
+
+(set-default 'truncate-lines t)
+
 (defun open-buffer-with (txt)
 "create a new buffer, insert txt"
 (switch-window)
@@ -17,8 +25,8 @@
   (global-set-key (kbd "C-c l") 'select-current-line)
 
 (use-package rainbow-delimiters
-      :ensure t
-      :init )
+  :ensure t
+  :init )
 (add-hook 'org-mode-hook 'rainbow-delimiters-mode)
 (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
 
@@ -28,11 +36,11 @@
 (global-prettify-symbols-mode 1)
 
 (setq electric-pair-pairs '(
-			      (?\( . ?\))
-			      (?\[ . ?\])
-			      (?\{ . ?\})
-			      (?\" . ?\")
-			      ))
+			  (?\( . ?\))
+			  (?\[ . ?\])
+			  (?\{ . ?\})
+			  (?\" . ?\")
+			  ))
 
 (defun syntax-for-org ()
 (interactive)
@@ -114,7 +122,7 @@ Will also prompt for a file to visit if current
 buffer is not visiting a file."
   (interactive "P")
   (if (or arg (not buffer-file-name))
-      (find-file (concat "/sudo:root@localhost:"
+  (find-file (concat "/sudo:root@localhost:"
 			 (ido-read-file-name "Find file(as root): ")))
     (find-alternate-file (concat "/sudo:root@localhost:" buffer-file-name))))
 
@@ -191,7 +199,7 @@ middle"
 (set-face-background 'hl-line "#131313")
 (global-hl-line-mode 1)
 
-(set-face-attribute 'default nil :height 250)
+(set-face-attribute 'default nil :height 125)
 
 (defun scroll-up-and-next ()
 (interactive)
@@ -223,7 +231,7 @@ middle"
 
 (defun open-flags ()
    (interactive)
-(find-file "/home/calin/KTH/TCOMK3/EN2720_Ethical_Hacking/flags.org"))
+(find-file "/home/calin/kth/TCOMK3/EN2720_Ethical_Hacking/flags.org"))
 (global-set-key (kbd "C-c f") 'open-flags)
 
 (defun open-readme ()
@@ -238,7 +246,7 @@ middle"
 
 (defun open-kth ()
 (interactive)
-(find-file "/home/calin/KTH/TCOMK3/"))
+(find-file "/home/calin/kth/TCOMK3/"))
 (global-set-key (kbd "C-c k") 'open-kth)
 
 (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
@@ -371,7 +379,7 @@ middle"
   :ensure t
   :config
     (use-package yasnippet-snippets
-      :ensure t)
+  :ensure t)
     (yas-reload-all))
 (yas-global-mode 1)
 (add-hook 'yas-minor-mode-hook (lambda ()
@@ -535,7 +543,7 @@ middle"
 (use-package flutter
   :after dart-mode
   :bind (:map dart-mode-map
-	      ("C-M-x" . #'flutter-run-or-hot-reload))
+	  ("C-M-x" . #'flutter-run-or-hot-reload))
   :custom
   (flutter-sdk-path "/opt/flutter/"))
 
