@@ -2,6 +2,17 @@
 #+AUTHOR: Calin Capitanu
 #+STARTUP: overview
 * Minor settings
+** fiplr
+   #+begin_src emacs-lisp
+   ;; fuzzy file finder
+(use-package fiplr
+:ensure t
+:config
+(setq fiplr-root-markers '(".git" ".svn"))
+(setq fiplr-ignored-globs '((directories (".git" ".svn"))
+(files ("*.jpg" "*.png" "*.zip" "*~"))))
+(global-set-key (kbd "C-c p p") 'fiplr-find-file))
+   #+end_src
 ** tabbing
    #+begin_src emacs-lisp
     (setq-default c-basic-offset 4
@@ -566,6 +577,9 @@
     (setq-local company-backends '((company-etags
                                     company-dabbrev-code))))
 
+(use-package python-black
+  :demand t
+  :after python)
 #+END_SRC
 
 *** emacs-lisp

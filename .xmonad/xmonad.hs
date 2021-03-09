@@ -306,7 +306,7 @@ myKeys =
         , ("M-S-s", spawn "spotify")
         , ("M-S-d", spawn "discord")
         , ("M-d", spawn "dmenu_run -i -p 'Arch Linux' -fn 'Ubuntu Mono:bold:pixelsize=20'")
-        , ("M-S-b", spawn "brave")
+        , ("M-S-b", spawn "firefox")
         , ("M-S-g", spawn "guitarix")
         , ("M-S-p", spawn "/home/calin/.config/scripts/rraudio.sh")
         , ("M-S-h", spawn (myTerminal ++ " -e htop")) 
@@ -376,4 +376,4 @@ main = do
                         }
         }
         `additionalKeysP` myKeys
-        --`additionalMouseBindings` myMouseBindings
+        `additionalMouseBindings` myMouseBindings

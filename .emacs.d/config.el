@@ -1,3 +1,12 @@
+;; fuzzy file finder
+(use-package fiplr
+:ensure t
+:config
+(setq fiplr-root-markers '(".git" ".svn"))
+(setq fiplr-ignored-globs '((directories (".git" ".svn"))
+(files ("*.jpg" "*.png" "*.zip" "*~"))))
+(global-set-key (kbd "C-c p p") 'fiplr-find-file))
+
 (setq-default c-basic-offset 4
               tab-width 4
               indent-tabs-mode t)
@@ -434,6 +443,10 @@ middle"
   (defun python-mode-company-init ()
     (setq-local company-backends '((company-etags
                                     company-dabbrev-code))))
+
+(use-package python-black
+  :demand t
+  :after python)
 
 (add-hook 'emacs-lisp-mode-hook 'eldoc-mode)
 (add-hook 'emacs-lisp-mode-hook 'yas-minor-mode)

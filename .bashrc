@@ -136,6 +136,10 @@ alias ccat='highlight -O xterm256 -s navajo-night'
 alias starwars='telnet towel.blinkenlights.nl'
 alias thesistex='cd /home/calin/kth/TCOMK3/II143X_Degree_Project_in_Information_and_Communication_Technology/template && while inotifywait -e close_write thesis.tex ; do pdflatex thesis.tex; done'
 
+alias btc='curl rate.sx/btc'
+alias crypto='curl rate.sx'
+
+
 alias se='ls | rg '
 alias ds='lt | rg '
 
