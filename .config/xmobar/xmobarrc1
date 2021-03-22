@@ -22,7 +22,7 @@ Config {
 
      , bgColor = "#202020"
      , fgColor = "#f07178"
-     , position = Static { xpos = 1920 , ypos = 0, width = 1920, height = 15 }
+     , position = Static { xpos = 1919 , ypos = 420, width = 1920, height = 15 }
      , border =       BottomB
      , borderColor =  "#646464"
 

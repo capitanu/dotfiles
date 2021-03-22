@@ -1,2 +1,2 @@
 #!/bin/sh
-feh --no-fehbg --bg-scale '/home/calin/pictures/darth_vader.jpg' 
+feh --no-fehbg --bg-fill '/home/calin/pictures/secondary.jpg' '/home/calin/pictures/darth_vader.jpg' '/home/calin/pictures/secondary.jpg' 

@@ -11,12 +11,14 @@ export MCORE_STDLIB='/home/calin/repos/github.com/miking-lang/miking/stdlib'
 export MI_IPM='/home/calin/repos/github.com/capitanu/miking-ipm'
 export EMULATOR_NAME='OnePlus ONEPLUS A6003'
 export ANDROID_HOME='/home/calin/Android/Sdk'
-export PYTHONPATH=${PYTHONPATH}:/usr/lib/python3.9/dist-packages/
+export PYTHONPATH=${PYTHONPATH}:/usr/lib/python3.9/site-packages/
 export FZF_DEFAULT_OPS="--extended"
 
 #Hate HiDPI already
 
 export PATH=~/.local/bin:$PATH
+
+export CLOUDSDK_PYTHON='/usr/bin/python'
 
 source ~/.config/.git-prompt.sh
 . ~/.config/.git-prompt.sh
@@ -135,6 +137,8 @@ alias ccat='highlight -O xterm256 -s navajo-night'
 
 alias starwars='telnet towel.blinkenlights.nl'
 alias thesistex='cd /home/calin/kth/TCOMK3/II143X_Degree_Project_in_Information_and_Communication_Technology/template && while inotifywait -e close_write thesis.tex ; do pdflatex thesis.tex; done'
+
+alias twmn-docker='TWMN_GCE_PROJECT=en2720-2017 docker-compose --file /home/calin/repos/github.com/ethicalhacking/twmn/resources/cicd/docker/docker-compose.standalone.yml run twmn'
 
 alias btc='curl rate.sx/btc'
 alias crypto='curl rate.sx'

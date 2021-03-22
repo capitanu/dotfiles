@@ -16,7 +16,7 @@ import qualified XMonad.StackSet as W
 
     -- Actions
 import XMonad.Actions.CopyWindow (kill1, killAllOtherCopies)
-import XMonad.Actions.CycleWS (moveTo, shiftTo, WSType(..), nextScreen, prevScreen)
+import XMonad.Actions.CycleWS (moveTo, shiftTo, WSType(..), nextScreen, prevScreen, nextWS, prevWS)
 import XMonad.Actions.GridSelect
 import XMonad.Actions.MouseResize
 import XMonad.Actions.Promote
@@ -30,6 +30,7 @@ import qualified XMonad.Actions.Search as S
 import Data.Char (isSpace)
 import Data.Monoid
 import Data.Maybe (isJust)
+import Data.Maybe (fromJust)
 import Data.Tree
 import qualified Data.Map as M
 
@@ -122,11 +123,13 @@ myStartupHook = do
           spawn "xset -dms &"
           spawn "xbindkeys --poll-rc &"
           spawnOnce "qjackctl -s &"
-          spawnOnce "feh --bg-scale /home/calin/pictures/darth_vader.jpg"
+          spawnOnce "feh --bg-scale /home/calin/pictures/secondary.jpg --bg-scale /home/calin/pictures/darth_vader.jpg --bg-fill /home/calin/pictures/secondary.jpg"
           spawnOnce "/home/calin/.config/scripts/xrandrfix.sh &"
           spawnOnce "xsetroot -cursor_name left_ptr &"
           spawnOnce "nvidia-settings -load-config-only"   
           spawnOnce "/home/calin/.config/scripts/devour/devour.sh synergy"
+          spawnOnce "spotify"
+          spawnOnce "slack"
 
 
 
@@ -246,38 +249,42 @@ myLayoutHook = avoidStruts $ mouseResize $ windowArrange $ T.toggleLayouts float
                                  -- ||| spirals
                                  -- ||| threeCol
                                  -- ||| threeRow
+                                 
 
-xmobarEscape :: String -> String
-xmobarEscape = concatMap doubleLts
-  where
-        doubleLts '<' = "<<"
-        doubleLts x   = [x]
 
-myWorkspaces :: [String]
-myWorkspaces = clickable . (map xmobarEscape)
-               $ ["Alderaan", "Bespin", "Coruscant", "Dagobah", "Endor", "Felucia", "Geonosis", "Hoth", "Iridonia"]
-  where
-        clickable l = [ "<action=xdotool key super+" ++ show (n) ++ "> " ++ ws ++ " </action>" |
-                      (i,ws) <- zip [1..9] l,
-                      let n = i ]
+myWorkspaces = [" Alderaan ", " Bespin ", " Coruscant ", " Dagobah ", " Endor ", " Felucia ", " Geonosis ", " Hoth ", " Iridonia ", " Jakku ", " Kamino ", " Mustafar "]
+myWorkspaceIndices = M.fromList $ zipWith (,) myWorkspaces [1..] -- (,) == \x y -> (x,y)
 
+replaceSymbol :: Integer -> String
+replaceSymbol 11      = "minus"
+replaceSymbol 10      = "0"
+replaceSymbol 12     = "equal"
+replaceSymbol x       =  show x
+
+
+clickable ws = "<action=xdotool key super+"++replaceSymbol i++">"++ws++"</action>"
+  where i = fromJust $ M.lookup ws myWorkspaceIndices
+
+  
 myManageHook :: XMonad.Query (Data.Monoid.Endo WindowSet)
 myManageHook = composeAll
      [
-       className =? "Spotify"     --> doShift ( myWorkspaces !! 8 )
-     , className =? "VirtualBox Manager" --> doShift  ( myWorkspaces !! 3 )
-     , className =? "QjackCtl"     --> doShift ( myWorkspaces !! 7 )
+       className =? "Spotify"     --> doShift ( myWorkspaces !! 11 )
+     , className =? "VirtualBox Manager" --> doShift  ( myWorkspaces !! 6 )
+     , className =? "QjackCtl"     --> doShift ( myWorkspaces !! 10 )
+     , className =? "Slack"     --> doShift ( myWorkspaces !! 9 )
      , className =? "Tk"    --> doFloat
      , className =? "org-eclipse-jdt-internal-jarinjarloader-JarRsrcLoader"    --> doFloat
      ] <+> namedScratchpadManageHook myScratchPads
 
 myDynHook = composeAll [
-  className =? "Spotify" --> doShift ( myWorkspaces !! 8 )
+  className =? "Spotify" --> doShift ( myWorkspaces !! 11 )
                        ]
 
 myLogHook :: X ()
 myLogHook = fadeInactiveLogHook fadeAmount
     where fadeAmount = 1.0
+          
 
 myKeys :: [(String, X ())]
 myKeys =
@@ -325,8 +332,16 @@ myKeys =
         , ("<button-1>", spawn "alacritty")
         , ("M-S-<Print>", spawn "maim -s --format=png /dev/stdout | xclip -selection clipboard -t image/png -i")
         , ("M-o", nextScreen)  -- Switch focus to next monitor
---        , ("M-,", prevScreen)  -- Switch focus to prev monitor
+        , ("M-[", prevWS)
+        , ("M-]", nextWS)
+        , ("M-0", windows $ W.greedyView (myWorkspaces !! 9))
+        , ("M-S-0", windows $ W.shift (myWorkspaces !! 9))
+        , ("M--", windows $ W.greedyView (myWorkspaces !! 10))
+        , ("M-S--", windows $ W.shift (myWorkspaces !! 10))
+        , ("M-=", windows $ W.greedyView (myWorkspaces !! 11))
+        , ("M-S-=", windows $ W.shift (myWorkspaces !! 11))
 
+--        , ("M-,", prevScreen)  -- Switch focus to prev monitor
         ]
           where nonNSP          = WSIs (return (\ws -> W.tag ws /= "nsp"))
                 nonEmptyNonNSP  = WSIs (return (\ws -> isJust (W.stack ws) && W.tag ws /= "nsp"))
@@ -346,6 +361,7 @@ main :: IO ()
 main = do
   xmproc0 <- spawnPipe "xmobar -x 0 /home/calin/.config/xmobar/xmobarrc0"
   xmproc1 <- spawnPipe "xmobar -x 1 /home/calin/.config/xmobar/xmobarrc1"
+  xmproc2 <- spawnPipe "xmobar -x 2 /home/calin/.config/xmobar/xmobarrc2"
   xmonad $ ewmh def
         { manageHook = (isDialog --> doF W.shiftMaster <+> doF W.swapDown) <+> ( isFullscreen --> doFullFloat ) <+> myManageHook <+> manageDocks
         , handleEventHook    = dynamicPropertyChange "WM_NAME" myDynHook
@@ -362,18 +378,17 @@ main = do
         , normalBorderColor  = myNormColor
         , focusedBorderColor = myFocusColor
         , logHook = workspaceHistoryHook <+> myLogHook <+> dynamicLogWithPP xmobarPP
-          { ppOutput = \x -> hPutStrLn xmproc0 x   >> hPutStrLn xmproc1 x
-                        , ppCurrent = xmobarColor "#c3e88d" "" . wrap "[" "]" -- Current workspace in xmobar
-                        , ppVisible = xmobarColor "#c3e88d" ""                -- Visible but not current workspace
-                        , ppHidden = xmobarColor "#82AAFF" "" . wrap "*" ""   -- Hidden workspaces in xmobar
-                        , ppHiddenNoWindows = xmobarColor "#c792ea" ""        -- Hidden workspaces (no windows)
-                        , ppTitle = xmobarColor "#b3afc2" "" . shorten 60     -- Title of active window in xmobar
-                        , ppSep =  "<fc=#666666> <fn=2>|</fn> </fc>"                     -- Separators in xmobar
-                        , ppUrgent = xmobarColor "#C45500" "" . wrap "!" "!"  -- Urgent workspace
-                        , ppExtras  = [windowCount]                           -- # of windows current workspace
-                        --, ppOrder  = \(ws:l:t:ex) -> [ws,l]++ex++[t]
-                        , ppOrder  = \(ws:l:t:ex) -> [ws]
-                        }
+          { ppOutput = \x -> hPutStrLn xmproc0 x   >> hPutStrLn xmproc1 x    >> hPutStrLn xmproc2 x
+          , ppCurrent = xmobarColor "#c3e88d" "" . wrap "[" "]" -- Current workspace in xmobar
+          , ppVisible = xmobarColor "#c3e88d" "" . clickable               -- Visible but not current workspace
+          , ppHidden = xmobarColor "#82AAFF" "" . wrap "*" "" . clickable   -- Hidden workspaces in xmobar
+          , ppHiddenNoWindows = xmobarColor "#c792ea" "" . clickable        -- Hidden workspaces (no windows)
+          , ppTitle = xmobarColor "#b3afc2" "" . shorten 60     -- Title of active window in xmobar
+          , ppSep =  "<fc=#666666> <fn=2>|</fn> </fc>"                     -- Separators in xmobar
+          , ppUrgent = xmobarColor "#C45500" "" . wrap "!" "!"  -- Urgent workspace
+          , ppExtras  = [windowCount]                           -- # of windows current workspace
+          , ppOrder  = \(ws:l:t:ex) -> [ws]
+          }
         }
         `additionalKeysP` myKeys
         `additionalMouseBindings` myMouseBindings
