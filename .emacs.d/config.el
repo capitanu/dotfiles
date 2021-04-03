@@ -1,3 +1,9 @@
+(setq-default c-basic-offset 4
+              tab-width 4
+              indent-tabs-mode t)
+
+(global-auto-revert-mode)
+
 (defun open-buffer-with (txt)
 "create a new buffer, insert txt"
 (switch-window)

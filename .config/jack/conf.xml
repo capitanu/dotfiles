@@ -4,17 +4,15 @@ JACK settings, as persisted by D-Bus object.
 You probably don't want to edit this because
 it will be overwritten next time jackdbus saves.
 -->
-<!-- Fri Dec  4 19:22:17 2020 -->
+<!-- Fri Apr  2 19:34:22 2021 -->
 <jack>
  <engine>
   <option name="driver">alsa</option>
   <option name="realtime">true</option>
   <option name="realtime-priority">10</option>
   <option name="verbose">false</option>
-  <option name="clock-source">0</option>
   <option name="port-max">2048</option>
   <option name="sync">true</option>
-  <option name="self-connect-mode"> </option>
  </engine>
  <drivers>
   <driver name="proxy">

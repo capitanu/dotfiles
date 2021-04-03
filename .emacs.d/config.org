@@ -2,6 +2,16 @@
 #+AUTHOR: Calin Capitanu
 #+STARTUP: overview
 * Minor settings
+** tabbing
+  #+begin_src emacs-lisp
+(setq-default c-basic-offset 4
+              tab-width 4
+              indent-tabs-mode t)
+  #+end_src
+** global autorevert
+   #+begin_src emacs-lisp
+   (global-auto-revert-mode)
+   #+end_src
 ** en in bashrc
   #+begin_src emacs-lisp
   (defun open-buffer-with (txt)

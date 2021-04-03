@@ -126,6 +126,7 @@ myStartupHook = do
           spawnOnce "xinput set-prop 'ELAN Touchscreen' 'Device Enabled' 0 &"
           spawnOnce "/home/calin/.config/scripts/xrandrfix.sh &"
           spawnOnce "xsetroot -cursor_name left_ptr &"
+          spawn "feh --bg-scale /home/calin/.config/starwars.jpg"
 
 
 
@@ -179,7 +180,7 @@ mySpacing' i = spacingRaw True (Border i i i i) True (Border i i i i) True
 
 tall     = renamed [Replace "tall"]
            $ limitWindows 12
-           $ mySpacing 8
+           $ mySpacing 2
            $ ResizableTall 1 (3/100) (1/2) []
 magnify  = renamed [Replace "magnify"]
            $ magnifier
@@ -192,7 +193,7 @@ floats   = renamed [Replace "floats"]
            $ limitWindows 20 simplestFloat
 grid     = renamed [Replace "grid"]
            $ limitWindows 12
-           $ mySpacing 8
+           $ mySpacing 2
            $ mkToggle (single MIRROR)
            $ Grid (16/10)
 spirals  = renamed [Replace "spirals"]
@@ -343,7 +344,6 @@ myMouseBindings  =
 main :: IO ()
 main = do
   xmproc0 <- spawnPipe "xmobar -x 0 /home/calin/.config/xmobar/xmobarrc0"
-  xmproc1 <- spawnPipe "xmobar -x 1 /home/calin/.config/xmobar/xmobarrc1"
   xmonad $ ewmh def
         { manageHook = (isDialog --> doF W.shiftMaster <+> doF W.swapDown) <+> ( isFullscreen --> doFullFloat ) <+> myManageHook <+> manageDocks
         , handleEventHook    = dynamicPropertyChange "WM_NAME" myDynHook
@@ -360,7 +360,7 @@ main = do
         , normalBorderColor  = myNormColor
         , focusedBorderColor = myFocusColor
         , logHook = workspaceHistoryHook <+> myLogHook <+> dynamicLogWithPP xmobarPP
-          { ppOutput = \x -> hPutStrLn xmproc0 x   >> hPutStrLn xmproc1 x
+          { ppOutput = \x -> hPutStrLn xmproc0 x   
                         , ppCurrent = xmobarColor "#c3e88d" "" . wrap "[" "]" -- Current workspace in xmobar
                         , ppVisible = xmobarColor "#c3e88d" ""                -- Visible but not current workspace
                         , ppHidden = xmobarColor "#82AAFF" "" . wrap "*" ""   -- Hidden workspaces in xmobar
