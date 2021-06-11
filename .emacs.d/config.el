@@ -1,3 +1,6 @@
+;; (set-frame-parameter (selected-frame) 'alpha '(95 95))
+;; (add-to-list 'default-frame-alist '(alpha 95 95))
+
 ;; fuzzy file finder
 (use-package fiplr
 :ensure t
@@ -34,8 +37,8 @@
   (global-set-key (kbd "C-c l") 'select-current-line)
 
 (use-package rainbow-delimiters
-  :ensure t
-  :init )
+      :ensure t
+      :init )
 (add-hook 'org-mode-hook 'rainbow-delimiters-mode)
 (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
 
@@ -45,11 +48,11 @@
 (global-prettify-symbols-mode 1)
 
 (setq electric-pair-pairs '(
-			  (?\( . ?\))
-			  (?\[ . ?\])
-			  (?\{ . ?\})
-			  (?\" . ?\")
-			  ))
+			      (?\( . ?\))
+			      (?\[ . ?\])
+			      (?\{ . ?\})
+			      (?\" . ?\")
+			      ))
 
 (defun syntax-for-org ()
 (interactive)
@@ -131,7 +134,7 @@ Will also prompt for a file to visit if current
 buffer is not visiting a file."
   (interactive "P")
   (if (or arg (not buffer-file-name))
-  (find-file (concat "/sudo:root@localhost:"
+      (find-file (concat "/sudo:root@localhost:"
 			 (ido-read-file-name "Find file(as root): ")))
     (find-alternate-file (concat "/sudo:root@localhost:" buffer-file-name))))
 
@@ -272,6 +275,7 @@ middle"
   :ensure t
   :config
   (add-hook 'org-mode-hook (lambda () (org-bullets-mode)))
+  (add-hook 'org-mode-hook (lambda () (electric-indent-mode 0)))
   (add-hook 'org-mode-hook 'prettify-symbols-mode))
 
 (global-set-key (kbd "C-x C-b") 'counsel-switch-buffer)
@@ -388,7 +392,7 @@ middle"
   :ensure t
   :config
     (use-package yasnippet-snippets
-  :ensure t)
+      :ensure t)
     (yas-reload-all))
 (yas-global-mode 1)
 (add-hook 'yas-minor-mode-hook (lambda ()
@@ -556,7 +560,7 @@ middle"
 (use-package flutter
   :after dart-mode
   :bind (:map dart-mode-map
-	  ("C-M-x" . #'flutter-run-or-hot-reload))
+	      ("C-M-x" . #'flutter-run-or-hot-reload))
   :custom
   (flutter-sdk-path "/opt/flutter/"))
 

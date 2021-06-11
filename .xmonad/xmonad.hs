@@ -24,6 +24,7 @@ import XMonad.Actions.RotSlaves (rotSlavesDown, rotAllDown)
 import qualified XMonad.Actions.TreeSelect as TS
 import XMonad.Actions.WindowGo (runOrRaise)
 import XMonad.Actions.WithAll (sinkAll, killAll)
+import XMonad.Actions.PhysicalScreens
 import qualified XMonad.Actions.Search as S
 
     -- Data
@@ -122,14 +123,17 @@ myStartupHook = do
           spawn "xset s off &"
           spawn "xset -dms &"
           spawn "xbindkeys --poll-rc &"
+          spawnOnce "DISPLAY=\":0\" picom -b"
           spawnOnce "qjackctl -s &"
-          spawnOnce "feh --bg-scale /home/calin/pictures/secondary.jpg --bg-scale /home/calin/pictures/darth_vader.jpg --bg-fill /home/calin/pictures/secondary.jpg"
+          spawnOnce "feh --bg-scale /home/calin/pictures/2.jpg --bg-scale /home/calin/pictures/3.jpg --bg-fill /home/calin/pictures/1.jpg"
+          spawnOnce "systemctl start --now --user imwheel"
           spawnOnce "/home/calin/.config/scripts/xrandrfix.sh &"
           spawnOnce "xsetroot -cursor_name left_ptr &"
           spawnOnce "nvidia-settings -load-config-only"   
-          spawnOnce "/home/calin/.config/scripts/devour/devour.sh synergy"
+--          spawnOnce "/home/calin/.config/scripts/devour/devour.sh synergy"
           spawnOnce "spotify"
           spawnOnce "slack"
+          spawnOnce "liquidctl -n 0 set led color fixed ff0000"
 
 
 
@@ -241,10 +245,10 @@ myLayoutHook = avoidStruts $ mouseResize $ windowArrange $ T.toggleLayouts float
              where
                -- I've commented out the layouts I don't use.
                myDefaultLayout =     tall
-                                 ||| magnify
-                                 ||| noBorders monocle
-                                 ||| floats
-                                 -- ||| grid
+                                 -- ||| magnify
+                                 -- ||| noBorders monocle
+                                 -- ||| floats
+                                 ||| grid
                                  ||| noBorders tabs
                                  -- ||| spirals
                                  -- ||| threeCol
@@ -340,7 +344,6 @@ myKeys =
         , ("M-S--", windows $ W.shift (myWorkspaces !! 10))
         , ("M-=", windows $ W.greedyView (myWorkspaces !! 11))
         , ("M-S-=", windows $ W.shift (myWorkspaces !! 11))
-
 --        , ("M-,", prevScreen)  -- Switch focus to prev monitor
         ]
           where nonNSP          = WSIs (return (\ws -> W.tag ws /= "nsp"))
@@ -379,10 +382,10 @@ main = do
         , focusedBorderColor = myFocusColor
         , logHook = workspaceHistoryHook <+> myLogHook <+> dynamicLogWithPP xmobarPP
           { ppOutput = \x -> hPutStrLn xmproc0 x   >> hPutStrLn xmproc1 x    >> hPutStrLn xmproc2 x
-          , ppCurrent = xmobarColor "#c3e88d" "" . wrap "[" "]" -- Current workspace in xmobar
-          , ppVisible = xmobarColor "#c3e88d" "" . clickable               -- Visible but not current workspace
-          , ppHidden = xmobarColor "#82AAFF" "" . wrap "*" "" . clickable   -- Hidden workspaces in xmobar
-          , ppHiddenNoWindows = xmobarColor "#c792ea" "" . clickable        -- Hidden workspaces (no windows)
+          , ppCurrent = xmobarColor "#aa1313" "" . wrap "[" "]" -- Current workspace in xmobar
+          , ppVisible = xmobarColor "#aa1313" "" . clickable               -- Visible but not current workspace
+          , ppHidden = xmobarColor "#994599" "" . wrap "*" "" . clickable   -- Hidden workspaces in xmobar
+          , ppHiddenNoWindows = xmobarColor "#797979" "" . clickable        -- Hidden workspaces (no windows)
           , ppTitle = xmobarColor "#b3afc2" "" . shorten 60     -- Title of active window in xmobar
           , ppSep =  "<fc=#666666> <fn=2>|</fn> </fc>"                     -- Separators in xmobar
           , ppUrgent = xmobarColor "#C45500" "" . wrap "!" "!"  -- Urgent workspace

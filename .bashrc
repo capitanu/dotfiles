@@ -45,7 +45,9 @@ export FZF_DEFAULT_DIRECTORY_COMMAND="\
   "
 
 
-
+if [[ -f /usr/share/bash-completion/bash_completion ]]; then
+  . /usr/share/bash-completion/bash_completion
+fi
 
 export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
 export GIT_PS1_SHOWDIRTYSTATE=1
@@ -132,7 +134,7 @@ alias loc='tokei'
 alias note='/home/calin/.config/scripts/devour/devour.sh emacsclient -c ~/.config/notes.org'
 
 alias kth='ranger /home/calin/KTH/TCOMK3/'
-alias sharescreen='/home/calin/.config/scripts/devour/devour.sh vlc --no-video-deco --no-embedded-video --screen-fps=30 --screen-left=0 --screen-width=1920 --screen-height=1080 screen://'
+alias sharescreen='/home/calin/.config/scripts/devour/devour.sh vlc --no-video-deco --no-embedded-video --screen-fps=30 --screen-left=1920 --screen-top=420 --screen-width=1920 --screen-height=1080 screen://'
 alias ccat='highlight -O xterm256 -s navajo-night' 
 
 alias starwars='telnet towel.blinkenlights.nl'
@@ -189,3 +191,4 @@ alias g='git'
 export PS1
 eval $(opam env)
 
+alias cat='bat'

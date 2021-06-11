@@ -1,4 +1,4 @@
-["gx_head_file_version", [1, 2, "0.42.0"],
+["gx_head_file_version", [1, 2, "0.42.1"],
   "settings", {
     "GCB_95.s_h": 0,
     "IR.s_h": 0,
@@ -666,7 +666,7 @@
       "gx_distortion.trigger": 0.12,
       "gx_distortion.vibrato": 1,
       "gx_distortion.wet_dry": 100,
-      "gxdistortion.drive": 0.4374,
+      "gxdistortion.drive": 0.43748,
       "gxdistortion.wet_dry": 0,
       "hfb.Intensity": 0.21,
       "hfb.Volume": 0,
