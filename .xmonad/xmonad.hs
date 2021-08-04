@@ -120,12 +120,10 @@ myStartupHook :: X ()
 myStartupHook = do
           setWMName "LG3D"
           spawn "xmodmap /home/calin/.Xmodmap"
-          spawn "xset s off &"
-          spawn "xset -dms &"
           spawn "xbindkeys --poll-rc &"
           spawnOnce "DISPLAY=\":0\" picom -b"
           spawnOnce "qjackctl -s &"
-          spawnOnce "feh --bg-scale /home/calin/pictures/2.jpg --bg-scale /home/calin/pictures/3.jpg --bg-fill /home/calin/pictures/1.jpg"
+          spawnOnce "feh --bg-scale /home/calin/pictures/3.jpg --bg-scale /home/calin/pictures/1.jpg --bg-fill /home/calin/pictures/2.jpg"
           spawnOnce "systemctl start --now --user imwheel"
           spawnOnce "/home/calin/.config/scripts/xrandrfix.sh &"
           spawnOnce "xsetroot -cursor_name left_ptr &"
@@ -134,6 +132,9 @@ myStartupHook = do
           spawnOnce "spotify"
           spawnOnce "slack"
           spawnOnce "liquidctl -n 0 set led color fixed ff0000"
+          spawn "xset s off -dpms"
+          spawn "xset s 0 0"
+
 
 
 

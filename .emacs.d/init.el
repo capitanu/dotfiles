@@ -28,8 +28,8 @@
   :config
   (setq doom-themes-enable-bold t    
         doom-themes-enable-italic t)
-  (setq doom-font (font-spec :family "monospace" :size 11 :weight 'semi-light)
-	doom-variable-pitch-font (font-spec :family "sans" :size 11))
+  (setq doom-font (font-spec :family "monospace" :size 13 :weight 'semi-light)
+	doom-variable-pitch-font (font-spec :family "sans" :size 13))
   (load-theme 'doom-one t)
   (doom-themes-visual-bell-config) 
   (doom-themes-org-config))

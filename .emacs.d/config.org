@@ -280,7 +280,7 @@
 #+END_SRC
 ** font
 #+BEGIN_SRC emacs-lisp
-(set-face-attribute 'default nil :height 125)
+(set-face-attribute 'default nil :height 70)
 #+END_SRC
 
 ** scroll and next by 5 lines
