@@ -21,7 +21,7 @@ Config {
                            ]
      , bgColor = "#202020"
      , fgColor = "#f07178"
-     , position = Static { xpos = 0 , ypos = 420, width = 1920, height = 15 }
+     , position = Static { xpos = 0 , ypos = 420, width = 1920, height = 20 }
      , border =       BottomB
      , borderColor =  "#646464"
 
