@@ -2,6 +2,36 @@
 #+AUTHOR: Calin Capitanu
 #+STARTUP: overview
 * Minor settings
+** show trailing white spaces
+   #+begin_src emacs-lisp
+	 (global-set-key (kbd "C-x w") 'whitespace-mode)
+	 (require 'whitespace)
+   #+end_src
+** indent mode
+   #+begin_src emacs-lisp
+(electric-indent-mode 1)
+   #+end_src
+** mouse-scroll
+   #+begin_src emacs-lisp
+(global-set-key (kbd "C-M-(") (kbd "<mouse-4>"))
+(global-set-key (kbd "C-M-)") (kbd "<mouse-5>"))
+   #+end_src
+** render markdown
+   #+begin_src emacs-lisp
+(defun gk-markdown-preview-buffer ()
+  (interactive)
+  (let* ((buf-this (buffer-name (current-buffer)))
+         (buf-html (get-buffer-create
+                    (format "*gk-md-html (%s)*" buf-this))))
+    (markdown-other-window (buffer-name buf-html))
+    (shr-render-buffer buf-html)
+    (eww-mode)
+    (kill-buffer buf-html)))
+   #+end_src
+** display column number
+   #+begin_src emacs-lisp
+(setq column-number-mode t)
+   #+end_src
 ** background-transparency
    #+begin_src emacs-lisp
 ;; (set-frame-parameter (selected-frame) 'alpha '(95 95))
@@ -76,7 +106,7 @@
 #+END_SRC
 ** electric
 #+BEGIN_SRC emacs-lisp
-    (setq electric-pair-pairs '(
+	(setq electric-pair-pairs '(
 				(?\( . ?\))
 				(?\[ . ?\])
 				(?\{ . ?\})
@@ -90,7 +120,7 @@
   (add-hook 'org-mode-hook 'syntax-for-org)
 
 
-    (electric-pair-mode 1)
+	(electric-pair-mode 1)
 
 #+END_SRC
 ** Hungry delete
@@ -166,11 +196,12 @@
 #+END_SRC
 ** vterm
 #+BEGIN_SRC emacs-lisp
-(use-package vterm
-    :ensure t)
-  (global-set-key (kbd "<s-M-return>") 'vterm)
-(add-hook 'vterm-mode-hook (lambda ()
-  (setq-local global-hl-line-mode nil)))
+  (use-package vterm
+	  :ensure t)
+	(global-set-key (kbd "<s-M-return>") 'vterm)
+  (add-hook 'vterm-mode-hook (lambda ()
+	(setq-local global-hl-line-mode nil)))
+  (setq vterm-max-scrollback 100000)
 #+END_SRC
 ** welcome screen
 #+BEGIN_SRC emacs-lisp
@@ -312,7 +343,6 @@
    (previous-line 5))
 
    (global-set-key (kbd "<C-m>") 'next-by-five)
-   (global-set-key (kbd "C-m") 'newline-and-indent)
    (global-set-key (kbd "C-o") 'prev-by-five)
    #+end_src
 * Find specific files
@@ -342,7 +372,7 @@
    #+begin_src emacs-lisp
    (defun open-kth ()
 (interactive)
-(find-file "/home/calin/kth/TCOMK3/"))
+(find-file "/home/calin/kth/TCSCM1/"))
 (global-set-key (kbd "C-c k") 'open-kth)
    #+end_src
 * Org Bullets
@@ -367,6 +397,34 @@
     (add-hook 'org-mode-hook (lambda () (electric-indent-mode 0)))
     (add-hook 'org-mode-hook 'prettify-symbols-mode))
 #+END_SRC
+** org-screenshots
+   #+begin_src emacs-lisp
+	 (defun my-org-screenshot ()
+	   "Take a screenshot into a time stamped unique-named file in the
+	 same directory as the org-buffer and insert a link to this file."
+	   (interactive)
+	   (org-display-inline-images)
+	   (setq filename
+			 (concat
+			  (make-temp-name
+			   (concat (file-name-nondirectory (buffer-file-name))
+					   "_imgs/"
+					   (format-time-string "%Y%m%d_%H%M%S_")) ) ".png"))
+	   (unless (file-exists-p (file-name-directory filename))
+		 (make-directory (file-name-directory filename)))
+	   ; take screenshot
+	   (if (eq system-type 'darwin)
+		   (call-process "screencapture" nil nil nil "-i" filename))
+	   (if (eq system-type 'gnu/linux)
+		   (call-process "import" nil nil nil filename))
+	   ; insert into file if correctly taken
+	   (if (file-exists-p filename)
+		 (insert (concat "[[file:" filename "]]"))))
+
+	 (global-set-key (kbd "C-c p l") 'my-org-screenshot)
+
+(setq org-startup-with-inline-images t)
+   #+end_src
 * Buffers
 ** buffer switching with ido
    #+begin_src emacs-lisp
@@ -473,11 +531,10 @@
 
 * Line-number
 #+BEGIN_SRC emacs-lisp
-  (add-hook 'prog-mode-hook 'linum-mode)
-  (add-hook 'org-mode-hook 'linum-mode)
-  (add-hook 'vterm-mode-hook 'linum-mode)
+	(add-hook 'prog-mode-hook 'linum-mode)
+	(add-hook 'org-mode-hook 'linum-mode)
+	(add-hook 'vterm-mode-hook 'linum-mode)
 #+END_SRC
-* Workspaces
 * Auto-completion
 #+BEGIN_SRC emacs-lisp
   (use-package company
@@ -532,42 +589,47 @@
 ** specific languages
 *** c/c++
 #+BEGIN_SRC emacs-lisp
-  (add-hook 'c++-mode-hook 'yas-minor-mode)
-  (add-hook 'c-mode-hook 'yas-minor-mode)
+	 (add-hook 'c++-mode-hook 'yas-minor-mode)
+	 (add-hook 'c-mode-hook 'yas-minor-mode)
 
-  (use-package flycheck-clang-analyzer
-    :ensure t
-    :config
-    (with-eval-after-load 'flycheck
-      (require 'flycheck-clang-analyzer)
-       (flycheck-clang-analyzer-setup)))
+	 (use-package flycheck-clang-analyzer
+	   :ensure t
+	   :config
+	   (with-eval-after-load 'flycheck
+		 (require 'flycheck-clang-analyzer)
+		  (flycheck-clang-analyzer-setup)))
 
-  (with-eval-after-load 'company
-    (add-hook 'c++-mode-hook 'company-mode)
-    (add-hook 'c-mode-hook 'company-mode))
+	 (with-eval-after-load 'company
+	   (add-hook 'c++-mode-hook 'company-mode)
+	   (add-hook 'c-mode-hook 'company-mode))
 
-  (use-package company-c-headers
-    :ensure t)
+	 (use-package company-c-headers
+	   :ensure t)
 
-  (use-package company-irony
-    :ensure t
-    :config
-    (setq company-backends '((company-c-headers
-			      company-dabbrev-code
-			      company-irony))))
+	 (use-package company-irony
+	   :ensure t
+	   :config
+	   (setq company-backends '((company-c-headers
+					 company-dabbrev-code
+					 company-irony))))
 
-  (use-package irony
-    :ensure t
-    :config
-    (add-hook 'c++-mode-hook 'irony-mode)
-    (add-hook 'c-mode-hook 'irony-mode)
-    (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options))
+	 (use-package irony
+	   :ensure t
+	   :config
+	   (add-hook 'c++-mode-hook 'irony-mode)
+	   (add-hook 'c-mode-hook 'irony-mode)
+	   (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options))
+
+
+  ;; CUDA
+  (add-to-list 'auto-mode-alist '("\\.cu\\'" . cuda-mode))
+  (add-hook 'cuda-mode-hook 'linum-mode)
 
 #+END_SRC
-
 *** python
 #+BEGIN_SRC emacs-lisp
   (add-hook 'python-mode-hook 'yas-minor-mode)
+  (add-hook 'python-mode-hook 'electric-indent-mode)
   (add-hook 'python-mode-hook 'flycheck-mode)
 
   (with-eval-after-load 'company
@@ -626,6 +688,12 @@
       (add-hook 'shell-mode-hook 'shell-mode-company-init))
 #+END_SRC
 
+*** golang
+#+BEGIN_SRC emacs-lisp
+(add-to-list 'load-path "/home/calin/.emacs.d/elpa/go-mode.el/")
+(autoload 'go-mode "go-mode" nil t)
+(add-to-list 'auto-mode-alist '("\\.go\\'" . go-mode))
+#+END_SRC
 *** HTML
 #+BEGIN_SRC emacs-lisp
   (add-hook 'html-mode-hook 'yas-minor-mode)
@@ -666,7 +734,6 @@
   (add-to-list 'load-path "/home/calin/repos/github.com/miking-lang/miking-emacs/")
   (require 'mcore-mode)
 #+END_SRC
-
 *** emmet-mode
 #+BEGIN_SRC emacs-lisp
   (use-package emmet-mode
@@ -717,7 +784,7 @@
   :mode (("README\\.md\\'" . gfm-mode)
          ("\\.md\\'" . markdown-mode)
          ("\\.markdown\\'" . markdown-mode))
-  :init (setq markdown-command "multimarkdown"))
+  :init (setq markdown-command "markdown"))
 #+END_SRC
 *** flutter
 #+BEGIN_SRC emacs-lisp
@@ -747,3 +814,12 @@
 )
     #+end_src
 
+	
+	
+
+*** scala
+	#+begin_src emacs-lisp
+(use-package scala-mode
+  :interpreter
+    ("scala" . scala-mode))
+	#+end_src

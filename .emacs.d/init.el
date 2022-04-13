@@ -46,7 +46,8 @@
  ;; If there is more than one, they won't work right.
  '(ivy-mode t)
  '(package-selected-packages
-   '(ess python-black fiplr yaml-mode haskell-mode tuareg all-the-icons-ivy yasnippet-snippets rainbow-delimiters rainbow-mode hungry-delete counsel ivy which-key company-irony company-c-headers flycheck-clang-analyzer persp-mode markdown-mode rust-mode xref-js2 js2-refactor js2-mode emmet-mode kotlin-mode elixir-mode company-shell slime-company slime popup-kill-ring impatient-mode company switch-window magit avy org-bullets vterm use-package doom-themes)))
+   '(scala-mode go-mode cuda-mode ess python-black fiplr yaml-mode haskell-mode tuareg all-the-icons-ivy yasnippet-snippets rainbow-delimiters rainbow-mode hungry-delete counsel ivy which-key company-irony company-c-headers flycheck-clang-analyzer persp-mode markdown-mode rust-mode xref-js2 js2-refactor js2-mode emmet-mode kotlin-mode elixir-mode company-shell slime-company slime popup-kill-ring impatient-mode company switch-window magit avy org-bullets vterm use-package doom-themes))
+ '(warning-suppress-types '((undo discard-info))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

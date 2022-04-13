@@ -31,6 +31,7 @@ d4 = diff HEAD~4
 d5 = diff HEAD~5
 dh = diff HEAD
 dm = diff master
+dnm = diff --name-only master	
 dt = difftool
 fall = fetch --all
 fixup = commit --fixup
@@ -53,7 +54,7 @@ autosquash = rebase -i --autosquash
 t = tag -s
 tl = tag --sort "v:refname"
 unstage = reset --soft HEAD
-pr = "!firefox $(git remote -v | grep push | awk '{print $2}' | awk -F \"@\" '{print $2}' | awk -F \".git\" '{print $1}' | tr ":" "/" | xargs echo \"https://\" | awk '{print $1 $2}')/pull/new/$(git rev-parse --abbrev-ref HEAD)"
+pr = "!brave $(git remote -v | grep push | awk '{print $2}' | awk -F \"@\" '{print $2}' | rev | cut -c5- | rev | tr \":\" \"/\" | xargs echo \"https://\" | awk '{first = $1; $1 = \"\"; print first $0;}')/pull/new/$(git rev-parse --abbrev-ref HEAD)"
 
 [Color]
 ui = auto

@@ -47,7 +47,7 @@ Config {
           -- Ram used number and percent
         , Run Memory ["-t", " mem: <used>M (<usedratio>%)"] 20
         , Run Com "/home/calin/.config/scripts/pavolume.sh" [] "vol" 1
-        , Run DiskU [("/", "<fn=1>\xf0c7</fn>  hdd: <free> free")] [] 60
+        , Run DiskU [("/", "<fn=1>\xf0c7</fn>  ssd: <used>/<size> "), ("sda1", " <fn=1>\xf0c7</fn>  hdd: <used>/<size>")] [] 60
         -- Runs custom script to check for pacman updates.
           -- This script is in my dotfiles repo in .local/bin.
         , Run Com "/home/calin/.config/scripts/pacupdate" [] "pacupdate" 36000

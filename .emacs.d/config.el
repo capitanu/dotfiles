@@ -1,3 +1,23 @@
+(global-set-key (kbd "C-x w") 'whitespace-mode)
+(require 'whitespace)
+
+(electric-indent-mode 1)
+
+(global-set-key (kbd "C-M-(") (kbd "<mouse-4>"))
+(global-set-key (kbd "C-M-)") (kbd "<mouse-5>"))
+
+(defun gk-markdown-preview-buffer ()
+  (interactive)
+  (let* ((buf-this (buffer-name (current-buffer)))
+         (buf-html (get-buffer-create
+                    (format "*gk-md-html (%s)*" buf-this))))
+    (markdown-other-window (buffer-name buf-html))
+    (shr-render-buffer buf-html)
+    (eww-mode)
+    (kill-buffer buf-html)))
+
+(setq column-number-mode t)
+
 ;; (set-frame-parameter (selected-frame) 'alpha '(95 95))
 ;; (add-to-list 'default-frame-alist '(alpha 95 95))
 
@@ -114,10 +134,11 @@
 (defalias 'yes-or-no-p 'y-or-n-p)
 
 (use-package vterm
-    :ensure t)
+	:ensure t)
   (global-set-key (kbd "<s-M-return>") 'vterm)
 (add-hook 'vterm-mode-hook (lambda ()
   (setq-local global-hl-line-mode nil)))
+(setq vterm-max-scrollback 100000)
 
 (setq inhibit-startup-message t)
 (setq initial-scratch-message ";;  Happy Hacking \n\n")
@@ -238,7 +259,6 @@ middle"
 (previous-line 5))
 
 (global-set-key (kbd "<C-m>") 'next-by-five)
-(global-set-key (kbd "C-m") 'newline-and-indent)
 (global-set-key (kbd "C-o") 'prev-by-five)
 
 (defun open-flags ()
@@ -258,7 +278,7 @@ middle"
 
 (defun open-kth ()
 (interactive)
-(find-file "/home/calin/kth/TCOMK3/"))
+(find-file "/home/calin/kth/TCSCM1/"))
 (global-set-key (kbd "C-c k") 'open-kth)
 
 (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
@@ -277,6 +297,32 @@ middle"
   (add-hook 'org-mode-hook (lambda () (org-bullets-mode)))
   (add-hook 'org-mode-hook (lambda () (electric-indent-mode 0)))
   (add-hook 'org-mode-hook 'prettify-symbols-mode))
+
+(defun my-org-screenshot ()
+	   "Take a screenshot into a time stamped unique-named file in the
+	 same directory as the org-buffer and insert a link to this file."
+	   (interactive)
+	   (org-display-inline-images)
+	   (setq filename
+			 (concat
+			  (make-temp-name
+			   (concat (file-name-nondirectory (buffer-file-name))
+					   "_imgs/"
+					   (format-time-string "%Y%m%d_%H%M%S_")) ) ".png"))
+	   (unless (file-exists-p (file-name-directory filename))
+		 (make-directory (file-name-directory filename)))
+	   ; take screenshot
+	   (if (eq system-type 'darwin)
+		   (call-process "screencapture" nil nil nil "-i" filename))
+	   (if (eq system-type 'gnu/linux)
+		   (call-process "import" nil nil nil filename))
+	   ; insert into file if correctly taken
+	   (if (file-exists-p filename)
+		 (insert (concat "[[file:" filename "]]"))))
+
+	 (global-set-key (kbd "C-c p l") 'my-org-screenshot)
+
+(setq org-startup-with-inline-images t)
 
 (global-set-key (kbd "C-x C-b") 'counsel-switch-buffer)
 
@@ -402,37 +448,43 @@ middle"
   :ensure t)
 
 (add-hook 'c++-mode-hook 'yas-minor-mode)
-(add-hook 'c-mode-hook 'yas-minor-mode)
+   (add-hook 'c-mode-hook 'yas-minor-mode)
 
-(use-package flycheck-clang-analyzer
-  :ensure t
-  :config
-  (with-eval-after-load 'flycheck
-    (require 'flycheck-clang-analyzer)
-     (flycheck-clang-analyzer-setup)))
+   (use-package flycheck-clang-analyzer
+	 :ensure t
+	 :config
+	 (with-eval-after-load 'flycheck
+	   (require 'flycheck-clang-analyzer)
+		(flycheck-clang-analyzer-setup)))
 
-(with-eval-after-load 'company
-  (add-hook 'c++-mode-hook 'company-mode)
-  (add-hook 'c-mode-hook 'company-mode))
+   (with-eval-after-load 'company
+	 (add-hook 'c++-mode-hook 'company-mode)
+	 (add-hook 'c-mode-hook 'company-mode))
 
-(use-package company-c-headers
-  :ensure t)
+   (use-package company-c-headers
+	 :ensure t)
 
-(use-package company-irony
-  :ensure t
-  :config
-  (setq company-backends '((company-c-headers
-			    company-dabbrev-code
-			    company-irony))))
+   (use-package company-irony
+	 :ensure t
+	 :config
+	 (setq company-backends '((company-c-headers
+				   company-dabbrev-code
+				   company-irony))))
 
-(use-package irony
-  :ensure t
-  :config
-  (add-hook 'c++-mode-hook 'irony-mode)
-  (add-hook 'c-mode-hook 'irony-mode)
-  (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options))
+   (use-package irony
+	 :ensure t
+	 :config
+	 (add-hook 'c++-mode-hook 'irony-mode)
+	 (add-hook 'c-mode-hook 'irony-mode)
+	 (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options))
+
+
+;; CUDA
+(add-to-list 'auto-mode-alist '("\\.cu\\'" . cuda-mode))
+(add-hook 'cuda-mode-hook 'linum-mode)
 
 (add-hook 'python-mode-hook 'yas-minor-mode)
+  (add-hook 'python-mode-hook 'electric-indent-mode)
   (add-hook 'python-mode-hook 'flycheck-mode)
 
   (with-eval-after-load 'company
@@ -483,6 +535,10 @@ middle"
   :config
     (require 'company)
     (add-hook 'shell-mode-hook 'shell-mode-company-init))
+
+(add-to-list 'load-path "/home/calin/.emacs.d/elpa/go-mode.el/")
+(autoload 'go-mode "go-mode" nil t)
+(add-to-list 'auto-mode-alist '("\\.go\\'" . go-mode))
 
 (add-hook 'html-mode-hook 'yas-minor-mode)
 (add-hook 'html-mode-hook 'company-mode)
@@ -550,7 +606,7 @@ middle"
   :mode (("README\\.md\\'" . gfm-mode)
          ("\\.md\\'" . markdown-mode)
          ("\\.markdown\\'" . markdown-mode))
-  :init (setq markdown-command "multimarkdown"))
+  :init (setq markdown-command "markdown"))
 
 ;; Assuming usage with dart-mode
 (use-package dart-mode
@@ -573,3 +629,7 @@ middle"
 (use-package haskell-mode
     :ensure t
 )
+
+(use-package scala-mode
+  :interpreter
+    ("scala" . scala-mode))

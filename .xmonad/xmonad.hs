@@ -95,7 +95,7 @@ myTerminal :: String
 myTerminal = "alacritty"   -- Sets default terminal
 
 myBrowser :: String
-myBrowser = "qutebrowser "               -- Sets firefox as browser for tree select
+myBrowser = "brave"               -- Sets firefox as browser for tree select
 -- myBrowser = myTerminal ++ " -e lynx " -- Sets lynx as browser for tree select
 
 myEditor :: String
@@ -275,10 +275,12 @@ myManageHook :: XMonad.Query (Data.Monoid.Endo WindowSet)
 myManageHook = composeAll
      [
        className =? "Spotify"     --> doShift ( myWorkspaces !! 11 )
+     , className =? "ir-Engine"     --> doShift ( myWorkspaces !! 5 )
+     , className =? "com-ir22-booksrec-Engine"     --> doShift ( myWorkspaces !! 5 )
+     , className =? "Qemu-system-arm"     --> doShift ( myWorkspaces !! 6 )
      , className =? "VirtualBox Manager" --> doShift  ( myWorkspaces !! 6 )
      , className =? "QjackCtl"     --> doShift ( myWorkspaces !! 10 )
      , className =? "Slack"     --> doShift ( myWorkspaces !! 9 )
-     , className =? "Tk"    --> doFloat
      , className =? "org-eclipse-jdt-internal-jarinjarloader-JarRsrcLoader"    --> doFloat
      ] <+> namedScratchpadManageHook myScratchPads
 
@@ -302,6 +304,8 @@ myKeys =
         , ("M-S-t", withFocused $ windows . W.sink) -- Push floating window back to tile
         , ("M-m", windows W.focusMaster)     -- Move focus to the master window
         , ("M-j", windows W.focusDown)       -- Move focus to the next window
+        , ("M-S-<Left>", shiftTo Next nonNSP >> moveTo Next nonNSP)       -- Shifts focused window to next ws
+        , ("M-S-<Right>", shiftTo Prev nonNSP >> moveTo Prev nonNSP)  -- Shifts focused window to prev ws
         , ("M-<Left>", windows W.focusUp)       -- Move focus to the next window
         , ("M-k", windows W.focusUp)         -- Move focus to the prev window
         , ("M-<Right>", windows W.focusDown)         -- Move focus to the prev window
@@ -318,7 +322,8 @@ myKeys =
         , ("M-S-s", spawn "spotify")
         , ("M-S-d", spawn "discord")
         , ("M-d", spawn "dmenu_run -i -p 'Arch Linux' -fn 'Ubuntu Mono:bold:pixelsize=20'")
-        , ("M-S-b", spawn "firefox")
+        , ("M-S-b", spawn "brave")
+        , ("M-S-n", spawn "qutebrowser")
         , ("M-S-g", spawn "guitarix")
         , ("M-S-p", spawn "/home/calin/.config/scripts/rraudio.sh")
         , ("M-S-h", spawn (myTerminal ++ " -e htop")) 
@@ -337,6 +342,7 @@ myKeys =
         , ("<button-1>", spawn "alacritty")
         , ("M-S-<Print>", spawn "maim -s --format=png /dev/stdout | xclip -selection clipboard -t image/png -i")
         , ("M-o", nextScreen)  -- Switch focus to next monitor
+        , ("M-i", prevScreen)  -- Switch focus to next monitor
         , ("M-[", prevWS)
         , ("M-]", nextWS)
         , ("M-0", windows $ W.greedyView (myWorkspaces !! 9))
@@ -352,14 +358,16 @@ myKeys =
 
 
 
-myMouseBindings  =
-    [
-      ((0, 18), (\_ -> spawn "pactl set-sink-volume @DEFAULT_SINK@ +5%" ))
-    ,((0, 19), (\_ -> spawn "pactl set-sink-volume @DEFAULT_SINK@ -5%" ))
-    ,((0, 17), (\_ -> spawn "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause" ))
-    ,((0, 15), (\_ -> spawn "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next" ))
-    ,((0, 16), (\_ -> spawn "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous" ))
-    ]
+--myMouseBindings  =
+ --   [
+  --    ((0, 14), nextWS)
+ --   ,((0, 15), prevWS)
+ --   ,((0, 18), (\_ -> spawn "pactl set-sink-volume @DEFAULT_SINK@ +5%" ))
+  --  ,((0, 19), (\_ -> spawn "pactl set-sink-volume @DEFAULT_SINK@ -5%" ))
+   -- ,((0, 17), (\_ -> spawn "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause" ))
+    --,((0, 15), (\_ -> spawn "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next" ))
+    --,((0, 16), (\_ -> spawn "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous" ))
+    --]
 
 main :: IO ()
 main = do
@@ -395,4 +403,4 @@ main = do
           }
         }
         `additionalKeysP` myKeys
-        `additionalMouseBindings` myMouseBindings
+        --`additionalMouseBindings` myMouseBindings
