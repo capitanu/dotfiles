@@ -8,6 +8,7 @@ user = capitanu
 [core]
 excludesfile = ~/.config/git/.gitignore
 filemode = false
+	autocrlf = false
 
 [alias]
 A = add -A

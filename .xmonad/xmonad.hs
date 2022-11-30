@@ -40,7 +40,7 @@ import XMonad.Hooks.DynamicLog (dynamicLogWithPP, wrap, xmobarPP, xmobarColor, s
 import XMonad.Hooks.DynamicProperty
 import XMonad.Hooks.EwmhDesktops  -- for some fullscreen events, also for xcomposite in obs.
 import XMonad.Hooks.FadeInactive
-import XMonad.Hooks.ManageDocks (avoidStruts, docksEventHook, manageDocks, ToggleStruts(..))
+import XMonad.Hooks.ManageDocks (avoidStruts, docks, manageDocks, ToggleStruts(..))
 import XMonad.Hooks.ManageHelpers
 import XMonad.Hooks.ServerMode
 import XMonad.Hooks.SetWMName
@@ -123,7 +123,7 @@ myStartupHook = do
           spawn "xbindkeys --poll-rc &"
           spawnOnce "DISPLAY=\":0\" picom -b"
           spawnOnce "qjackctl -s &"
-          spawnOnce "feh --bg-scale /home/calin/pictures/3.jpg --bg-scale /home/calin/pictures/1.jpg --bg-fill /home/calin/pictures/2.jpg"
+          spawnOnce "feh --bg-scale /home/calin/pictures/2.jpg --bg-scale /home/calin/pictures/3.jpg --bg-fill /home/calin/pictures/1.jpg"
           spawnOnce "systemctl start --now --user imwheel"
           spawnOnce "/home/calin/.config/scripts/xrandrfix.sh &"
           spawnOnce "xsetroot -cursor_name left_ptr &"
@@ -374,13 +374,13 @@ main = do
   xmproc0 <- spawnPipe "xmobar -x 0 /home/calin/.config/xmobar/xmobarrc0"
   xmproc1 <- spawnPipe "xmobar -x 1 /home/calin/.config/xmobar/xmobarrc1"
   xmproc2 <- spawnPipe "xmobar -x 2 /home/calin/.config/xmobar/xmobarrc2"
-  xmonad $ ewmh def
+  xmonad $ ewmh $ docks $ def
         { manageHook = (isDialog --> doF W.shiftMaster <+> doF W.swapDown) <+> ( isFullscreen --> doFullFloat ) <+> myManageHook <+> manageDocks
-        , handleEventHook    = dynamicPropertyChange "WM_NAME" myDynHook
-                               <+> serverModeEventHookCmd
-                               <+> serverModeEventHook
-                               <+> serverModeEventHookF "XMONAD_PRINT" (io . putStrLn)
-                               <+> docksEventHook
+        -- , handleEventHook    = dynamicPropertyChange "WM_NAME" myDynHook
+        --                        <+> serverModeEventHookCmd
+        --                        <+> serverModeEventHook
+        --                        <+> serverModeEventHookF "XMONAD_PRINT" (io . putStrLn)
+        --                        <+> docksEventHook
         , modMask            = myModMask
         , terminal           = myTerminal
         , startupHook        = myStartupHook

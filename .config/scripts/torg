@@ -1,0 +1,12 @@
+#!/bin/bash
+
+
+file=$1;
+touch "$file.org";
+
+echo "#+TITLE: " > "$file.org";
+echo "#+AUTHOR: Calin Capitanu" >> "$file.org";
+today=$(date)
+echo "#+DATE: $today" >> "$file.org";
+
+emacsclient -n "$file.org";

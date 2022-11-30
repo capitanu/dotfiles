@@ -2,6 +2,11 @@
 #+AUTHOR: Calin Capitanu
 #+STARTUP: overview
 * Minor settings
+** matching-paren
+#+begin_src emacs-lisp
+  (global-set-key (kbd "C-{") 'backward-sexp)
+  (global-set-key (kbd "C-}") 'forward-sexp)
+#+end_src
 ** show trailing white spaces
    #+begin_src emacs-lisp
 	 (global-set-key (kbd "C-x w") 'whitespace-mode)
@@ -32,6 +37,10 @@
    #+begin_src emacs-lisp
 (setq column-number-mode t)
    #+end_src
+** cua-visual-mode
+#+begin_src emacs-lisp
+(global-set-key (kbd "C-x v") 'cua-rectangle-mark-mode)
+#+end_src
 ** background-transparency
    #+begin_src emacs-lisp
 ;; (set-frame-parameter (selected-frame) 'alpha '(95 95))
@@ -99,6 +108,8 @@
 #+BEGIN_SRC emacs-lisp
   (setq backup-inhibited t)
   (setq auto-save-default nil)
+  (setq vc-handled-backends nil)
+  (setq create-lockfiles nil)
 #+END_SRC
 ** pretty symbols
 #+BEGIN_SRC emacs-lisp
@@ -128,6 +139,8 @@
   (use-package hungry-delete
     :ensure t
     :config (global-hungry-delete-mode))
+
+    (add-hook 'minibuffer-setup-hook (lambda () (hungry-delete-mode 0)))
 #+END_SRC
 ** enable-avy
 #+BEGIN_SRC emacs-lisp
@@ -394,7 +407,6 @@
     :ensure t
     :config
     (add-hook 'org-mode-hook (lambda () (org-bullets-mode)))
-    (add-hook 'org-mode-hook (lambda () (electric-indent-mode 0)))
     (add-hook 'org-mode-hook 'prettify-symbols-mode))
 #+END_SRC
 ** org-screenshots
@@ -531,9 +543,10 @@
 
 * Line-number
 #+BEGIN_SRC emacs-lisp
-	(add-hook 'prog-mode-hook 'linum-mode)
-	(add-hook 'org-mode-hook 'linum-mode)
-	(add-hook 'vterm-mode-hook 'linum-mode)
+  (add-hook 'prog-mode-hook 'linum-mode)
+  (add-hook 'yaml-mode-hook 'linum-mode)
+  (add-hook 'org-mode-hook 'linum-mode)
+  (add-hook 'vterm-mode-hook 'linum-mode)
 #+END_SRC
 * Auto-completion
 #+BEGIN_SRC emacs-lisp
@@ -813,13 +826,14 @@
     :ensure t
 )
     #+end_src
-
-	
-	
-
 *** scala
 	#+begin_src emacs-lisp
 (use-package scala-mode
   :interpreter
     ("scala" . scala-mode))
 	#+end_src
+
+*** Punkt0
+#+begin_src emacs-lisp
+(add-to-list 'auto-mode-alist '("\\.p0\\'" . scala-mode))
+#+end_src

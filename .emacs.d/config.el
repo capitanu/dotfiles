@@ -1,3 +1,6 @@
+(global-set-key (kbd "C-{") 'backward-sexp)
+(global-set-key (kbd "C-}") 'forward-sexp)
+
 (global-set-key (kbd "C-x w") 'whitespace-mode)
 (require 'whitespace)
 
@@ -17,6 +20,8 @@
     (kill-buffer buf-html)))
 
 (setq column-number-mode t)
+
+(global-set-key (kbd "C-x v") 'cua-rectangle-mark-mode)
 
 ;; (set-frame-parameter (selected-frame) 'alpha '(95 95))
 ;; (add-to-list 'default-frame-alist '(alpha 95 95))
@@ -64,6 +69,8 @@
 
 (setq backup-inhibited t)
 (setq auto-save-default nil)
+(setq vc-handled-backends nil)
+(setq create-lockfiles nil)
 
 (global-prettify-symbols-mode 1)
 
@@ -86,6 +93,8 @@
 (use-package hungry-delete
   :ensure t
   :config (global-hungry-delete-mode))
+
+  (add-hook 'minibuffer-setup-hook (lambda () (hungry-delete-mode 0)))
 
 (use-package avy
   :ensure t
@@ -295,7 +304,6 @@ middle"
   :ensure t
   :config
   (add-hook 'org-mode-hook (lambda () (org-bullets-mode)))
-  (add-hook 'org-mode-hook (lambda () (electric-indent-mode 0)))
   (add-hook 'org-mode-hook 'prettify-symbols-mode))
 
 (defun my-org-screenshot ()
@@ -407,6 +415,7 @@ middle"
   (global-set-key (kbd "C-x 3") 'split-and-follow-vertically)
 
 (add-hook 'prog-mode-hook 'linum-mode)
+(add-hook 'yaml-mode-hook 'linum-mode)
 (add-hook 'org-mode-hook 'linum-mode)
 (add-hook 'vterm-mode-hook 'linum-mode)
 
@@ -633,3 +642,5 @@ middle"
 (use-package scala-mode
   :interpreter
     ("scala" . scala-mode))
+
+(add-to-list 'auto-mode-alist '("\\.p0\\'" . scala-mode))

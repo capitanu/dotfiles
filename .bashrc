@@ -14,11 +14,16 @@ export ANDROID_HOME='/home/calin/Android/Sdk'
 export PYTHONPATH=${PYTHONPATH}:/usr/lib/python3.9/site-packages/
 export FZF_DEFAULT_OPS="--extended"
 
+export JWT_SECRET="e)SMZ-gBK!V!jrXheUUS2X0d8LI=hwqPMhPhzB1Zi7WsG+FkuF-L6+9-)i)SAQvE"
+
 #Hate HiDPI already
 
 export PATH=~/.local/bin:$PATH
 export PATH=/opt/nvidia/nsight-systems/2021.5.1/bin:$PATH
 export PATH=/opt/cuda/bin:$PATH
+export PATH=/home/calin/.config/scripts/:$PATH
+export PATH=/home/calin/.cargo/bin/:$PATH
+export LD_LIBRARY_PATH=/usr/lib64/jvm/default/lib/server/:$LD_LIBRARY_PATH
 
 export CLOUDSDK_PYTHON='/usr/bin/python'
 
@@ -34,7 +39,6 @@ source /usr/share/fzf/completion.bash
 source /usr/share/fzf/key-bindings.bash
 #source $HOME/.cargo/env
 
-source /opt/ros/melodic/setup.bash
 export ROS_PYTHON_VERSION=2
 
 export FZF_DEFAULT_COMMAND="\
@@ -95,7 +99,7 @@ function gitforce { git add . && git commit --amend --no-edit && git push --forc
 export -f gitforce
 export -f gitup
 
-
+alias please='sudo'
 
 alias ls='exa -al --color=always --group-directories-first' # my preferred listing
 alias la='exa -a --color=always --group-directories-first'  # all files and dirs
@@ -122,6 +126,9 @@ alias connectweb='ssh -X -p3801 calin@capitanu.tech'
 alias webtech='sudo scp -r -P 3801 /home/calin/repos/github.com/capitanu/capitanu.tech/* calin@capitanu.tech:~/capitanu.tech'
 alias webcom='sudo scp -r -P 3801 ~/thedatabuddy.com/* calin@capitanu.tech:~/thedatabuddy.com'
 
+alias ssh-pdc='ssh -vvv -o GSSAPIKeyExchange=yes -o GSSAPIAuthentication=yes -o GSSAPIDelegateCredentials=yes '
+alias pdc-kinit='kinit -f capitanu@NADA.KTH.SE'
+
 alias minecraft-server='cd /home/calin/games/minecraft-server && java -Xmx4G -Xms4G -jar server.jar nogui'
 alias ftb-server='cd /home/calin/games/ftb-server && ./start.sh'
 alias python='/usr/bin/python3.10'
@@ -130,6 +137,9 @@ alias python='/usr/bin/python3.10'
 alias kbdlight='sudo nano /sys/devices/platform/dell-laptop/leds/dell\:\:kbd_backlight/stop_timeout'
 
 alias em28='export EMULTAOR=PIXEL_API28 && emulator -avd PIXEL_API28 &'
+
+alias conda_on='source /opt/anaconda/bin/activate root'
+alias conda_off='source /opt/anaconda/bin/deactivate root'
 
 alias wifi='nmcli dev wifi list'
 alias wificonnect='nmcli device wifi connect'
@@ -157,12 +167,17 @@ alias kth='ranger /home/calin/KTH/TCOMK3/'
 alias sharescreen='/home/calin/.config/scripts/devour/devour.sh vlc --no-video-deco --no-embedded-video --screen-fps=30 --screen-left=1920 --screen-top=420 --screen-width=1920 --screen-height=1080 screen://'
 alias ccat='highlight -O xterm256 -s navajo-night' 
 alias obcsw='cd /home/calin/repos/gitlab.com/kth-mist/obcsw'
+alias sib='cd /home/calin/repos/github.com/stockholm-innovation-bootcamp.github.io/'
 alias eclipse_delete_workspace='rm -rf /home/calin/.wine/drive_c/users/calin/workspace/.metadata/'
 
 alias starwars='telnet towel.blinkenlights.nl'
 alias thesistex='cd /home/calin/kth/TCOMK3/II143X_Degree_Project_in_Information_and_Communication_Technology/template && while inotifywait -e close_write thesis.tex ; do pdflatex thesis.tex; done'
 
-alias ths-ssh-prod='ssh signup1@20.86.129.125 -i ~/.ssh/id_ths'
+alias ths-ssh-prod='ssh -i ~/.ssh/id_capybara.pem ubuntu@20.126.73.186'
+alias ths-ssh-postgres='psql "host=ir-signup-psql-prod.postgres.database.azure.com port=5432 dbname=reception user=reception password=${THS_POSTGRES_PWD} sslmode=require"'
+alias ths-ssh-postgres-dev='psql "host=ir-signup-psql-dev.postgres.database.azure.com port=5432 dbname=reception user=reception password=${THS_POSTGRES_PWD_DEV} sslmode=require"'
+
+
 
 alias twmn-docker='TWMN_GCE_PROJECT=en2720-2017 docker-compose --file /home/calin/repos/github.com/ethicalhacking/twmn/resources/cicd/docker/docker-compose.standalone.yml run twmn'
 alias run_twmn='sudo /home/calin/repos/github.com/ethicalhacking/twmn/docker/run-twmn :ht21 /home/calin/repos/github.com/ethicalhacking/twmn/data/gce/auth.json --git --dev --vpn'
@@ -191,6 +206,8 @@ alias e="/home/calin/.config/scripts/devour/devour.sh emacsclient -c \$(fzf)"
 alias en="/home/calin/.config/scripts/en.sh"
 alias v="vim \$(fzf)"
 alias g='git'
+
+alias file='/home/calin/.config/scripts/devour/devour.sh pcmanfm $(fzf)'
 
 alias git-root='cd $(git rev-parse --show-toplevel)'
 
