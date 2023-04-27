@@ -1,7 +1,4 @@
 (require 'package)
-(setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
-;;(setq package-enable-at-startup nil)
-;;(setq package-check-signature nil)
 
 (add-to-list 'package-archives
 	     '("melpa" . "https://melpa.org/packages/"))
@@ -16,40 +13,21 @@
 
 (org-babel-load-file (expand-file-name "~/.emacs.d/config.org"))
 
-(modify-syntax-entry ?< ".")
-(modify-syntax-entry ?> ".")
 
-
-(unless (package-installed-p 'doom-themes)
-  (package-refresh-contents)
-  (package-install 'doom-themes))
-
-(use-package doom-themes
-  :config
-  (setq doom-themes-enable-bold t    
-        doom-themes-enable-italic t)
-  (setq doom-font (font-spec :family "monospace" :size 13 :weight 'semi-light)
-	doom-variable-pitch-font (font-spec :family "sans" :size 13))
-  (load-theme 'doom-one t)
-  (doom-themes-visual-bell-config) 
-  (doom-themes-org-config))
-
-(if (daemonp) 
-	    (add-hook 'after-make-frame-functions 
-		      (lambda (frame) 
-			(with-selected-frame frame (load-theme 'doom-one t)))) 
-  (load-theme 'doom-one t))
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(ivy-mode t)
+ '(js-indent-level 2)
  '(package-selected-packages
-   '(ess python-black fiplr yaml-mode haskell-mode tuareg all-the-icons-ivy yasnippet-snippets rainbow-delimiters rainbow-mode hungry-delete counsel ivy which-key company-irony company-c-headers flycheck-clang-analyzer persp-mode markdown-mode rust-mode xref-js2 js2-refactor js2-mode emmet-mode kotlin-mode elixir-mode company-shell slime-company slime popup-kill-ring impatient-mode company switch-window magit avy org-bullets vterm use-package doom-themes)))
+   '(origami graphql-mode coverlay rjsx-mode prettier-js company-suggest rustic protobuf-mode rust-mode yaml-mode emmet-mode kotlin-mode elixir-mode company-shell slime-company slime company-irony company-c-headers flycheck-clang-analyzer doom-modeline avy company lsp-mode which-key direnv go-mode eglot counsel multi-vterm vterm popup-kill-ring switch-window magit org-bullets rainbow-delimiters doom-themes use-package))
+ '(typescript-indent-level 2)
+ '(vterm-max-scrollback 100000)
+ '(warning-suppress-log-types '((direnv))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(hl-line ((t (:extend t :background "gray8")))))
+ )
