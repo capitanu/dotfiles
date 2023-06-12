@@ -340,6 +340,8 @@ myKeys =
         , ("<XF86MonBrightnessDown>", spawn "blight set -20%")
         , ("<Print>", spawn "scrotd 0")
         , ("<button-1>", spawn "alacritty")
+        , ("<mouse-14>", spawn "pactl set-sink-volume @DEFAULT_SINK@ +5%")
+        , ("<mouse-15>", spawn "pactl set-sink-volume @DEFAULT_SINK@ -5%")
         , ("M-S-<Print>", spawn "maim -s --format=png /dev/stdout | xclip -selection clipboard -t image/png -i")
         , ("M-o", nextScreen)  -- Switch focus to next monitor
         , ("M-i", prevScreen)  -- Switch focus to next monitor

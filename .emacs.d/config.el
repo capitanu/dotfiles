@@ -59,7 +59,7 @@
   (interactive)
   (end-of-line) ; move to end of line
   (set-mark (line-beginning-position)))
-  (global-set-key (kbd "C-c l") 'select-current-line)
+  (global-set-key (kbd "C-x l") 'select-current-line)
 
 (use-package rainbow-delimiters
   :ensure t
@@ -144,7 +144,7 @@
 
 (use-package vterm
 	:ensure t)
-  (global-set-key (kbd "<s-M-return>") 'vterm)
+  (global-set-key (kbd "<s-M-return>") 'multi-vterm)
 (add-hook 'vterm-mode-hook (lambda ()
   (setq-local global-hl-line-mode nil)))
 (setq vterm-max-scrollback 100000)
@@ -415,9 +415,9 @@ middle"
   (global-set-key (kbd "C-x 3") 'split-and-follow-vertically)
 
 (add-hook 'prog-mode-hook 'linum-mode)
-(add-hook 'yaml-mode-hook 'linum-mode)
-(add-hook 'org-mode-hook 'linum-mode)
-(add-hook 'vterm-mode-hook 'linum-mode)
+  (add-hook 'yaml-mode-hook 'linum-mode)
+  (add-hook 'org-mode-hook 'linum-mode)
+;;  (add-hook 'vterm-mode-hook 'linum-mode)
 
 (use-package company
   :ensure t
@@ -455,6 +455,7 @@ middle"
 
 (use-package flycheck
   :ensure t)
+(setq lsp-keymap-prefix "C-c l")
 
 (add-hook 'c++-mode-hook 'yas-minor-mode)
    (add-hook 'c-mode-hook 'yas-minor-mode)
@@ -583,26 +584,26 @@ middle"
 (add-hook 'html-mode-hook 'emmet-expand-yas)
 (add-hook 'css-mode-hook 'emmet-expand-yas)
 
-(use-package js2-mode)
-(add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
+;; (use-package js2-mode)
+;; (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
 
-;; Better imenu
-(add-hook 'js2-mode-hook #'js2-imenu-extras-mode)
+;; ;; Better imenu
+;; (add-hook 'js2-mode-hook #'js2-imenu-extras-mode)
 
 
-(use-package js2-refactor)
-(use-package xref-js2)
+;; (use-package js2-refactor)
+;; (use-package xref-js2)
 
-(add-hook 'js2-mode-hook #'js2-refactor-mode)
-(js2r-add-keybindings-with-prefix "C-c C-r")
-(define-key js2-mode-map (kbd "C-k") #'js2r-kill)
+;; (add-hook 'js2-mode-hook #'js2-refactor-mode)
+;; (js2r-add-keybindings-with-prefix "C-c C-r")
+;; (define-key js2-mode-map (kbd "C-k") #'js2r-kill)
 
-;; js-mode (which js2 is based on) binds "M-." which conflicts with xref, so
-;; unbind it.
-(define-key js-mode-map (kbd "M-.") nil)
+;; ;; js-mode (which js2 is based on) binds "M-." which conflicts with xref, so
+;; ;; unbind it.
+;; (define-key js-mode-map (kbd "M-.") nil)
 
-(add-hook 'js2-mode-hook (lambda ()
-  (add-hook 'xref-backend-functions #'xref-js2-xref-backend nil t)))
+;; (add-hook 'js2-mode-hook (lambda ()
+;;   (add-hook 'xref-backend-functions #'xref-js2-xref-backend nil t)))
 
 (add-to-list 'load-path "/home/calin/.emacs.d/elpa/rust-mode/")
 (autoload 'rust-mode "rust-mode" nil t)

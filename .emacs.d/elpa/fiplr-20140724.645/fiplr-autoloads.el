@@ -1,4 +1,4 @@
-;;; fiplr-autoloads.el --- automatically extracted autoloads
+;;; fiplr-autoloads.el --- automatically extracted autoloads  -*- lexical-binding: t -*-
 ;;
 ;;; Code:
 
@@ -40,7 +40,7 @@ directory is opened using `dired-other-frame'." t nil)
 (autoload 'fiplr-clear-cache "fiplr" "\
 Clears the internal caches used by fiplr so the project is searched again." t nil)
 
-(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "fiplr" '("*fiplr-" "fiplr-")))
+(register-definition-prefixes "fiplr" '("*fiplr-" "fiplr-"))
 
 ;;;***
 

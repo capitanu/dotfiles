@@ -14,30 +14,29 @@
 Config { 
 
   -- appearance
-  font    = "xft:Ubuntu Display:weight=bold:pixelsize=10:antialias=true:hinting=true,FontAwesome:size=8"
-  , additionalFonts = [ "xft:Mononoki Nerd Font:pixelsize=8:antialias=true:hinting=true"
-                           , "xft:Mononoki Nerd Font:pixelsize=13:antialias=true:hinting=true"
-                           , "xft:FontAwesome:pixelsize=10"
-                           ]
+  font    = "Ubuntu Bold 10, Font Awesome 8"
+  , additionalFonts = [ "Mononoki Nerd Font 8"
+                      , "Mononoki Nerd Font 13"
+                      , "Font Awesome 10"
+                      ]
+  , bgColor = "#202020"
+  , fgColor = "#f07178"
+  , position = Static { xpos = 1919 , ypos = 420, width = 1920, height = 20 }
+  , border =       BottomB
+  , borderColor =  "#646464"
 
-     , bgColor = "#202020"
-     , fgColor = "#f07178"
-     , position = Static { xpos = 1919 , ypos = 420, width = 1920, height = 20 }
-     , border =       BottomB
-     , borderColor =  "#646464"
+    -- layout
+  , sepChar =  "%"   
+  , alignSep = "}{"  
 
-   -- layout
-   , sepChar =  "%"   
-   , alignSep = "}{"  
-
-   , lowerOnStart =     True    
-   , hideOnStart =      False   
-   , allDesktops =      True    
-   , overrideRedirect = True    
-   , pickBroadest =     False   
-   , persistent =       True    
-   , iconRoot = "/home/calin/.xmonad/xpm/"  -- default: "."
-   , commands =
+  , lowerOnStart =     True    
+  , hideOnStart =      False   
+  , allDesktops =      True    
+  , overrideRedirect = True    
+  , pickBroadest =     False   
+  , persistent =       True    
+  , iconRoot = "/home/calin/.xmonad/xpm/"  -- default: "."
+  , commands =
     [
           -- Time and date
           Run Date " %b %d %Y (%H:%M)" "date" 50

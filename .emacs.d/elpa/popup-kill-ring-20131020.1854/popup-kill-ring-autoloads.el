@@ -1,4 +1,4 @@
-;;; popup-kill-ring-autoloads.el --- automatically extracted autoloads
+;;; popup-kill-ring-autoloads.el --- automatically extracted autoloads  -*- lexical-binding: t -*-
 ;;
 ;;; Code:
 
@@ -14,7 +14,7 @@
 Interactively insert selected item from `key-ring' by `popup.el'
 and `pos-tip.el'" t nil)
 
-(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "popup-kill-ring" '("popup-kill-ring-")))
+(register-definition-prefixes "popup-kill-ring" '("popup-kill-ring-"))
 
 ;;;***
 

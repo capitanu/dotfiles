@@ -1,4 +1,4 @@
-;;; grizzl-autoloads.el --- automatically extracted autoloads
+;;; grizzl-autoloads.el --- automatically extracted autoloads  -*- lexical-binding: t -*-
 ;;
 ;;; Code:
 
@@ -58,7 +58,7 @@ Move the selection up one row in `grizzl-completing-read'." t nil)
 (autoload 'grizzl-set-selection-1 "grizzl" "\
 Move the selection down one row in `grizzl-completing-read'." t nil)
 
-(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "grizzl" '("*grizzl-" "grizzl-")))
+(register-definition-prefixes "grizzl" '("*grizzl-" "grizzl-"))
 
 ;;;***
 

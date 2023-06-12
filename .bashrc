@@ -77,6 +77,7 @@ MANPATH=$MANPATH:/opt/nvidia/hpc_sdk/Linux_x86_64/21.9/compilers/man; export MAN
 PATH=/opt/nvidia/hpc_sdk/Linux_x86_64/21.9/compilers/bin:$PATH; export PATH
 
 export PS1="\[\e[1;36m\]\W\[\e[36m\]  \[\e[31m\]\$(__git_ps1 '  %s') \[\e[m\]"
+export PS1="\[\e[36m\] > \[\e[m\]"
 
 if [ -f /etc/bash.command-not-found ]; then
     . /etc/bash.command-not-found
@@ -192,6 +193,8 @@ alias xmrig28='/home/calin/programs/xmrig/build/xmrig -o gulf.moneroocean.stream
 alias xmrig32='/home/calin/programs/xmrig/build/xmrig -o gulf.moneroocean.stream:10128 -u 42wdyfVDz81L5Qg1tVn8JF4MBDeTEaBX24spQ6wXu5srMEnCFZDoktp2HVprD4qBnVaYZ9FszWJ9nNwKjRYcuZ1GDvxVdTq -p okra --threads=32'
 alias crypto='curl rate.sx'
 
+alias resource='source /home/calin/.bashrc'
+
 alias nvprofish='nsys profile -t nvtx,cuda --stats=true --force-overwrite true --wait=all -o my_report'
 
 
@@ -206,6 +209,11 @@ alias e="/home/calin/.config/scripts/devour/devour.sh emacsclient -c \$(fzf)"
 alias en="/home/calin/.config/scripts/en.sh"
 alias v="vim \$(fzf)"
 alias g='git'
+
+alias pg-connect='ssh -p 28525 ubuntu@213.21.96.180 -i /home/calin/kth/TCSCM2/Philipe/private-ssh-key.pem'
+alias pg-connect-2='ssh -p 28321 ubuntu@213.21.96.180 -i /home/calin/kth/TCSCM2/Philipe/private-ssh-key.pem'
+alias pg-connect-3='ssh -p 27722 ubuntu@213.21.96.180 -i /home/calin/kth/TCSCM2/Philipe/private-ssh-key.pem'
+
 
 alias file='/home/calin/.config/scripts/devour/devour.sh pcmanfm $(fzf)'
 
@@ -248,3 +256,6 @@ git() { if [[ $@ == "cd" ]]; then cd $(git rev-parse --show-toplevel); else comm
 export PS1
 eval $(opam env)
 
+
+
+export GPG_TTY=\$(tty)

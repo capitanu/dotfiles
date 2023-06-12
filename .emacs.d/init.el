@@ -45,9 +45,12 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(auth-source-save-behavior nil)
+ '(custom-safe-themes
+   '("02f57ef0a20b7f61adce51445b68b2a7e832648ce2e7efb19d217b6454c1b644" "afa47084cb0beb684281f480aa84dab7c9170b084423c7f87ba755b15f6776ef" default))
  '(ivy-mode t)
  '(package-selected-packages
-   '(rjsx-mode projectile cider better-defaults clojure-mode-extra-font-locking clojure-mode ewal-doom-themes spaceline-all-the-icons all-the-icons-ivy-rich treemacs-all-the-icons all-the-icons-dired all-the-icons-completion all-the-icons-gnus fontawesome web-mode dockerfile-mode docker protobuf-mode scala-mode go-mode cuda-mode ess python-black fiplr yaml-mode haskell-mode tuareg all-the-icons-ivy yasnippet-snippets rainbow-delimiters rainbow-mode hungry-delete counsel ivy which-key company-irony company-c-headers flycheck-clang-analyzer persp-mode markdown-mode rust-mode xref-js2 js2-refactor js2-mode emmet-mode kotlin-mode elixir-mode company-shell slime-company slime popup-kill-ring impatient-mode company switch-window magit avy org-bullets vterm use-package doom-themes))
+   '(multi-vterm rustic lsp-mode rjsx-mode projectile cider better-defaults clojure-mode-extra-font-locking clojure-mode ewal-doom-themes spaceline-all-the-icons all-the-icons-ivy-rich treemacs-all-the-icons all-the-icons-dired all-the-icons-completion all-the-icons-gnus fontawesome web-mode dockerfile-mode docker protobuf-mode scala-mode go-mode cuda-mode ess python-black fiplr yaml-mode haskell-mode tuareg all-the-icons-ivy yasnippet-snippets rainbow-delimiters rainbow-mode hungry-delete counsel ivy which-key flycheck-clang-analyzer persp-mode markdown-mode rust-mode xref-js2 js2-refactor js2-mode emmet-mode kotlin-mode elixir-mode slime popup-kill-ring impatient-mode switch-window magit avy org-bullets vterm use-package doom-themes))
+ '(truncate-lines t)
  '(warning-suppress-types '((undo discard-info))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

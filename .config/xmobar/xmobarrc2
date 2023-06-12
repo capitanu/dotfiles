@@ -14,17 +14,16 @@
 Config { 
 
   -- appearance
-  font    = "xft:Ubuntu Display:weight=bold:pixelsize=10:antialias=true:hinting=true,FontAwesome:size=8"
-  , additionalFonts = [ "xft:Mononoki Nerd Font:pixelsize=8:antialias=true:hinting=true"
-                           , "xft:Mononoki Nerd Font:pixelsize=13:antialias=true:hinting=true"
-                           , "xft:FontAwesome:pixelsize=10"
-                           ]
-
-     , bgColor = "#202020"
-     , fgColor = "#f07178"
-     , position = Static { xpos = 3840 , ypos = 0, width = 1080, height = 20 }
-     , border =       BottomB
-     , borderColor =  "#646464"
+  font    = "Ubuntu Bold 10, Font Awesome 8"
+  , additionalFonts = [ "Mononoki Nerd Font 8"
+                      , "Mononoki Nerd Font 13"
+                      , "Font Awesome 10"
+                      ]
+  , bgColor = "#202020"
+  , fgColor = "#f07178"
+  , position = Static { xpos = 3840 , ypos = 0, width = 1080, height = 20 }
+  , border =       BottomB
+  , borderColor =  "#646464"
 
    -- layout
    , sepChar =  "%"   
