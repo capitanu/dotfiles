@@ -1,5 +1,0 @@
-/home/calin/.emacs.d/elpa/vterm-20230217.228/build/CMakeFiles/vterm-module.dir
-/home/calin/.emacs.d/elpa/vterm-20230217.228/build/CMakeFiles/libvterm.dir
-/home/calin/.emacs.d/elpa/vterm-20230217.228/build/CMakeFiles/run.dir
-/home/calin/.emacs.d/elpa/vterm-20230217.228/build/CMakeFiles/edit_cache.dir
-/home/calin/.emacs.d/elpa/vterm-20230217.228/build/CMakeFiles/rebuild_cache.dir

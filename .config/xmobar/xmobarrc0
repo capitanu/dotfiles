@@ -41,7 +41,7 @@ Config {
           -- Time and date
           Run Date " %b %d %Y (%H:%M)" "date" 50
           -- Network up and down
-        , Run Network "enp6s0" ["-t", " <rx>kb   <tx>kb"] 20
+        , Run Network "enp5s0" ["-t", " <rx>kb   <tx>kb"] 20
           -- Cpu usage in percent
         , Run Cpu ["-t", " cpu: (<total>%)","-H","50","--high","red"] 20
           -- Ram used number and percent

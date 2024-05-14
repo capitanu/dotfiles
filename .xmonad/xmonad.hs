@@ -37,7 +37,7 @@ import qualified Data.Map as M
 
     -- Hooks
 import XMonad.Hooks.DynamicLog (dynamicLogWithPP, wrap, xmobarPP, xmobarColor, shorten, PP(..))
-import XMonad.Hooks.DynamicProperty
+import XMonad.Hooks.OnPropertyChange
 import XMonad.Hooks.EwmhDesktops  -- for some fullscreen events, also for xcomposite in obs.
 import XMonad.Hooks.FadeInactive
 import XMonad.Hooks.ManageDocks (avoidStruts, docks, manageDocks, ToggleStruts(..))
@@ -95,7 +95,7 @@ myTerminal :: String
 myTerminal = "alacritty"   -- Sets default terminal
 
 myBrowser :: String
-myBrowser = "brave"               -- Sets firefox as browser for tree select
+myBrowser = "google-chrome-stable"
 -- myBrowser = myTerminal ++ " -e lynx " -- Sets lynx as browser for tree select
 
 myEditor :: String
@@ -122,7 +122,7 @@ myStartupHook = do
           spawn "xmodmap /home/calin/.Xmodmap"
           spawn "xbindkeys --poll-rc &"
           spawnOnce "DISPLAY=\":0\" picom -b"
-          spawnOnce "qjackctl -s &"
+--          spawnOnce "qjackctl -s &"
           spawnOnce "feh --bg-scale /home/calin/pictures/2.jpg --bg-scale /home/calin/pictures/3.jpg --bg-fill /home/calin/pictures/1.jpg"
           spawnOnce "systemctl start --now --user imwheel"
           spawnOnce "/home/calin/.config/scripts/xrandrfix.sh &"
@@ -321,8 +321,9 @@ myKeys =
         , ("M-S-m", spawn "emacsclient -nc") -- start emacs
         , ("M-S-s", spawn "spotify")
         , ("M-S-d", spawn "discord")
-        , ("M-d", spawn "dmenu_run -i -p 'Arch Linux' -fn 'Ubuntu Mono:bold:pixelsize=20'")
-        , ("M-S-b", spawn "brave")
+          -- , ("M-d", spawn "dmenu_run -i -p 'Arch Linux' -fn 'Ubuntu Mono:bold:pixelsize=20'")
+        , ("M-d", spawn "rofi -combi-modi window,drun,ssh -show combi -icon-theme 'Papirus' -show-icons")
+        , ("M-S-b", spawn "google-chrome-stable")
         , ("M-S-n", spawn "qutebrowser")
         , ("M-S-g", spawn "guitarix")
         , ("M-S-p", spawn "/home/calin/.config/scripts/rraudio.sh")

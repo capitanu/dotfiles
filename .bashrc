@@ -23,7 +23,10 @@ export PATH=/opt/nvidia/nsight-systems/2021.5.1/bin:$PATH
 export PATH=/opt/cuda/bin:$PATH
 export PATH=/home/calin/.config/scripts/:$PATH
 export PATH=/home/calin/.cargo/bin/:$PATH
+export PATH=/home/calin/go/bin/:$PATH
+export PATH=~/.config/emacs/bin:$PATH
 export LD_LIBRARY_PATH=/usr/lib64/jvm/default/lib/server/:$LD_LIBRARY_PATH
+
 
 export CLOUDSDK_PYTHON='/usr/bin/python'
 
@@ -38,6 +41,8 @@ source ~/env.vars
 source /usr/share/fzf/completion.bash
 source /usr/share/fzf/key-bindings.bash
 #source $HOME/.cargo/env
+
+source /usr/share/nvm/init-nvm.sh
 
 export ROS_PYTHON_VERSION=2
 
@@ -77,7 +82,7 @@ MANPATH=$MANPATH:/opt/nvidia/hpc_sdk/Linux_x86_64/21.9/compilers/man; export MAN
 PATH=/opt/nvidia/hpc_sdk/Linux_x86_64/21.9/compilers/bin:$PATH; export PATH
 
 export PS1="\[\e[1;36m\]\W\[\e[36m\]  \[\e[31m\]\$(__git_ps1 '  %s') \[\e[m\]"
-export PS1="\[\e[36m\] > \[\e[m\]"
+#export PS1="\[\e[36m\] > \[\e[m\]"
 
 if [ -f /etc/bash.command-not-found ]; then
     . /etc/bash.command-not-found
@@ -132,7 +137,7 @@ alias pdc-kinit='kinit -f capitanu@NADA.KTH.SE'
 
 alias minecraft-server='cd /home/calin/games/minecraft-server && java -Xmx4G -Xms4G -jar server.jar nogui'
 alias ftb-server='cd /home/calin/games/ftb-server && ./start.sh'
-alias python='/usr/bin/python3.10'
+alias python='/usr/bin/python3.11'
 
 #alias vpnkth='cd /home/darthvader11/Documents/KTH/TCOMK2/Networking\ and\ Communication/Labs/Lab1/client/ && sudo openvpn --script-security 2 --config client.conf'
 alias kbdlight='sudo nano /sys/devices/platform/dell-laptop/leds/dell\:\:kbd_backlight/stop_timeout'
@@ -174,11 +179,10 @@ alias eclipse_delete_workspace='rm -rf /home/calin/.wine/drive_c/users/calin/wor
 alias starwars='telnet towel.blinkenlights.nl'
 alias thesistex='cd /home/calin/kth/TCOMK3/II143X_Degree_Project_in_Information_and_Communication_Technology/template && while inotifywait -e close_write thesis.tex ; do pdflatex thesis.tex; done'
 
-alias ths-ssh-prod='ssh -i ~/.ssh/id_capybara.pem ubuntu@20.126.73.186'
-alias ths-ssh-postgres='psql "host=ir-signup-psql-prod.postgres.database.azure.com port=5432 dbname=reception user=reception password=${THS_POSTGRES_PWD} sslmode=require"'
-alias ths-ssh-postgres-dev='psql "host=ir-signup-psql-dev.postgres.database.azure.com port=5432 dbname=reception user=reception password=${THS_POSTGRES_PWD_DEV} sslmode=require"'
-
-
+alias ths-ssh-prod='ssh -i ~/.ssh/calin-rsa.pem reception@4.231.20.1'
+alias ths-scp-prod='scp -i ~/.ssh/calin-rsa.pem reception@4.231.20.1:/home/reception'
+alias ths-ssh-postgres='psql "host=ir-signup-psql-prod3.postgres.database.azure.com port=5432 dbname=reception user=reception password=${THS_POSTGRES_PWD} sslmode=require"'
+alias ths-ssh-postgres-dev='psql "host=ir-signup-psql-dev2.postgres.database.azure.com port=5432 dbname=reception user=reception password=${THS_POSTGRES_PWD_DEV} sslmode=require"'
 
 alias twmn-docker='TWMN_GCE_PROJECT=en2720-2017 docker-compose --file /home/calin/repos/github.com/ethicalhacking/twmn/resources/cicd/docker/docker-compose.standalone.yml run twmn'
 alias run_twmn='sudo /home/calin/repos/github.com/ethicalhacking/twmn/docker/run-twmn :ht21 /home/calin/repos/github.com/ethicalhacking/twmn/data/gce/auth.json --git --dev --vpn'
@@ -211,8 +215,8 @@ alias v="vim \$(fzf)"
 alias g='git'
 
 alias pg-connect='ssh -p 28525 ubuntu@213.21.96.180 -i /home/calin/kth/TCSCM2/Philipe/private-ssh-key.pem'
-alias pg-connect-2='ssh -p 28321 ubuntu@213.21.96.180 -i /home/calin/kth/TCSCM2/Philipe/private-ssh-key.pem'
-alias pg-connect-3='ssh -p 27722 ubuntu@213.21.96.180 -i /home/calin/kth/TCSCM2/Philipe/private-ssh-key.pem'
+alias pg-connect-3='ssh -p 28482 ubuntu@213.21.96.180 -i /home/calin/kth/TCSCM2/Philipe/private-ssh-key.pem'
+alias pg-connect-2='ssh -p 27722 ubuntu@213.21.96.180 -i /home/calin/kth/TCSCM2/Philipe/private-ssh-key.pem'
 
 
 alias file='/home/calin/.config/scripts/devour/devour.sh pcmanfm $(fzf)'
@@ -258,4 +262,6 @@ eval $(opam env)
 
 
 
-export GPG_TTY=\$(tty)
+#export GPG_TTY=\$(tty)
+
+alias queri='cd /home/calin/repos/github.com/ligma/queri'

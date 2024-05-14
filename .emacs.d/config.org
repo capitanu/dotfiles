@@ -108,7 +108,6 @@
 #+BEGIN_SRC emacs-lisp
   (setq backup-inhibited t)
   (setq auto-save-default nil)
-  (setq vc-handled-backends nil)
   (setq create-lockfiles nil)
 #+END_SRC
 ** pretty symbols
@@ -215,6 +214,9 @@
   (add-hook 'vterm-mode-hook (lambda ()
 	(setq-local global-hl-line-mode nil)))
   (setq vterm-max-scrollback 100000)
+  (setq vterm-shell "screen")
+
+  (setq shell-command-switch "-ic")
 #+END_SRC
 ** welcome screen
 #+BEGIN_SRC emacs-lisp
@@ -358,6 +360,7 @@
    (global-set-key (kbd "<C-m>") 'next-by-five)
    (global-set-key (kbd "C-o") 'prev-by-five)
    #+end_src
+
 * Find specific files
 ** flags-hacking
    #+begin_src emacs-lisp
@@ -388,6 +391,7 @@
 (find-file "/home/calin/kth/TCSCM1/"))
 (global-set-key (kbd "C-c k") 'open-kth)
    #+end_src
+
 * Org Bullets
 ** basic config
 #+BEGIN_SRC emacs-lisp
@@ -437,6 +441,7 @@
 
 (setq org-startup-with-inline-images t)
    #+end_src
+
 * Buffers
 ** buffer switching with ido
    #+begin_src emacs-lisp
@@ -457,16 +462,19 @@
     (kill-buffer (current-buffer)))
   (global-set-key (kbd "C-x k") 'kill-curr-buffer)
 #+END_SRC
+
 * Magit
 #+BEGIN_SRC emacs-lisp
-(setq magit-display-buffer-function
-      (lambda (buffer)
-        (display-buffer buffer '(display-buffer-same-window))))
-  (use-package magit
-    :ensure t
-    :pin melpa)
-(global-set-key (kbd "C-c g") 'magit-status)
+  (setq magit-display-buffer-function
+		(lambda (buffer)
+		  (display-buffer buffer '(display-buffer-same-window))))
+	(use-package magit
+	  :ensure t
+	  :pin melpa)
+  (global-set-key (kbd "C-c g") 'magit-status)
+  (global-set-key (kbd "C-c b") 'magit-blame-addition)
 #+END_SRC
+
 * Switch window
 #+BEGIN_SRC emacs-lisp
   (use-package switch-window
@@ -481,9 +489,7 @@
     :bind
     ([remap other-window] . switch-window))
 #+END_SRC
-
 * Ivy
-
   #+begin_src emacs-lisp
   (use-package ivy :ensure t
   :diminish (ivy-mode . "")
@@ -509,20 +515,22 @@
 (global-set-key (kbd "<f2> u") 'counsel-unicode-char)
 (define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history))
   #+end_src
+
 * Doom modeline
   #+begin_src emacs-lisp
-(use-package doom-modeline
-  :ensure t
-  :init (doom-modeline-mode 1))
-(setq doom-modeline-icon 1)
-(setq doom-modeline-buffer-file-name-style 'auto)
-(setq doom-modeline-major-mode-icon t)
-(setq doom-modeline-buffer-state-icon t)
-(setq doom-modeline-buffer-modification-icon t)
-(setq doom-modeline-minor-modes nil)
-(setq doom-modeline-workspace-name t)
-(setq doom-modeline-persp-name t)
+	;; (use-package doom-modeline
+	;;   :ensure t
+	;;   :init (doom-modeline-mode 1))
+	;; (setq doom-modeline-icon 1)
+	;; (setq doom-modeline-buffer-file-name-style 'auto)
+	;; (setq doom-modeline-major-mode-icon t)
+	;; (setq doom-modeline-buffer-state-icon t)
+	;; (setq doom-modeline-buffer-modification-icon t)
+	;; (setq doom-modeline-minor-modes nil)
+	;; (setq doom-modeline-workspace-name t)
+	;; (setq doom-modeline-persp-name t)
   #+end_src
+
 * Window split
 #+BEGIN_SRC emacs-lisp
   (setq split-width-threshold 1)
@@ -540,14 +548,13 @@
       (other-window 1))
     (global-set-key (kbd "C-x 3") 'split-and-follow-vertically)
 #+END_SRC
-
 * Line-number
 #+BEGIN_SRC emacs-lisp
-  (add-hook 'prog-mode-hook 'linum-mode)
-  (add-hook 'yaml-mode-hook 'linum-mode)
-  (add-hook 'org-mode-hook 'linum-mode)
-;;  (add-hook 'vterm-mode-hook 'linum-mode)
+  (add-hook 'prog-mode-hook 'display-line-numbers-mode)
+  (add-hook 'yaml-mode-hook 'display-line-numbers-mode)
+  (add-hook 'org-mode-hook 'display-line-numbers-mode)
 #+END_SRC
+
 * Auto-completion
 #+BEGIN_SRC emacs-lisp
   (use-package company
@@ -582,6 +589,35 @@
     (which-key-mode))
 #+END_SRC
 * Programming
+** lsp
+#+begin_src emacs-lisp
+
+  (use-package lsp-mode
+	:commands lsp
+	:init
+	(setq lsp-keymap-prefix "C-c l")
+	:config
+	(define-key lsp-mode-map (kbd "C-c l") lsp-command-map)
+	:hook (lsp-mode . lsp-enable-which-key-integration))
+
+  (setq lsp-ui-doc-show-with-cursor nil)
+
+  (setq read-process-output-max (* 1024 1024))
+  (setq gc-cons-threshold 1000000)
+  (global-set-key (kbd "M-.") 'lsp-ui-peek-find-definitions)
+  (global-set-key (kbd "M-?") 'lsp-ui-peek-find-references)
+  ;;  (define-key lsp-ui-mode-map [remap xref-find-definitions] #'lsp-ui-peek-find-definitions)
+  ;;  (define-key lsp-ui-mode-map [remap xref-find-references] #'lsp-ui-peek-find-references)
+  ;; Configure the TypeScript server path
+  (setenv "TSSERVER_PATH" "/home/calin/.nvm/versions/node/v21.6.2/bin/tsserver")
+  (setenv "PATH" (concat "/home/calin/.nvm/versions/node/v21.6.2/bin"
+						 (getenv "PATH")))
+
+  (setenv "PATH" (concat "/usr/share"
+						 (getenv "PATH")))
+
+
+#+end_src
 ** yasnippet
 #+BEGIN_SRC emacs-lisp
   (use-package yasnippet
@@ -600,7 +636,7 @@
 	:ensure t)
   (setq lsp-keymap-prefix "C-c l")
 #+END_SRC
-** specific languages
+** specific language
 *** c/c++
 #+BEGIN_SRC emacs-lisp
 	 (add-hook 'c++-mode-hook 'yas-minor-mode)
@@ -637,7 +673,7 @@
 
   ;; CUDA
   (add-to-list 'auto-mode-alist '("\\.cu\\'" . cuda-mode))
-  (add-hook 'cuda-mode-hook 'linum-mode)
+  (add-hook 'cuda-mode-hook 'display-line-numbers-mode)
 
 #+END_SRC
 *** python
@@ -704,9 +740,12 @@
 
 *** golang
 #+BEGIN_SRC emacs-lisp
-(add-to-list 'load-path "/home/calin/.emacs.d/elpa/go-mode.el/")
-(autoload 'go-mode "go-mode" nil t)
-(add-to-list 'auto-mode-alist '("\\.go\\'" . go-mode))
+  (add-to-list 'load-path "/home/calin/.emacs.d/elpa/go-mode.el/")
+  (autoload 'go-mode "go-mode" nil t)
+  (add-to-list 'auto-mode-alist '("\\.go\\'" . go-mode))
+  (add-hook 'go-mode-hook #'lsp-deferred)
+  (add-to-list 'load-path (concat (getenv "GOPATH")  "/src/golang.org/x/lint/misc/emacs/"))
+
 #+END_SRC
 *** HTML
 #+BEGIN_SRC emacs-lisp
@@ -781,6 +820,10 @@
 
   ;; (add-hook 'js2-mode-hook (lambda ()
   ;;   (add-hook 'xref-backend-functions #'xref-js2-xref-backend nil t)))
+  (add-hook 'typescript-mode-hook #'lsp-deferred)
+
+  (global-set-key (kbd "C-x l") 'eslint-fix)
+
 #+END_SRC
 *** rust
    #+begin_src emacs-lisp
@@ -837,4 +880,14 @@
 *** Punkt0
 #+begin_src emacs-lisp
 (add-to-list 'auto-mode-alist '("\\.p0\\'" . scala-mode))
+#+end_src
+* Copilot
+#+begin_src emacs-lisp
+  (add-to-list 'load-path "/home/calin/repos/github.com/capitanu/dotfiles/.emacs.d/elpa/copilot.el/")
+  (require 'copilot)
+
+  (add-hook 'prog-mode-hook 'copilot-mode)
+
+  (define-key copilot-completion-map (kbd "<tab>") 'copilot-accept-completion)
+  (define-key copilot-completion-map (kbd "TAB") 'copilot-accept-completion)
 #+end_src

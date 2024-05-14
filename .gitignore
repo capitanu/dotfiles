@@ -1,0 +1,5 @@
+# Emacs stuff
+elpa/*
+*~
+\#*\#
+*.elc

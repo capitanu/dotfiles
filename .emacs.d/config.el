@@ -62,24 +62,23 @@
   (global-set-key (kbd "C-x l") 'select-current-line)
 
 (use-package rainbow-delimiters
-  :ensure t
-  :init )
+      :ensure t
+      :init )
 (add-hook 'org-mode-hook 'rainbow-delimiters-mode)
 (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
 
 (setq backup-inhibited t)
 (setq auto-save-default nil)
-(setq vc-handled-backends nil)
 (setq create-lockfiles nil)
 
 (global-prettify-symbols-mode 1)
 
 (setq electric-pair-pairs '(
-			  (?\( . ?\))
-			  (?\[ . ?\])
-			  (?\{ . ?\})
-			  (?\" . ?\")
-			  ))
+			      (?\( . ?\))
+			      (?\[ . ?\])
+			      (?\{ . ?\})
+			      (?\" . ?\")
+			      ))
 
 (defun syntax-for-org ()
 (interactive)
@@ -88,7 +87,7 @@
 (add-hook 'org-mode-hook 'syntax-for-org)
 
 
-  (electric-pair-mode 1)
+      (electric-pair-mode 1)
 
 (use-package hungry-delete
   :ensure t
@@ -144,10 +143,13 @@
 
 (use-package vterm
 	:ensure t)
-  (global-set-key (kbd "<s-M-return>") 'multi-vterm)
+      (global-set-key (kbd "<s-M-return>") 'multi-vterm)
 (add-hook 'vterm-mode-hook (lambda ()
-  (setq-local global-hl-line-mode nil)))
+      (setq-local global-hl-line-mode nil)))
 (setq vterm-max-scrollback 100000)
+(setq vterm-shell "screen")
+
+(setq shell-command-switch "-ic")
 
 (setq inhibit-startup-message t)
 (setq initial-scratch-message ";;  Happy Hacking \n\n")
@@ -164,7 +166,7 @@ Will also prompt for a file to visit if current
 buffer is not visiting a file."
   (interactive "P")
   (if (or arg (not buffer-file-name))
-  (find-file (concat "/sudo:root@localhost:"
+      (find-file (concat "/sudo:root@localhost:"
 			 (ido-read-file-name "Find file(as root): ")))
     (find-alternate-file (concat "/sudo:root@localhost:" buffer-file-name))))
 
@@ -344,12 +346,13 @@ middle"
 (global-set-key (kbd "C-x k") 'kill-curr-buffer)
 
 (setq magit-display-buffer-function
-      (lambda (buffer)
-        (display-buffer buffer '(display-buffer-same-window))))
-  (use-package magit
-    :ensure t
-    :pin melpa)
+	      (lambda (buffer)
+		(display-buffer buffer '(display-buffer-same-window))))
+      (use-package magit
+	:ensure t
+	:pin melpa)
 (global-set-key (kbd "C-c g") 'magit-status)
+(global-set-key (kbd "C-c b") 'magit-blame-addition)
 
 (use-package switch-window
   :ensure t
@@ -387,17 +390,17 @@ middle"
 (global-set-key (kbd "<f2> u") 'counsel-unicode-char)
 (define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history))
 
-(use-package doom-modeline
-  :ensure t
-  :init (doom-modeline-mode 1))
-(setq doom-modeline-icon 1)
-(setq doom-modeline-buffer-file-name-style 'auto)
-(setq doom-modeline-major-mode-icon t)
-(setq doom-modeline-buffer-state-icon t)
-(setq doom-modeline-buffer-modification-icon t)
-(setq doom-modeline-minor-modes nil)
-(setq doom-modeline-workspace-name t)
-(setq doom-modeline-persp-name t)
+;; (use-package doom-modeline
+;;   :ensure t
+;;   :init (doom-modeline-mode 1))
+;; (setq doom-modeline-icon 1)
+;; (setq doom-modeline-buffer-file-name-style 'auto)
+;; (setq doom-modeline-major-mode-icon t)
+;; (setq doom-modeline-buffer-state-icon t)
+;; (setq doom-modeline-buffer-modification-icon t)
+;; (setq doom-modeline-minor-modes nil)
+;; (setq doom-modeline-workspace-name t)
+;; (setq doom-modeline-persp-name t)
 
 (setq split-width-threshold 1)
   (defun split-and-follow-horizontally ()
@@ -414,10 +417,9 @@ middle"
     (other-window 1))
   (global-set-key (kbd "C-x 3") 'split-and-follow-vertically)
 
-(add-hook 'prog-mode-hook 'linum-mode)
-  (add-hook 'yaml-mode-hook 'linum-mode)
-  (add-hook 'org-mode-hook 'linum-mode)
-;;  (add-hook 'vterm-mode-hook 'linum-mode)
+(add-hook 'prog-mode-hook 'display-line-numbers-mode)
+(add-hook 'yaml-mode-hook 'display-line-numbers-mode)
+(add-hook 'org-mode-hook 'display-line-numbers-mode)
 
 (use-package company
   :ensure t
@@ -443,45 +445,69 @@ middle"
   :init
   (which-key-mode))
 
+(use-package lsp-mode
+      :commands lsp
+      :init
+      (setq lsp-keymap-prefix "C-c l")
+      :config
+      (define-key lsp-mode-map (kbd "C-c l") lsp-command-map)
+      :hook (lsp-mode . lsp-enable-which-key-integration))
+
+(setq lsp-ui-doc-show-with-cursor nil)
+
+(setq read-process-output-max (* 1024 1024))
+(setq gc-cons-threshold 1000000)
+(global-set-key (kbd "M-.") 'lsp-ui-peek-find-definitions)
+(global-set-key (kbd "M-?") 'lsp-ui-peek-find-references)
+;;  (define-key lsp-ui-mode-map [remap xref-find-definitions] #'lsp-ui-peek-find-definitions)
+;;  (define-key lsp-ui-mode-map [remap xref-find-references] #'lsp-ui-peek-find-references)
+;; Configure the TypeScript server path
+(setenv "TSSERVER_PATH" "/home/calin/.nvm/versions/node/v21.6.2/bin/tsserver")
+(setenv "PATH" (concat "/home/calin/.nvm/versions/node/v21.6.2/bin"
+					       (getenv "PATH")))
+
+(setenv "PATH" (concat "/usr/share"
+					       (getenv "PATH")))
+
 (use-package yasnippet
   :ensure t
   :config
     (use-package yasnippet-snippets
-  :ensure t)
+      :ensure t)
     (yas-reload-all))
 (yas-global-mode 1)
 (add-hook 'yas-minor-mode-hook (lambda ()
   				 (yas-activate-extra-mode 'fundamental-mode)))
 
 (use-package flycheck
-  :ensure t)
+      :ensure t)
 (setq lsp-keymap-prefix "C-c l")
 
 (add-hook 'c++-mode-hook 'yas-minor-mode)
-   (add-hook 'c-mode-hook 'yas-minor-mode)
+       (add-hook 'c-mode-hook 'yas-minor-mode)
 
-   (use-package flycheck-clang-analyzer
+       (use-package flycheck-clang-analyzer
 	 :ensure t
 	 :config
 	 (with-eval-after-load 'flycheck
-	   (require 'flycheck-clang-analyzer)
+	       (require 'flycheck-clang-analyzer)
 		(flycheck-clang-analyzer-setup)))
 
-   (with-eval-after-load 'company
+       (with-eval-after-load 'company
 	 (add-hook 'c++-mode-hook 'company-mode)
 	 (add-hook 'c-mode-hook 'company-mode))
 
-   (use-package company-c-headers
+       (use-package company-c-headers
 	 :ensure t)
 
-   (use-package company-irony
+       (use-package company-irony
 	 :ensure t
 	 :config
 	 (setq company-backends '((company-c-headers
-				   company-dabbrev-code
-				   company-irony))))
+				       company-dabbrev-code
+				       company-irony))))
 
-   (use-package irony
+       (use-package irony
 	 :ensure t
 	 :config
 	 (add-hook 'c++-mode-hook 'irony-mode)
@@ -491,7 +517,7 @@ middle"
 
 ;; CUDA
 (add-to-list 'auto-mode-alist '("\\.cu\\'" . cuda-mode))
-(add-hook 'cuda-mode-hook 'linum-mode)
+(add-hook 'cuda-mode-hook 'display-line-numbers-mode)
 
 (add-hook 'python-mode-hook 'yas-minor-mode)
   (add-hook 'python-mode-hook 'electric-indent-mode)
@@ -549,6 +575,8 @@ middle"
 (add-to-list 'load-path "/home/calin/.emacs.d/elpa/go-mode.el/")
 (autoload 'go-mode "go-mode" nil t)
 (add-to-list 'auto-mode-alist '("\\.go\\'" . go-mode))
+(add-hook 'go-mode-hook #'lsp-deferred)
+(add-to-list 'load-path (concat (getenv "GOPATH")  "/src/golang.org/x/lint/misc/emacs/"))
 
 (add-hook 'html-mode-hook 'yas-minor-mode)
 (add-hook 'html-mode-hook 'company-mode)
@@ -604,6 +632,9 @@ middle"
 
 ;; (add-hook 'js2-mode-hook (lambda ()
 ;;   (add-hook 'xref-backend-functions #'xref-js2-xref-backend nil t)))
+(add-hook 'typescript-mode-hook #'lsp-deferred)
+
+(global-set-key (kbd "C-x l") 'eslint-fix)
 
 (add-to-list 'load-path "/home/calin/.emacs.d/elpa/rust-mode/")
 (autoload 'rust-mode "rust-mode" nil t)
@@ -626,7 +657,7 @@ middle"
 (use-package flutter
   :after dart-mode
   :bind (:map dart-mode-map
-	  ("C-M-x" . #'flutter-run-or-hot-reload))
+	      ("C-M-x" . #'flutter-run-or-hot-reload))
   :custom
   (flutter-sdk-path "/opt/flutter/"))
 
@@ -645,3 +676,11 @@ middle"
     ("scala" . scala-mode))
 
 (add-to-list 'auto-mode-alist '("\\.p0\\'" . scala-mode))
+
+(add-to-list 'load-path "/home/calin/repos/github.com/capitanu/dotfiles/.emacs.d/elpa/copilot.el/")
+(require 'copilot)
+
+(add-hook 'prog-mode-hook 'copilot-mode)
+
+(define-key copilot-completion-map (kbd "<tab>") 'copilot-accept-completion)
+(define-key copilot-completion-map (kbd "TAB") 'copilot-accept-completion)

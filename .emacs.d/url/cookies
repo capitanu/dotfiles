@@ -2,20 +2,17 @@
 ;; Automatically generated file!!! DO NOT EDIT!!!
 
 (setq url-cookie-storage
- '((".google.com"
-  [url-cookie "CGIC" "Ik10ZXh0L2h0bWwsIHRleHQvcGxhaW4sIHRleHQvc2dtbCwgdGV4dC9jc3MsIGFwcGxpY2F0aW9uL3hodG1sK3htbCwgKi8qO3E9MC4wMQ" "Fri, 21-May-2021 23:50:52 GMT" "/search" ".google.com" nil]
-  [url-cookie "CGIC" "Ik10ZXh0L2h0bWwsIHRleHQvcGxhaW4sIHRleHQvc2dtbCwgdGV4dC9jc3MsIGFwcGxpY2F0aW9uL3hodG1sK3htbCwgKi8qO3E9MC4wMQ" "Fri, 21-May-2021 23:50:52 GMT" "/complete/search" ".google.com" nil]
-  [url-cookie "NID" "204=H33sGzJMiqYFK6SIvhvbgmO31ioyATQxBkfeGERHNJ1LC6-DbxhifeiK3WUnU0-DTqa7OQgxHSnmuBpDOg_w8bSUKUCZY1pPIZXWDLGFz4i_tGxnCVl_ulr2s8rZ7iT9Hb9vO0q5nqtfmJkurQN74-rtoNyrQZqFxYN0V4Y3ACY" "Mon, 24-May-2021 23:50:46 GMT" "/" ".google.com" nil])
- ("www.latex-tutorial.com"
-  [url-cookie "django_language" "en" "Mon Nov 22 23:47:43 2021 GMT" "/" "www.latex-tutorial.com" nil]
-  [url-cookie "csrftoken" "m3P4q5I5yWCOuBjOM6TtQu6F4GUTF52BXfttWCx7YX4BXlI6nwpU3EXFBe1Mc0di" "Sun Nov 21 23:47:43 2021 GMT" "/" "www.latex-tutorial.com" nil]))
-)
+ 'nil)
 (setq url-cookie-secure-storage
- '((".pythonforbeginners.com"
-  [url-cookie "__cfduid" "da788eb5b366dced0e3ab9b5b6175a51b1610911561" "Tue, 16-Feb-21 19:26:01 GMT" "/" ".pythonforbeginners.com" t]))
+ '(("github.com"
+  [url-cookie "_octo" "GH1.1.912306425.1702495365" "Fri, 13 Dec 2024 19:22:45 GMT" "/" "github.com" t]
+  [url-cookie "logged_in" "no" "Fri, 13 Dec 2024 19:22:45 GMT" "/" "github.com" t]))
 )
-
+
 ;; Local Variables:
 ;; version-control: never
 ;; no-byte-compile: t
+;; coding: utf-8-emacs-unix
 ;; End:
+
+;;; cookies ends here
