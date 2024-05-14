@@ -5,3 +5,7 @@ elpa/*
 *.elc
 .cache
 .lsp-session**
+recentf
+tramp
+projects
+games/*

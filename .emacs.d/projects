@@ -1,9 +1,0 @@
-;;; -*- lisp-data -*-
-(("~/repos/github.com/ligma/queri/")
- ("~/repos/github.com/ligma/backend/")
- ("~/repos/github.com/ligma/backend-gpt/")
- ("~/repos/github.com/ligma/gpt/")
- ("~/kth/jobs/THS/backend/")
- ("~/repos/github.com/THS/backend/")
- ("~/kth/jobs/THS/frontend/")
- ("~/repos/github.com/dana-budeanu-daily-quote/"))
