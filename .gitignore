@@ -1,7 +1,5 @@
 # Emacs stuff
 elpa/*
-*~
-\#*\#
 *.elc
 .cache
 .lsp-session**
