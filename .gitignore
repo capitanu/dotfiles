@@ -3,3 +3,5 @@ elpa/*
 *~
 \#*\#
 *.elc
+.cache
+.lsp-session**
