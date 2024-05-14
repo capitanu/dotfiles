@@ -1,5 +1,7 @@
 # Emacs stuff
-elpa/*
+.emacs.d/elpa/
+*~
+\#*\#
 *.elc
 .cache
 .lsp-session**
@@ -7,3 +9,8 @@ recentf
 tramp
 projects
 games/*
+
+# Xmonad
+*.hi
+*.o
+xmonad-x86_64-linux
