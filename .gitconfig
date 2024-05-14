@@ -12,6 +12,7 @@ filemode = false
 [alias]
 A = add -A
 amend = commit -S --amend
+cane = commit --amend --no-edit
 b = branch -rv
 c = commit -S
 cam = commit -S -am

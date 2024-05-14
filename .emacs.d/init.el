@@ -23,7 +23,7 @@
  (unless (package-installed-p 'doom-themes)
    (package-refresh-contents)
    (package-install 'doom-themes))
-
+;; install rust mode
  (use-package doom-themes
    :config
    (setq doom-themes-enable-bold t    

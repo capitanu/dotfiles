@@ -262,6 +262,8 @@ eval $(opam env)
 
 
 
-#export GPG_TTY=\$(tty)
-
 alias queri='cd /home/calin/repos/github.com/ligma/queri'
+
+if [[ -r "/usr/share/pureline/pureline" ]]; then
+    source /usr/share/pureline/pureline ~/.pureline.conf
+fi
